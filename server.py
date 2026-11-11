@@ -34,10 +34,14 @@ STATIC_ASSETS = ("app.js", "i18n.js", "sound.js", "style.css", "qrcode.js", "fav
 GAME_ASSETS = ("view.js", "view.css")
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
          ".svg": "image/svg+xml", ".woff2": "font/woff2", ".png": "image/png", ".json": "application/json"}
-CSP = ("default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; "
+CSP = ("default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; font-src 'self'; "
        "connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'")
 NO_STORE = {"Cache-Control": "no-store"}
 CLOSED = "This room is closed"
+
+
+def labels(game_id: str, mode: str = "") -> str:
+    return '{game="%s",mode="%s"}' % (game_id, mode) if mode else '{game="%s"}' % game_id
 
 
 class App:
@@ -50,17 +54,19 @@ class App:
         self.lock = threading.Lock()
         self.swept = float("-inf")
         self.counts = dict.fromkeys(("visits", "parties", "players"), 0)
-        self.started = dict.fromkeys(games, 0)
-        self.finished = dict.fromkeys(games, 0)
+        self.started = dict.fromkeys(map(labels, games), 0)
+        self.finished = dict.fromkeys(map(labels, games), 0)
+        self.action_max = max([BODY_MAX] + [g.meta.upload_max for g in games.values()])
 
     def visit(self) -> None:
         with self.lock:
             self.counts["visits"] += 1
 
     def record(self, room: Room) -> None:
-        for kind, game_id in room.drain_events():
+        for kind, game_id, label in room.drain_events():
             log = self.started if kind == "started" else self.finished
-            log[game_id] = log.get(game_id, 0) + 1
+            key = labels(game_id, label)
+            log[key] = log.get(key, 0) + 1
         if room.phase == "closed":
             self.rooms.pop(room.code, None)
             self.meta.pop(room.code, None)
@@ -131,8 +137,8 @@ class App:
             ("visits_total", "counter", "Page loads via Cloudflare", [("", c["visits"])]),
             ("parties_created_total", "counter", "Parties created", [("", c["parties"])]),
             ("players_joined_total", "counter", "Players who joined a party", [("", c["players"])]),
-            ("games_started_total", "counter", "Games started", [('{game="%s"}' % g, n) for g, n in started.items()]),
-            ("games_finished_total", "counter", "Games played to the end", [('{game="%s"}' % g, n) for g, n in finished.items()]),
+            ("games_started_total", "counter", "Games started", list(started.items())),
+            ("games_finished_total", "counter", "Games played to the end", list(finished.items())),
             ("parties_open", "gauge", "Parties open right now", [("", open_rooms)]),
             ("players_online", "gauge", "Players active in the last minute", [("", online)]),
         ]
@@ -168,7 +174,7 @@ class Handler(BaseHTTPRequestHandler):
     def _json(self, status: int, data) -> None:
         self._send(status, json.dumps(data).encode(), "application/json", NO_STORE)
 
-    def _body(self) -> dict:
+    def _body(self, limit: int = BODY_MAX) -> dict:
         if not (self.headers.get("Content-Type") or "").startswith("application/json"):
             raise GameError("Send JSON", 415)
         try:
@@ -177,7 +183,7 @@ class Handler(BaseHTTPRequestHandler):
             raise GameError("Bad request", 400)
         if n < 0:
             raise GameError("Bad request", 400)
-        if n > BODY_MAX:
+        if n > limit:
             raise GameError("Request too big", 413)
         try:
             data = json.loads(self.rfile.read(n) or b"{}")
@@ -201,13 +207,13 @@ class Handler(BaseHTTPRequestHandler):
         path = urllib.parse.unquote(urllib.parse.urlsplit(self.path).path)
         pid = self.headers.get("X-Player", "")
         try:
-            body = self._body() if method == "POST" else {}
+            body = self._body(app.action_max if path.endswith("/action") else BODY_MAX) if method == "POST" else {}
             client, wide = self._client()
             with app.lock:
                 if method == "POST" and path == "/api/rooms":
                     out = app.create(client, now, wide)
                 else:
-                    m = re.fullmatch(r"/api/rooms/([^/]+)(/join|/screen|/action)?", path)
+                    m = re.fullmatch(r"/api/rooms/([^/]+)(/join|/screen|/action|/files/[a-z0-9-]{1,40}\.png)?", path)
                     if not m:
                         raise GameError("Not found", 404)
                     route = m.group(2)
@@ -222,6 +228,12 @@ class Handler(BaseHTTPRequestHandler):
                     elif method == "POST" and route == "/action":
                         room.action(pid, body, now)
                         out = {"ok": True}
+                    elif method == "GET" and route and route.startswith("/files/"):
+                        data = getattr(room.game, "file", lambda *_: None)(pid, route[7:])
+                        if data is None:
+                            raise GameError("Not found", 404)
+                        app.record(room)
+                        return self._send(200, data, "image/png", {"Cache-Control": "private, max-age=300"})
                     elif method == "GET" and route is None:
                         room.seen(pid, now)
                         room.tick(now)

@@ -7,8 +7,9 @@ import unittest
 
 import server
 from games import GAMES
+from dummy import GAMES as DUMMY
 
-CSP = ("default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; "
+CSP = ("default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; font-src 'self'; "
        "connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'")
 
 
@@ -324,6 +325,45 @@ class AppTests(unittest.TestCase):
         self.assertIn(code, app.rooms)
         app.janitor(1302)
         self.assertNotIn(code, app.rooms)
+
+
+class DummyApi(unittest.TestCase):
+    raw, call, create, join, party, act, state, tearDown = Api.raw, Api.call, Api.create, Api.join, Api.party, Api.act, Api.state, Api.tearDown
+
+    def setUp(self):
+        server.clock = time.time
+        self.srv = server.make_server("127.0.0.1", 0, DUMMY)
+        threading.Thread(target=self.srv.serve_forever, daemon=True).start()
+        self.port = self.srv.server_address[1]
+        self.app = self.srv.RequestHandlerClass.app
+
+    def started(self):
+        code, host, pids = self.party()
+        self.assertEqual(self.act(code, pids[0], type="start")[0], 200)
+        return code, host, pids
+
+    def test_action_body_limit_follows_upload_max(self):
+        code, host, pids = self.started()
+        self.assertEqual(self.act(code, pids[0], type="blob", data="x" * 3000)[0], 200)
+        self.assertEqual(self.act(code, pids[0], type="blob", data="x" * 5000)[0], 413)
+        self.assertEqual(self.call("POST", "/api/rooms/%s/join" % code, {"name": "x" * 3000})[0], 413)
+
+    def test_files_route_members_only(self):
+        code, host, pids = self.started()
+        self.act(code, pids[0], type="blob", data="PNGDATA")
+        r, data = self.raw("GET", "/api/rooms/%s/files/x.png" % code, headers={"X-Player": host, "CF-Connecting-IP": "9.9.9.9"})
+        self.assertEqual((r.status, data, r.getheader("Content-Type")), (200, b"PNGDATA", "image/png"))
+        self.assertEqual(r.getheader("X-Content-Type-Options"), "nosniff")
+        unknown = self.call("GET", "/api/rooms/ZZZZZZ/files/x.png", pid=host)
+        self.assertEqual(self.call("GET", "/api/rooms/%s/files/x.png" % code, pid="nobody"), unknown)
+        for name in ("..%2fx.png", "X.PNG", "y.png", "x.gif"):
+            self.assertEqual(self.call("GET", "/api/rooms/%s/files/%s" % (code, name), pid=host)[0], 404, name)
+
+    def test_metrics_mode_label(self):
+        code, host, pids = self.started()
+        self.act(code, pids[0], type="finish")
+        self.state(code, pids[0])
+        self.assertIn('galagie_games_finished_total{game="dummy",mode="m1"} 1', self.app.metrics(time.time()))
 
 
 if __name__ == "__main__":

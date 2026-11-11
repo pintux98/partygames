@@ -47,7 +47,7 @@ class Room:
         self.screen_requests: dict[str, tuple[float, str, str]] = {}
         self.moved: deque[str] = deque(maxlen=4)
         self.last_action = now
-        self.events: list[tuple[str, str]] = []
+        self.events: list[tuple[str, str, str]] = []
 
     def defaults(self, game_id: str) -> dict:
         return {o.key: o.default for o in self.games[game_id].meta.options}
@@ -186,7 +186,7 @@ class Room:
         self.game = game_cls(Context(seats, self.settings, self.rng, deck, now))
         self.seats = seats
         self.phase = "playing"
-        self.events.append(("started", self.game_id))
+        self.events.append(("started", self.game_id, getattr(self.game, "label", "")))
 
     def tick(self, now: float) -> None:
         if self.phase == "closed":
@@ -197,7 +197,7 @@ class Room:
             if self.game.finished:
                 self.phase = "results"
                 self.last_scores = self.game.scores()
-                self.events.append(("finished", self.game_id))
+                self.events.append(("finished", self.game_id, getattr(self.game, "label", "")))
         if self.vip not in active:
             fallback = self.vip if self.vip in self.players else None
             self.vip = next((pid for pid in self.players if pid in active), fallback)
@@ -243,6 +243,6 @@ class Room:
             "game": game,
         }
 
-    def drain_events(self) -> list[tuple[str, str]]:
+    def drain_events(self) -> list[tuple[str, str, str]]:
         events, self.events = self.events, []
         return events

@@ -104,7 +104,7 @@ class RoomTests(unittest.TestCase):
         self.assertEqual(room.phase, "results")
         self.assertEqual(room.last_scores[ana.id], 2)
         self.assertEqual(room.view_for(bob.id, 3)["scores"][0], {"name": "Ana", "points": 2})
-        self.assertEqual(room.drain_events(), [("started", "dummy"), ("finished", "dummy")])
+        self.assertEqual(room.drain_events(), [("started", "dummy", "m1"), ("finished", "dummy", "m1")])
         self.assertEqual(room.drain_events(), [])
 
     def test_next_calls_hurry(self):
