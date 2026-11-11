@@ -1,67 +1,736 @@
 {
-  "family": {
-    "words": [
-      [
-        "bicicleta",
-        "motocicleta",
-        "transport"
-      ],
-      [
-        "autobuz",
-        "tramvai",
-        "transport"
-      ],
-      [
-        "masina",
-        "duba",
-        "transport"
-      ],
-      [
-        "barca",
-        "pluta",
-        "transport"
-      ],
-      [
-        "avion",
-        "zmeu",
-        "transport"
-      ],
-      [
-        "tren",
-        "metrou",
-        "transport"
-      ],
-      [
-        "pisica",
-        "caine",
-        "animal"
-      ],
-      [
-        "vaca",
-        "cal",
-        "animal"
-      ]
-    ],
-    "twists": [
-      "Deseneaza-l de sus",
-      "Doar 5 linii",
-      "Deseneaza cu cealalta mana",
-      "Deseneaza-l ca bebelus"
-    ]
-  },
-  "spicy": {
-    "words": [
-      [
-        "pat",
-        "canapea",
-        "casa"
-      ],
-      [
-        "sarut",
-        "imbratisare",
-        "iubire"
-      ]
-    ],
-    "twists": []
-  }
+ "family": {
+  "words": [
+   [
+    "bicicleta",
+    "motocicleta",
+    "transport"
+   ],
+   [
+    "autobuz",
+    "tramvai",
+    "transport"
+   ],
+   [
+    "masina",
+    "duba",
+    "transport"
+   ],
+   [
+    "barca cu vele",
+    "caiac",
+    "transport"
+   ],
+   [
+    "avion",
+    "elicopter",
+    "transport"
+   ],
+   [
+    "tren",
+    "metrou",
+    "transport"
+   ],
+   [
+    "trotineta",
+    "skateboard",
+    "transport"
+   ],
+   [
+    "tractor",
+    "buldozer",
+    "transport"
+   ],
+   [
+    "ambulanta",
+    "masina de pompieri",
+    "transport"
+   ],
+   [
+    "pisica",
+    "caine",
+    "animale"
+   ],
+   [
+    "cal",
+    "magar",
+    "animale"
+   ],
+   [
+    "vaca",
+    "capra",
+    "animale"
+   ],
+   [
+    "leu",
+    "tigru",
+    "animale"
+   ],
+   [
+    "iepure",
+    "hamster",
+    "animale"
+   ],
+   [
+    "pinguin",
+    "rata",
+    "animale"
+   ],
+   [
+    "rechin",
+    "delfin",
+    "animale"
+   ],
+   [
+    "sarpe",
+    "rama",
+    "animale"
+   ],
+   [
+    "bufnita",
+    "papagal",
+    "animale"
+   ],
+   [
+    "broasca",
+    "testoasa",
+    "animale"
+   ],
+   [
+    "pizza",
+    "placinta",
+    "mancare"
+   ],
+   [
+    "hamburger",
+    "sandvis",
+    "mancare"
+   ],
+   [
+    "inghetata",
+    "briosa",
+    "mancare"
+   ],
+   [
+    "banana",
+    "castravete",
+    "mancare"
+   ],
+   [
+    "pepene",
+    "dovleac",
+    "mancare"
+   ],
+   [
+    "spaghete",
+    "ciorba",
+    "mancare"
+   ],
+   [
+    "clatite",
+    "gofre",
+    "mancare"
+   ],
+   [
+    "floricele",
+    "vata de zahar",
+    "mancare"
+   ],
+   [
+    "ou",
+    "cartof",
+    "mancare"
+   ],
+   [
+    "struguri",
+    "cirese",
+    "mancare"
+   ],
+   [
+    "sarmale",
+    "chiftele",
+    "mancare"
+   ],
+   [
+    "mici",
+    "carnati",
+    "mancare"
+   ],
+   [
+    "tigaie",
+    "oala",
+    "bucatarie"
+   ],
+   [
+    "furculita",
+    "lingura",
+    "bucatarie"
+   ],
+   [
+    "ibric",
+    "cafetiera",
+    "bucatarie"
+   ],
+   [
+    "prajitor de paine",
+    "cuptor cu microunde",
+    "bucatarie"
+   ],
+   [
+    "blender",
+    "mixer",
+    "bucatarie"
+   ],
+   [
+    "frigider",
+    "aragaz",
+    "bucatarie"
+   ],
+   [
+    "cutit",
+    "foarfeca",
+    "bucatarie"
+   ],
+   [
+    "canapea",
+    "fotoliu",
+    "casa"
+   ],
+   [
+    "pat",
+    "hamac",
+    "casa"
+   ],
+   [
+    "lampa",
+    "lumanare",
+    "casa"
+   ],
+   [
+    "fereastra",
+    "oglinda",
+    "casa"
+   ],
+   [
+    "usa",
+    "poarta",
+    "casa"
+   ],
+   [
+    "cada",
+    "dus",
+    "casa"
+   ],
+   [
+    "toaleta",
+    "chiuveta",
+    "casa"
+   ],
+   [
+    "scari",
+    "scara mobila",
+    "casa"
+   ],
+   [
+    "ceas",
+    "calendar",
+    "casa"
+   ],
+   [
+    "covor",
+    "pres",
+    "casa"
+   ],
+   [
+    "palarie",
+    "casca",
+    "haine"
+   ],
+   [
+    "soseta",
+    "manusa",
+    "haine"
+   ],
+   [
+    "adidasi",
+    "sandale",
+    "haine"
+   ],
+   [
+    "rochie",
+    "fusta",
+    "haine"
+   ],
+   [
+    "ochelari de soare",
+    "ochelari de inot",
+    "haine"
+   ],
+   [
+    "fular",
+    "cravata",
+    "haine"
+   ],
+   [
+    "geaca",
+    "pelerina de ploaie",
+    "haine"
+   ],
+   [
+    "pijama",
+    "trening",
+    "haine"
+   ],
+   [
+    "fotbal",
+    "rugby",
+    "sport"
+   ],
+   [
+    "tenis",
+    "badminton",
+    "sport"
+   ],
+   [
+    "inot",
+    "sarituri in apa",
+    "sport"
+   ],
+   [
+    "schi",
+    "snowboard",
+    "sport"
+   ],
+   [
+    "box",
+    "lupte",
+    "sport"
+   ],
+   [
+    "baschet",
+    "volei",
+    "sport"
+   ],
+   [
+    "bowling",
+    "golf",
+    "sport"
+   ],
+   [
+    "sah",
+    "table",
+    "sport"
+   ],
+   [
+    "chitara",
+    "vioara",
+    "muzica"
+   ],
+   [
+    "tobe",
+    "tamburina",
+    "muzica"
+   ],
+   [
+    "pian",
+    "acordeon",
+    "muzica"
+   ],
+   [
+    "trompeta",
+    "saxofon",
+    "muzica"
+   ],
+   [
+    "microfon",
+    "portavoce",
+    "muzica"
+   ],
+   [
+    "casti",
+    "aparatori de urechi",
+    "muzica"
+   ],
+   [
+    "nai",
+    "fluier",
+    "muzica"
+   ],
+   [
+    "doctor",
+    "asistenta",
+    "meserii"
+   ],
+   [
+    "pompier",
+    "politist",
+    "meserii"
+   ],
+   [
+    "bucatar",
+    "brutar",
+    "meserii"
+   ],
+   [
+    "pilot",
+    "astronaut",
+    "meserii"
+   ],
+   [
+    "profesor",
+    "judecator",
+    "meserii"
+   ],
+   [
+    "frizer",
+    "coafeza",
+    "meserii"
+   ],
+   [
+    "fermier",
+    "gradinar",
+    "meserii"
+   ],
+   [
+    "instalator",
+    "electrician",
+    "meserii"
+   ],
+   [
+    "copac",
+    "tufis",
+    "natura"
+   ],
+   [
+    "munte",
+    "vulcan",
+    "natura"
+   ],
+   [
+    "rau",
+    "cascada",
+    "natura"
+   ],
+   [
+    "soare",
+    "luna",
+    "natura"
+   ],
+   [
+    "nor",
+    "ceata",
+    "natura"
+   ],
+   [
+    "curcubeu",
+    "pod",
+    "natura"
+   ],
+   [
+    "cactus",
+    "palmier",
+    "natura"
+   ],
+   [
+    "insula",
+    "plaja",
+    "natura"
+   ],
+   [
+    "spital",
+    "farmacie",
+    "locuri"
+   ],
+   [
+    "castel",
+    "biserica",
+    "locuri"
+   ],
+   [
+    "aeroport",
+    "gara",
+    "locuri"
+   ],
+   [
+    "cinema",
+    "teatru",
+    "locuri"
+   ],
+   [
+    "gradina zoologica",
+    "ferma",
+    "locuri"
+   ],
+   [
+    "supermarket",
+    "piata",
+    "locuri"
+   ],
+   [
+    "piscina",
+    "lac",
+    "locuri"
+   ],
+   [
+    "cort",
+    "cabana",
+    "locuri"
+   ],
+   [
+    "ciocan",
+    "topor",
+    "unelte"
+   ],
+   [
+    "surubelnita",
+    "cheie franceza",
+    "unelte"
+   ],
+   [
+    "fierastrau",
+    "bormasina",
+    "unelte"
+   ],
+   [
+    "umbrela",
+    "umbrela de plaja",
+    "unelte"
+   ],
+   [
+    "matura",
+    "mop",
+    "unelte"
+   ],
+   [
+    "roaba",
+    "carucior de cumparaturi",
+    "unelte"
+   ],
+   [
+    "balon",
+    "bula de sapun",
+    "petrecere"
+   ],
+   [
+    "tort",
+    "cozonac",
+    "petrecere"
+   ],
+   [
+    "cadou",
+    "plic",
+    "petrecere"
+   ],
+   [
+    "artificii",
+    "steluta de artificii",
+    "petrecere"
+   ],
+   [
+    "clovn",
+    "magician",
+    "petrecere"
+   ],
+   [
+    "confetti",
+    "ninsoare",
+    "petrecere"
+   ],
+   [
+    "nunta",
+    "botez",
+    "petrecere"
+   ]
+  ],
+  "twists": [
+   "Deseneaza-l vazut de sus",
+   "Doar 5 linii",
+   "Deseneaza cu cealalta mana",
+   "Deseneaza-l ca pe un bebelus",
+   "Deseneaza-l foarte, foarte mic",
+   "Deseneaza-l urias, sa iasa din ecran",
+   "O singura linie, fara sa ridici degetul",
+   "Deseneaza doar umbra lui",
+   "Deseneaza-l trist",
+   "Deseneaza-l in anul 3000",
+   "Deseneaza-l cu susul in jos",
+   "Doar cercuri",
+   "O singura culoare",
+   "Deseneaza 5 secunde cu ochii inchisi",
+   "Deseneaza-l in flacari",
+   "Deseneaza-l sub apa",
+   "Deseneaza-l ca robot",
+   "Deseneaza-l pe dinauntru",
+   "Deseneaza-l ca personaj de desene animate",
+   "Deseneaza unde il gasesti",
+   "Deseneaza-l iarna",
+   "Deseneaza-l la bunica la tara",
+   "Deseneaza-l ca monstru",
+   "Deseneaza-l in concediu la mare"
+  ]
+ },
+ "spicy": {
+  "words": [
+   [
+    "cina romantica",
+    "picnic",
+    "intalnire"
+   ],
+   [
+    "trandafir",
+    "lalea",
+    "intalnire"
+   ],
+   [
+    "scrisoare de dragoste",
+    "vedere",
+    "intalnire"
+   ],
+   [
+    "pahar de vin",
+    "pahar de sampanie",
+    "intalnire"
+   ],
+   [
+    "parfum",
+    "deodorant",
+    "intalnire"
+   ],
+   [
+    "sarut",
+    "imbratisare",
+    "intalnire"
+   ],
+   [
+    "catuse",
+    "bratara",
+    "dormitor"
+   ],
+   [
+    "lenjerie intima",
+    "costum de baie",
+    "dormitor"
+   ],
+   [
+    "pat in forma de inima",
+    "pat cu apa",
+    "dormitor"
+   ],
+   [
+    "ulei de masaj",
+    "crema de plaja",
+    "dormitor"
+   ],
+   [
+    "bataie cu perne",
+    "bataie cu bulgari",
+    "dormitor"
+   ],
+   [
+    "legatura la ochi",
+    "masca de dormit",
+    "dormitor"
+   ],
+   [
+    "shot",
+    "degetar",
+    "chef"
+   ],
+   [
+    "mahmureala",
+    "durere de cap",
+    "chef"
+   ],
+   [
+    "beer pong",
+    "ping pong",
+    "chef"
+   ],
+   [
+    "karaoke",
+    "concert",
+    "chef"
+   ],
+   [
+    "bara de striptease",
+    "bara de pompieri",
+    "chef"
+   ],
+   [
+    "petrecerea burlacilor",
+    "petrecerea de la birou",
+    "chef"
+   ],
+   [
+    "baie in pielea goala",
+    "snorkeling",
+    "plaja"
+   ],
+   [
+    "tanga",
+    "bikini",
+    "plaja"
+   ],
+   [
+    "arsura de soare",
+    "bronz",
+    "plaja"
+   ],
+   [
+    "jacuzzi",
+    "cada cu spuma",
+    "plaja"
+   ],
+   [
+    "salvamar",
+    "antrenor de inot",
+    "plaja"
+   ],
+   [
+    "prosop de plaja",
+    "patura de picnic",
+    "plaja"
+   ],
+   [
+    "drumul rusinii dimineata",
+    "maraton",
+    "jenant"
+   ],
+   [
+    "aplicatie de dating",
+    "aplicatie de vreme",
+    "jenant"
+   ],
+   [
+    "vasc",
+    "brad",
+    "jenant"
+   ],
+   [
+    "speed dating",
+    "interviu de angajare",
+    "jenant"
+   ],
+   [
+    "pupic pe gat",
+    "intepatura de tantar",
+    "jenant"
+   ],
+   [
+    "mesaj de despartire",
+    "mesaj de la mama",
+    "jenant"
+   ]
+  ],
+  "twists": [
+   "Deseneaza-l la o intalnire",
+   "Deseneaza-l dupa miezul noptii",
+   "Deseneaza-l fara haine",
+   "Deseneaza-l pe coperta unui roman de dragoste",
+   "Deseneaza-l in dormitor",
+   "Deseneaza-l la petrecerea burlacilor",
+   "Deseneaza-l cand flirteaza",
+   "Deseneaza-l a doua zi dimineata"
+  ]
+ }
 }

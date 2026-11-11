@@ -14,6 +14,39 @@ def prompts(lang):
     return [p for mode in PACKS[lang].values() for tag in mode.values() for p in tag]
 
 
+IMPOSTOR = load_packs(ROOT / "games" / "impostor" / "content")
+IMPOSTOR_MINIMUMS = {("family", "words"): 100, ("spicy", "words"): 30, ("family", "twists"): 24, ("spicy", "twists"): 8}
+
+
+class ImpostorContentTests(unittest.TestCase):
+    def test_sizes(self):
+        self.assertEqual(set(IMPOSTOR), {"en", "ro"})
+        for lang, modes in IMPOSTOR.items():
+            for (mode, tag), minimum in IMPOSTOR_MINIMUMS.items():
+                self.assertGreaterEqual(len(modes[mode][tag]), minimum, (lang, mode, tag))
+
+    def test_words_shape_and_uniqueness(self):
+        for lang, modes in IMPOSTOR.items():
+            words = modes["family"]["words"] + modes["spicy"]["words"]
+            twists = modes["family"]["twists"] + modes["spicy"]["twists"]
+            for entry in words:
+                self.assertEqual(len(entry), 3, entry)
+                self.assertNotEqual(entry[0].casefold(), entry[1].casefold(), entry)
+            texts = [w for e in words for w in e[:2]] + twists
+            for text in texts + [e[2] for e in words]:
+                self.assertTrue(text.strip(), lang)
+                self.assertLessEqual(len(text), 60, text)
+                self.assertNotIn("{", text)
+            folded = [w.casefold() for w in [e[0] for e in words] + twists]
+            self.assertEqual(len(folded), len(set(folded)), [w for w in folded if folded.count(w) > 1])
+
+    def test_categories_have_six_words(self):
+        for lang, modes in IMPOSTOR.items():
+            words = modes["family"]["words"] + modes["spicy"]["words"]
+            for category in {e[2] for e in words}:
+                self.assertGreaterEqual(sum(e[2] == category for e in words), 6, (lang, category))
+
+
 class ContentTests(unittest.TestCase):
     def test_pack_sizes(self):
         self.assertEqual(set(PACKS), {"en", "ro"})
