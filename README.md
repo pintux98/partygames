@@ -7,7 +7,9 @@ Two games so far:
 - **Bravo!** (3 to 16 players): everyone answers silly prompts on their phone, answers meet head to head, and the room votes with claps.
 - **Impostor** (4 to 16 players): everyone draws the same secret word on their phone, with a new twist each round, except the impostors, who have a different word (or, in the "Impostor knows" variant, only its category). All drawings show on the TV and the room votes someone out, round after round, until the impostors are caught or win.
 
-- The first player to join is the VIP and starts the games; the game, its variant and its timers are picked in the lobby
+- The first player to join is the VIP and starts the games; the game and its options are picked in the lobby
+- Bravo! options: answer time (45 to 120 s, default 75) and vote time (15 to 45 s, default 20)
+- Impostor options: variant (Secret impostor or Impostor knows), impostors (1 to 3, capped at one per three players), draw time (20 to 60 s, default 30) and vote time (20 to 60 s, default 40)
 - English by default, Romanian can be picked in the lobby; Family and Spicy modes
 - Python standard library only, plain HTML, CSS and JS, no database, no build step
 
@@ -106,7 +108,8 @@ G.register("<id>", { host(el, game, ctx) {}, phone(el, game, ctx) {} });
 Optional extras a game can use:
 
 - `GameMeta(..., upload_max=48000)` lets `/action` bodies grow to that size for this app (default limit 2048 bytes), for example to send a drawing.
-- `file(pid, name)` returns bytes for `GET /api/rooms/<code>/files/<name>.png` (members only, PNG only), or `None` for 404. Fetch it with the `X-Player` header and show it through a blob URL.
+- `file(pid, name)` returns bytes for `GET /api/rooms/<code>/files/<name>.png` (members only, PNG only, `name` matching `[a-z0-9-]{1,40}`), or `None` for 404. Fetch it with the `X-Player` header and show it through a blob URL.
+- `stop(now)` is called when the VIP ends the game early, so the game can reveal its secrets in the results recap.
 - `label`: a short string (for example the variant) added as `mode="..."` to the games started/finished metrics.
 
 Content entries may also be lists (for example `["word", "decoy", "category"]`); `draw(tag)` returns them as they are.
@@ -117,7 +120,7 @@ Content entries may also be lists (for example `["word", "decoy", "category"]`);
 GAMES = {g.meta.id: g for g in (Bravo, Impostor, YourGame)}
 ```
 
-A game needs both `view.js` and `view.css` in its folder; they are served with versioned URLs.
+A game needs `view.js`, `view.css` and `icon.svg` (shown on the lobby card) in its folder. `view.js` may also register `results(el, game, ctx)` to add a recap above the final ranking.
 
 ## Tests
 

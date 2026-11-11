@@ -230,6 +230,14 @@ class ImpostorTests(unittest.TestCase):
         self.assertEqual(game.host_view(0)["over"]["decoy"], None)
         self.assertEqual(game.host_view(0)["over"]["category"], game.category)
 
+    def test_stop_reveals_word(self):
+        game, everyone = make(5)
+        game.stop(3)
+        self.assertEqual(game.phase, "over")
+        over = game.host_view(3)["over"]
+        self.assertEqual((over["winner"], over["word"]), (None, game.word))
+        self.assertEqual(game.scores()["p0"], 0)
+
     def test_file_names_differ_between_games(self):
         self.assertNotEqual(make(5, seed=1)[0].tag, make(5, seed=2)[0].tag)
 

@@ -11,6 +11,7 @@ class Dummy:
         self.finished = False
         self.hurried = False
         self.blob = None
+        self.stopped = False
         self.label = "m1"
 
     def act(self, pid, body, now, active):
@@ -32,6 +33,9 @@ class Dummy:
 
     def player_view(self, pid, now):
         return {"mine": self.points[pid]}
+
+    def stop(self, now):
+        self.stopped = True
 
     def file(self, pid, name):
         return self.blob if name == "x.png" else None

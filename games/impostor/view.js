@@ -16,6 +16,8 @@
     tie: { ro: "Egalitate. Nu iese nimeni.", en: "It's a tie. Nobody is out." },
     guessing: { ro: "{name} are o sansa sa ghiceasca cuvantul", en: "{name} gets one guess at the word" },
     crew_won: { ro: "Echipa a castigat!", en: "The crew wins!" },
+    stopped: { ro: "Joc oprit inainte de final", en: "The game was ended early" },
+    too_big: { ro: "Desenul e prea detaliat. Simplifica-l putin.", en: "That drawing is too detailed. Simplify it a little." },
     imps_won: { ro: "Impostorii au castigat!", en: "The impostors win!" },
     word_was: { ro: "Cuvantul: {w} · al impostorului: {d}", en: "The word: {w} · the impostor's: {d}" },
     word_cat: { ro: "Cuvantul: {w} · categoria: {c}", en: "The word: {w} · category: {c}" },
@@ -171,7 +173,7 @@
 
   function ending(ctx, over) {
     return h("div", "im-over",
-      h("h1", "im-winner", say(ctx, over.winner === "crew" ? "crew_won" : "imps_won")),
+      h("h1", "im-winner", say(ctx, over.winner === "crew" ? "crew_won" : over.winner ? "imps_won" : "stopped")),
       text("im-word", over.decoy ? say(ctx, "word_was", { w: over.word, d: over.decoy }) : say(ctx, "word_cat", { w: over.word, c: over.category })),
       text("im-foot", say(ctx, "impostors_were", { names: over.impostors.join(", ") })));
   }
@@ -324,14 +326,34 @@
     undo.setAttribute("aria-label", say(ctx, "undo"));
     redo.setAttribute("aria-label", say(ctx, "redo"));
 
+    const flatten = () => {
+      const img = g.getImageData(0, 0, SIZE, SIZE);
+      const d = img.data;
+      const rgb = COLORS.map((c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16)));
+      for (let i = 0; i < d.length; i += 4) {
+        let best = rgb[0], score = Infinity;
+        for (const c of rgb) {
+          const s = (d[i] - c[0]) ** 2 + (d[i + 1] - c[1]) ** 2 + (d[i + 2] - c[2]) ** 2;
+          if (s < score) { score = s; best = c; }
+        }
+        d[i] = best[0]; d[i + 1] = best[1]; d[i + 2] = best[2]; d[i + 3] = 255;
+      }
+      const out = h("canvas");
+      out.width = out.height = SIZE;
+      out.getContext("2d").putImageData(img, 0, 0);
+      return out.toDataURL("image/png").split(",")[1];
+    };
     const submit = async () => {
       if (state.sent) return;
+      const png = flatten();
+      if (png.length > 42600) return msg.replaceChildren(text("im-small", say(ctx, "too_big")));
       state.sent = true;
-      if (!(await ctx.send({ type: "draw", png: canvas.toDataURL("image/png").split(",")[1] }))) state.sent = false;
+      if (!(await ctx.send({ type: "draw", png }))) state.sent = false;
     };
+    const msg = h("div", "im-warn");
     el.imSubmit = submit;
     const done = button(say(ctx, "done"), submit, "im-done", "done");
-    return [wordCard(ctx, game), h("div", "im-board", canvas), swatches,
+    return [wordCard(ctx, game), msg, h("div", "im-board", canvas), swatches,
       h("div", "im-tools", toolButtons.pen, toolButtons.fill, toolButtons.erase, sizeButtons, undo, redo), done];
   }
 
@@ -372,5 +394,11 @@
     if (game.phase === "draw" && el.imSubmit && game.left != null && game.left <= 3 && secs >= 0) el.imSubmit();
   }
 
-  G.register("impostor", { host, phone });
+  function results(el, game, ctx) {
+    if (game.over) el.replaceChildren(text("", say(ctx, game.over.winner ? (game.over.winner === "crew" ? "crew_won" : "imps_won") : "stopped")),
+      text("", game.over.decoy ? say(ctx, "word_was", { w: game.over.word, d: game.over.decoy }) : say(ctx, "word_cat", { w: game.over.word, c: game.over.category })),
+      text("", say(ctx, "impostors_were", { names: game.over.impostors.join(", ") })));
+  }
+
+  G.register("impostor", { host, phone, results });
 })();

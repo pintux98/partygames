@@ -225,7 +225,7 @@ function gameCard(v, lang) {
   const i = v.games.findIndex((g) => g.id === v.game_id);
   const g = v.games[i];
   const flip = (d) => send({ type: "settings", game: v.games[(i + d + v.games.length) % v.games.length].id });
-  const card = h("div", { class: "game-card" }, h("strong", {}, g.names[lang] || g.id), h("p", {}, g.blurb[lang] || ""), h("small", {}, t("game_info", g)));
+  const card = h("div", { class: "game-card" }, h("img", { src: "/games/" + g.id + "/icon.svg", alt: "" }), h("strong", {}, g.names[lang] || g.id), h("p", {}, g.blurb[lang] || ""), h("small", {}, t("game_info", g)));
   if (!v.controller || v.games.length < 2) return h("div", { class: "flip" }, card);
   return h("div", { class: "flip" },
     button("◀", () => flip(-1), { class: "arrow", "aria-label": t("prev_game"), "data-k": "game-prev" }),
@@ -313,6 +313,14 @@ function confetti() {
   }));
 }
 
+function gameRecap(v) {
+  const view = G.games[v.game_id];
+  if (!view || !view.results || !v.game) return null;
+  const el = h("div", { class: "recap" });
+  view.results(el, v.game, ctx(v));
+  return el;
+}
+
 function results(v) {
   const top = v.scores.length ? v.scores[0].points : 0;
   const winners = top > 0 ? v.scores.filter((s) => s.points === top).map((s) => s.name) : [];
@@ -323,6 +331,7 @@ function results(v) {
       h("span", { class: "label" }, t("winner")),
       h("strong", {}, winners.join(" & ")),
       h("span", { class: "points" }, t("points", { n: top }))) : null,
+    gameRecap(v),
     h("ol", { class: "ranking" }, v.scores.map((s) => h("li", {}, h("span", {}, s.name), h("b", {}, s.points)))),
     v.controller ? h("div", { class: "actions" },
       button(t("again"), () => send({ type: "again" }), { "data-k": "again", "data-auto": true }),

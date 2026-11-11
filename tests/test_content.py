@@ -46,6 +46,13 @@ class ImpostorContentTests(unittest.TestCase):
             for word in ("baby", "bebelus", "teacher", "profesor", "school", "scoala"):
                 self.assertNotIn(word, texts, (lang, word))
 
+    def test_decoys_unique_and_not_words(self):
+        for lang, modes in IMPOSTOR.items():
+            words = modes["family"]["words"] + modes["spicy"]["words"]
+            decoys = [e[1].casefold() for e in words]
+            self.assertEqual(len(decoys), len(set(decoys)), [d for d in decoys if decoys.count(d) > 1])
+            self.assertFalse(set(decoys) & {e[0].casefold() for e in words}, lang)
+
     def test_categories_have_six_words(self):
         for lang, modes in IMPOSTOR.items():
             words = modes["family"]["words"] + modes["spicy"]["words"]

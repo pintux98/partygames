@@ -113,6 +113,7 @@ class Room:
             self.game.hurry(now)
         elif kind == "end":
             if self.phase == "playing":
+                getattr(self.game, "stop", lambda _: None)(now)
                 self.phase = "results"
                 self.last_scores = self.game.scores()
             else:

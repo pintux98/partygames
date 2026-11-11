@@ -41,7 +41,7 @@ class Impostor:
     meta = GameMeta("impostor", {"ro": "Impostor", "en": "Impostor"}, 4, 16, "5-10",
                     blurb={"ro": "Desenati acelasi cuvant. Unul dintre voi are altul.", "en": "Everyone draws the same word. One of you has another."},
                     options=(GameOption("mode", {"ro": "Varianta", "en": "Variant"},
-                                        (("secret", {"ro": "Impostor secret", "en": "Secret impostor"}),
+                                        (("secret", {"ro": "Secret", "en": "Secret"}),
                                          ("knows", {"ro": "Impostorul stie", "en": "Impostor knows"})), "secret"),
                              GameOption("impostors", {"ro": "Impostori", "en": "Impostors"},
                                         tuple((n, {"ro": str(n), "en": str(n)}) for n in (1, 2, 3)), 1),
@@ -167,6 +167,11 @@ class Impostor:
             elif winner == "impostors" and i in self.impostors:
                 self.points[pid] += WIN_IMPOSTOR
         self.go("over", now, OVER_TIME)
+
+    def stop(self, now):
+        if self.phase != "over":
+            self.winner = None
+            self.go("over", now, OVER_TIME)
 
     def act(self, pid, body, now, active):
         self.tick(now, active)

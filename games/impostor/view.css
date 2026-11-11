@@ -24,6 +24,9 @@
 .im-tile:nth-child(odd) { transform: rotate(-1deg); }
 .im-tile:nth-child(even) { transform: rotate(1deg); }
 .im-tile img { width: 100%; height: 100%; object-fit: contain; }
+@supports not (aspect-ratio: 1) { .im-tile { width: 100%; } }
+.im-warn:empty { display: none; }
+.im-warn { color: var(--pink); font-weight: 700; }
 .im-tile.im-picked { box-shadow: 6px 6px 0 var(--pink); }
 .im-none { margin: 0; font-style: italic; font-size: .9em; }
 .im-name { position: absolute; left: 0; right: 0; top: 100%; margin: .2em 0 0; text-align: center; font-weight: 700; font-size: .9em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

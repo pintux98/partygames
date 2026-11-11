@@ -92,6 +92,14 @@ class RoomTests(unittest.TestCase):
         room.action(room.host, START, 0)
         self.assertEqual(room.phase, "playing")
 
+    def test_end_mid_game_stops_game_and_keeps_its_view(self):
+        room, (ana, _, _) = room_with(3)
+        room.action(ana.id, START, 0)
+        room.action(ana.id, {"type": "end"}, 1)
+        self.assertEqual(room.phase, "results")
+        self.assertTrue(room.game.stopped)
+        self.assertEqual(room.view_for(room.host, 1)["game"], {"seats": 3})
+
     def test_game_action_routed(self):
         room, (ana, bob, _) = room_with(3)
         room.action(ana.id, START, 0)

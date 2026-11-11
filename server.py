@@ -31,7 +31,7 @@ CREATE_LIMIT, CREATE_WINDOW = 5, 600
 OPEN_PER_CLIENT, OPEN_PER_48 = 2, 10
 MISS_LIMIT, MISS_LIMIT_48, MISS_WINDOW = 20, 100, 600
 STATIC_ASSETS = ("app.js", "i18n.js", "sound.js", "style.css", "qrcode.js", "favicon.svg")
-GAME_ASSETS = ("view.js", "view.css")
+GAME_ASSETS = ("view.js", "view.css", "icon.svg")
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
          ".svg": "image/svg+xml", ".woff2": "font/woff2", ".png": "image/png", ".json": "application/json"}
 CSP = ("default-src 'self'; img-src 'self' data: blob:; style-src 'self'; script-src 'self'; font-src 'self'; "
@@ -54,8 +54,8 @@ class App:
         self.lock = threading.Lock()
         self.swept = float("-inf")
         self.counts = dict.fromkeys(("visits", "parties", "players"), 0)
-        self.started = dict.fromkeys(map(labels, games), 0)
-        self.finished = dict.fromkeys(map(labels, games), 0)
+        self.started: dict[str, int] = {}
+        self.finished: dict[str, int] = {}
         self.action_max = max([BODY_MAX] + [g.meta.upload_max for g in games.values()])
 
     def visit(self) -> None:

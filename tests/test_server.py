@@ -209,6 +209,12 @@ class Api(unittest.TestCase):
                      "/static/../server.py", "/static/%2e%2e/server.py", "/server.py"):
             self.assertEqual(self.raw("GET", path)[0].status, 404, path)
 
+    def test_game_icons_served(self):
+        for g in ("bravo", "impostor"):
+            r, body = self.raw("GET", "/games/%s/icon.svg" % g)
+            self.assertEqual((r.status, r.getheader("Content-Type")), (200, "image/svg+xml"), g)
+            self.assertTrue(body.startswith(b"<svg"), g)
+
     def test_head_supported(self):
         for path in ("/", "/static/qrcode.js"):
             r, body = self.raw("HEAD", path)
@@ -232,7 +238,8 @@ class Api(unittest.TestCase):
             r, body = self.raw("GET", "/metrics", port=msrv.server_address[1])
             text = body.decode()
             self.assertEqual(r.status, 200)
-            for line in ('galagie_games_started_total{game="bravo"} 1', 'galagie_games_finished_total{game="bravo"} 0',
+            self.assertNotIn('{game="impostor"} 0', text)
+            for line in ('galagie_games_started_total{game="bravo"} 1',
                          "galagie_parties_created_total 1", "galagie_players_joined_total 3",
                          "galagie_parties_open 1", "galagie_players_online 3"):
                 self.assertIn(line + "\n", text)
