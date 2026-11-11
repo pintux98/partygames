@@ -170,11 +170,12 @@ class RoomTests(unittest.TestCase):
         self.fails(400, room.action, ana.id, {"type": "settings", "lang": "de"}, 0)
         self.fails(400, room.action, ana.id, {"type": "settings", "game": "nope"}, 0)
         self.fails(400, room.action, ana.id, {"type": "settings", "spicy": "yes"}, 0)
-        self.fails(403, room.action, bob.id, {"type": "settings", "lang": "en"}, 0)
-        room.action(ana.id, {"type": "settings", "lang": "en", "spicy": True, "game": "dummy"}, 0)
-        self.assertEqual(room.view_for(ana.id, 0)["settings"], {"lang": "en", "spicy": True})
+        self.assertEqual(room.view_for(ana.id, 0)["settings"], {"lang": "en", "spicy": False})
+        self.fails(403, room.action, bob.id, {"type": "settings", "lang": "ro"}, 0)
+        room.action(ana.id, {"type": "settings", "lang": "ro", "spicy": True, "game": "dummy"}, 0)
+        self.assertEqual(room.view_for(ana.id, 0)["settings"], {"lang": "ro", "spicy": True})
         room.action(ana.id, START, 0)
-        self.fails(409, room.action, ana.id, {"type": "settings", "lang": "ro"}, 0)
+        self.fails(409, room.action, ana.id, {"type": "settings", "lang": "en"}, 0)
 
 
 if __name__ == "__main__":

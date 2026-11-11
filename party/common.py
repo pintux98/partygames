@@ -22,7 +22,7 @@ def clean_line(value, limit: int) -> str:
 
 @dataclass
 class Settings:
-    lang: str = "ro"
+    lang: str = "en"
     spicy: bool = False
 
 

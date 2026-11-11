@@ -5,7 +5,7 @@
 .fo-badge { flex: none; padding: .3em .8em; background: var(--ink); color: var(--paper); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; transform: rotate(2deg); }
 .fo-clock { flex: none; min-width: 2.2em; text-align: right; font-family: var(--display); font-size: 2.2em; line-height: 1; color: var(--pink); text-shadow: .06em .06em 0 var(--blue); }
 .fo-clock.fo-low { color: var(--ink); text-shadow: .06em .06em 0 var(--pink); animation: fo-pulse 1s ease-in-out infinite; }
-.fo-hurry { padding: .3em .9em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); text-align: center; transform: rotate(-1.5deg); }
+.fo-hurry { padding: .3em .9em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); text-align: center; }
 body:not(.tv) .fo { gap: .8em; }
 body:not(.tv) .fo-hurry { display: none; }
 body:not(.tv) .fo-rush .fo-clock { padding: .1em .35em; text-align: center; background: var(--pink); color: #fff; border: 3px solid var(--ink); text-shadow: none; }
@@ -21,7 +21,8 @@ body:not(.tv) .fo-clock { font-size: 1.8em; }
 .fo-names .sticker { background: var(--card); color: var(--ink); }
 .fo-names .sticker.fo-ok { background: var(--pink); color: #fff; }
 
-.fo-duel { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-content: center; gap: 3vw; }
+.fo-head + .fo-prompt { margin-top: auto; margin-bottom: 4vh; }
+.fo-duel { flex: 0 1 auto; margin-bottom: auto; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-content: center; gap: 3vw; }
 .fo-side { display: flex; flex-direction: column; gap: 2vh; min-width: 0; }
 .fo-card { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; min-height: 5em; padding: 1em 1.1em; background: var(--card); border: 4px solid var(--ink); font-size: 1.5em; font-weight: 700; line-height: 1.2; text-align: center; }
 .fo-a .fo-card { box-shadow: 1vh 1vh 0 var(--pink); transform: rotate(-1.5deg); }
@@ -30,10 +31,10 @@ body:not(.tv) .fo-clock { font-size: 1.8em; }
 .fo-stamp { position: absolute; bottom: 100%; right: -.6em; margin-bottom: -.2em; padding: .15em .6em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); font-weight: 400; font-size: .85em; font-style: normal; transform: rotate(4deg); white-space: nowrap; }
 .fo-b .fo-stamp { background: var(--blue); }
 .fo-vs { align-self: center; font-family: var(--display); font-size: 3em; color: var(--blue); text-shadow: .06em .06em 0 var(--pink); }
-.fo-meter { position: relative; height: 1.5em; background: var(--card); border: 3px solid var(--ink); }
+.fo-meter { position: relative; height: 1.5em; padding-right: 2.6em; background: var(--card); border: 3px solid var(--ink); }
 .fo-meter i { display: block; height: 100%; background: var(--pink); }
 .fo-b .fo-meter i { background: var(--blue); }
-.fo-meter b { position: absolute; top: 50%; right: .4em; transform: translateY(-50%); font-family: var(--display); font-weight: 400; line-height: 1; }
+.fo-meter b { position: absolute; top: 0; right: 0; bottom: 0; width: 2.6em; display: flex; align-items: center; justify-content: center; background: var(--card); border-left: 3px solid var(--ink); font-family: var(--display); font-weight: 400; line-height: 1; }
 .fo-by { display: flex; align-items: baseline; justify-content: space-between; gap: 1em; font-weight: 700; font-size: 1.2em; }
 .fo-by p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .fo-by b { flex: none; font-family: var(--display); font-weight: 400; font-size: 1.3em; color: var(--pink); text-shadow: .05em .05em 0 var(--ink); }

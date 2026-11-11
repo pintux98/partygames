@@ -13,10 +13,7 @@ function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { r
 function store(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch {} }
 function setSession(s) { session = s; store("galagie", s); }
 
-function lang() {
-  if (roomLang) return roomLang;
-  return (navigator.language || "").toLowerCase().startsWith("ro") ? "ro" : "en";
-}
+const lang = () => roomLang || "en";
 const t = (key, vars = {}) => I18N[lang()][key].replace(/\{(\w+)\}/g, (_, k) => vars[k]);
 const errText = (e) => (e.status ? I18N[lang()].errors[e.message] || e.message : t("network"));
 
@@ -216,7 +213,7 @@ function muteButton() {
 }
 
 function choice(k, label, on, body) {
-  return button(label, () => send({ type: "settings", ...body }), { class: "pill" + (on ? " on" : ""), "aria-pressed": String(on), "data-k": k });
+  return button(label, () => send({ type: "settings", ...body }), { class: "pill", "aria-pressed": String(on), "data-k": k });
 }
 const group = (label, ...buttons) => h("div", { class: "group", role: "group", "aria-label": label }, h("span", { class: "label" }, label), ...buttons);
 
@@ -232,8 +229,8 @@ function startBlock(v) {
 function hostLobby(v) {
   const s = v.settings;
   return h("div", { class: "lobby" },
+    h("header", { class: "lobby-top" }, logo(), muteButton()),
     h("section", { class: "join-side" },
-      logo(),
       h("div", { class: "qr-card" }, qr(v.code), h("p", {}, t("scan"))),
       ticket(v.code),
       shareBox(v.code)),
@@ -245,7 +242,7 @@ function hostLobby(v) {
         group(t("mode"), choice("family", t("family"), !s.spicy, { spicy: false }), choice("spicy", t("spicy"), s.spicy, { spicy: true })),
         group(t("game"), v.games.map((g) => choice("game-" + g.id,
           [h("span", {}, g.names[s.lang] || g.id), h("small", {}, t("game_info", g))], g.id === v.game_id, { game: g.id })))),
-      h("div", { class: "go" }, startBlock(v), muteButton())));
+      h("div", { class: "go" }, startBlock(v))));
 }
 
 function phoneLobby(v) {
@@ -395,11 +392,6 @@ function tvScreen() {
   refocus(null);
 }
 
-function center(el) {
-  const r = el.getBoundingClientRect();
-  return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-}
-
 function arrows(e) {
   const d = DIRS[e.key];
   if (!d || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
@@ -411,14 +403,16 @@ function arrows(e) {
   if (!all.length) return;
   e.preventDefault();
   if (!all.includes(cur)) return all[0].focus();
-  const a = center(cur);
+  const a = cur.getBoundingClientRect();
+  const [x, y] = d;
   let best = null, bestScore = Infinity;
   for (const el of all) {
-    const b = center(el);
-    const dx = b.x - a.x, dy = b.y - a.y;
-    const along = dx * d[0] + dy * d[1];
-    if (el === cur || along <= 1) continue;
-    const score = along + Math.abs(dx * d[1] + dy * d[0]);
+    const b = el.getBoundingClientRect();
+    const lead = x ? (x > 0 ? b.left - a.right : a.left - b.right) : (y > 0 ? b.top - a.bottom : a.top - b.bottom);
+    const side = x ? Math.max(0, b.top - a.bottom, a.top - b.bottom) : Math.max(0, b.left - a.right, a.left - b.right);
+    const drift = x ? b.top + b.bottom - a.top - a.bottom : b.left + b.right - a.left - a.right;
+    if (el === cur || lead < -8) continue;
+    const score = Math.max(0, lead) + 2 * side + Math.abs(drift) / 4;
     if (score < bestScore) { bestScore = score; best = el; }
   }
   if (best) best.focus();

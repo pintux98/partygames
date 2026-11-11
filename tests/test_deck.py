@@ -7,7 +7,7 @@ from pathlib import Path
 from party.common import Settings
 from party.deck import Deck, load_packs
 
-PACKS = {"ro": {"family": {"t": ["a", "b"]}, "spicy": {"t": ["s"]}}}
+PACKS = {"en": {"family": {"t": ["a", "b"]}, "spicy": {"t": ["s"]}}}
 
 
 class DeckTests(unittest.TestCase):
