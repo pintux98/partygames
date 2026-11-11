@@ -205,9 +205,9 @@ body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .phone-lobby { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1em; }
 .phone-lobby > * { flex: 1 1 100%; }
 .phone-lobby > .logo, .phone-lobby > .ticket { flex: none; }
-.phone-lobby .logo { font-size: 2em; }
-.phone-lobby .ticket { padding: .3em 1em .25em; }
-.phone-lobby .ticket b { font-size: 1.6em; }
+.phone-lobby .logo { font-size: 1.5em; }
+.phone-lobby .ticket { padding: .3em .8em .25em; }
+.phone-lobby .ticket b { font-size: 1.3em; }
 .phone-lobby .stickers { gap: .4em; }
 .phone-lobby .sticker { padding: .2em .6em; font-size: .9em; }
 .phone-lobby .share { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: .4em 1em; }
@@ -256,6 +256,9 @@ body.tv .ranking { display: grid; grid-template-rows: repeat(8, auto); grid-auto
 .ranking span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ranking b { font-family: var(--display); font-weight: 400; }
 body:not(.tv) .results { gap: .8em; }
+body:not(.tv) .results h1 { font-size: 1.6em; }
+body:not(.tv) .results .actions { gap: .6em; }
+body:not(.tv) .results .actions button { font-size: 1em; padding: .55em .9em; }
 body:not(.tv) .winner { padding: .5em 1.4em; }
 body:not(.tv) .winner strong { font-size: 1.6em; }
 body:not(.tv) .ranking { display: grid; grid-template-rows: repeat(8, auto); grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .35em .6em; font-size: .85em; }

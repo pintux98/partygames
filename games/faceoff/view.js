@@ -9,7 +9,7 @@
     round: { ro: "Runda {n}", en: "Round {n}" },
     double: { ro: "Runda 2 · puncte duble", en: "Round 2 · double points" },
     final: { ro: "Finala", en: "Final" },
-    hurry: { ro: "Hai, grabiti-va! Mai sunt {n} s", en: "Hurry up! {n} s left" },
+    hurry: { ro: "Hai, grabiti-va! Mai sunt {n}\u00a0s", en: "Hurry up! {n}\u00a0s left" },
     write: { ro: "Scrieti pe telefoane!", en: "Write on your phones!" },
     write_hint: { ro: "Fiecare primeste doua intrebari.", en: "Everyone gets two prompts." },
     final_write: { ro: "Toti raspund la aceeasi intrebare:", en: "Everyone answers the same prompt:" },
@@ -42,20 +42,20 @@
   const fill = (s, vars) => s.replace(/\{(\w+)\}/g, (_, k) => vars[k]);
   const say = (ctx, key, vars = {}) => fill(ctx.t(S[key]), vars);
   const sum = (a) => (a || []).reduce((x, y) => x + y, 0);
-  const code = () => location.pathname.split("/").pop();
-  const draftKey = (i) => "galagie.draft." + code() + "." + i;
-  const draft = (i, text) => {
+  const draftKey = (ctx, i) => "galagie.draft." + ctx.code + "." + i;
+  const draft = (ctx, i, text) => {
     try {
-      if (text === undefined) return sessionStorage.getItem(draftKey(i)) || "";
-      text ? sessionStorage.setItem(draftKey(i), text) : sessionStorage.removeItem(draftKey(i));
+      if (text === undefined) return sessionStorage.getItem(draftKey(ctx, i)) || "";
+      text ? sessionStorage.setItem(draftKey(ctx, i), text) : sessionStorage.removeItem(draftKey(ctx, i));
     } catch { return ""; }
   };
-  function clearDrafts() {
+  function clearDrafts(ctx) {
     try {
-      const prefix = "galagie.draft." + code() + ".";
+      const prefix = draftKey(ctx, "");
       Object.keys(sessionStorage).filter((k) => k.startsWith(prefix)).forEach((k) => sessionStorage.removeItem(k));
     } catch {}
   }
+  let tapped = { key: "", left: CLAPS };
 
   function paint(el, key, build) {
     if (el.foKey === key) return false;
@@ -85,9 +85,11 @@
     }
     const b = el.querySelector(".fo-hurry");
     if (b) {
-      b.hidden = !(live && game.hurry);
-      b.parentNode.classList.toggle("fo-rush", !b.hidden);
-      b.textContent = say(ctx, "hurry", { n: secs });
+      const words = live && game.hurry ? say(ctx, "hurry", { n: secs }) : "";
+      b.hidden = !words;
+      b.parentNode.classList.toggle("fo-rush", !!words);
+      if (b.textContent !== words) b.textContent = words;
+      if (c && c.getAttribute("aria-label") !== words) words ? c.setAttribute("aria-label", words) : c.removeAttribute("aria-label");
     }
     return secs;
   }
@@ -188,11 +190,12 @@
   function writer(ctx, game, prompt) {
     const area = document.createElement("textarea");
     area.className = "fo-area";
-    area.rows = 3;
+    area.rows = 5;
+    area.enterKeyHint = "send";
     area.placeholder = say(ctx, "placeholder");
     area.setAttribute("aria-label", say(ctx, "your_answer"));
     area.dataset.k = "answer";
-    area.value = draft(prompt.i);
+    area.value = draft(ctx, prompt.i);
     const count = h("span", "fo-count");
     const sendBtn = h("button", "", say(ctx, "send"));
     sendBtn.type = "submit";
@@ -203,16 +206,16 @@
       count.textContent = Math.min(chars.length, MAX) + "/" + MAX;
       sendBtn.disabled = !area.value.trim();
     };
-    area.addEventListener("input", () => { update(); draft(prompt.i, area.value); });
+    area.addEventListener("input", () => { update(); draft(ctx, prompt.i, area.value); });
     area.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); form.requestSubmit(); }
+      if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); sendBtn.click(); }
     });
-    const form = h("form", "fo-write", area, h("div", "fo-row", count, sendBtn));
+    const form = h("form", "fo-write", area, sendBtn, count);
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!area.value.trim() || sendBtn.disabled) return;
       sendBtn.disabled = true;
-      if (await ctx.send({ type: "answer", i: prompt.i, text: area.value })) draft(prompt.i, "");
+      if (await ctx.send({ type: "answer", i: prompt.i, text: area.value })) draft(ctx, prompt.i, "");
       else update();
     });
     update();
@@ -222,19 +225,32 @@
     return [ask, form];
   }
 
-  function dots(ctx, left) {
-    const row = h("div", "fo-dots", Array.from({ length: CLAPS }, (_, j) => h("i", j < left ? "on" : "")));
-    row.setAttribute("aria-label", say(ctx, "claps_left", { n: left }));
+  function picker(ctx, game, cls, options) {
+    const key = game.phase + "|" + game.prompt + "|" + JSON.stringify(game.answers);
+    if (tapped.key !== key) tapped = { key, left: CLAPS };
+    tapped.left = Math.min(tapped.left, game.claps_left);
+    const row = h("div", "fo-dots", Array.from({ length: CLAPS }, () => h("i")));
     row.setAttribute("role", "img");
-    return row;
-  }
-
-  function choice(label, cls, k, onclick, extra) {
-    const b = h("button", "fo-pick " + cls, extra, text("", label));
-    b.type = "button";
-    b.dataset.k = k;
-    b.addEventListener("click", onclick);
-    return b;
+    const list = h("div", cls, options.map(([label, side, k, body, own]) => {
+      const b = h("button", "fo-pick fo-" + "ab"[side % 2], own ? h("small", "", say(ctx, "yours")) : null, text("", label));
+      b.type = "button";
+      b.dataset.k = k;
+      b.disabled = own;
+      b.addEventListener("click", () => {
+        if (tapped.left <= 0) return;
+        tapped.left -= 1;
+        show();
+        ctx.send(body);
+      });
+      return b;
+    }));
+    const show = () => {
+      [...row.children].forEach((dot, j) => dot.classList.toggle("on", j < tapped.left));
+      row.setAttribute("aria-label", say(ctx, "claps_left", { n: tapped.left }));
+      if (!tapped.left) list.querySelectorAll("button").forEach((b) => (b.disabled = true));
+    };
+    show();
+    return [text("fo-ask fo-small", game.prompt), h("div", "fo-row", text("fo-step", say(ctx, "pick")), row), list];
   }
 
   function phoneBody(ctx, game) {
@@ -246,19 +262,11 @@
     if (p === "vote") {
       if (game.author) return message(ctx, "on_screen", "others_vote");
       if (!game.claps_left) return message(ctx, "done");
-      return [
-        h("div", "fo-row", text("fo-step", say(ctx, "pick")), dots(ctx, game.claps_left)),
-        h("div", "fo-list fo-duo", game.answers.map((a, side) => choice(a, "fo-" + "ab"[side], "side-" + side, () => ctx.send({ type: "clap", side })))),
-      ];
+      return picker(ctx, game, "fo-list fo-duo", game.answers.map((a, side) => [a, side, "side-" + side, { type: "clap", side }, false]));
     }
     if (p === "final_vote") {
       if (!game.claps_left) return message(ctx, "done");
-      const list = h("div", "fo-list", game.answers.map((a, j) => {
-        const b = choice(a, "fo-" + "ab"[j % 2], "target-" + j, () => ctx.send({ type: "clap", target: j }), j === game.own ? h("small", "", say(ctx, "yours")) : null);
-        b.disabled = j === game.own;
-        return b;
-      }));
-      return [text("fo-ask fo-small", game.prompt), h("div", "fo-row", text("fo-step", say(ctx, "pick")), dots(ctx, game.claps_left)), list];
+      return picker(ctx, game, "fo-list", game.answers.map((a, j) => [a, j, "target-" + j, { type: "clap", target: j }, j === game.own]));
     }
     return message(ctx, "look");
   }
@@ -269,7 +277,7 @@
     const key = typing
       ? game.phase + "|" + (current ? current.i + "|" + current.text : "done")
       : JSON.stringify({ phase: game.phase, prompt: game.prompt, answers: game.answers, claps: game.claps_left, author: game.author, own: game.own });
-    if (el.foKey !== key && !typing) clearDrafts();
+    if (el.foKey !== key && !typing) clearDrafts(ctx);
     paint(el, key, () => {
       const live = WAITING.includes(game.phase);
       return [live ? head(ctx, game) : null, h("div", "fo-phone", phoneBody(ctx, game))];

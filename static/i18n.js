@@ -65,6 +65,11 @@ const I18N = {
       "Too many new parties, try again in a few minutes": "Prea multe petreceri noi, mai incearca in cateva minute",
       "Too many screen requests": "Prea multe cereri de ecran",
       "Something went wrong": "Ceva n-a mers",
+      "No claps left": "Nu mai ai aplauze",
+      "Already answered": "Ai raspuns deja",
+      "Not right now": "Nu acum",
+      "Write something": "Scrie ceva",
+      "Not your own answer": "Nu poti aplauda raspunsul tau",
     },
   },
   en: {

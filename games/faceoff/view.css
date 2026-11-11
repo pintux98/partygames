@@ -21,17 +21,17 @@ body:not(.tv) .fo-clock { font-size: 1.8em; }
 .fo-names .sticker { background: var(--card); color: var(--ink); }
 .fo-names .sticker.fo-ok { background: var(--pink); color: #fff; }
 
-.fo-duel { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 3vw; }
+.fo-duel { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-content: center; gap: 3vw; }
 .fo-side { display: flex; flex-direction: column; gap: 2vh; min-width: 0; }
-.fo-card { position: relative; display: flex; align-items: center; justify-content: center; min-height: 5em; padding: 1em 1.1em; background: var(--card); border: 4px solid var(--ink); font-size: 1.5em; font-weight: 700; line-height: 1.2; text-align: center; }
+.fo-card { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; min-height: 5em; padding: 1em 1.1em; background: var(--card); border: 4px solid var(--ink); font-size: 1.5em; font-weight: 700; line-height: 1.2; text-align: center; }
 .fo-a .fo-card { box-shadow: 1vh 1vh 0 var(--pink); transform: rotate(-1.5deg); }
 .fo-b .fo-card { box-shadow: 1vh 1vh 0 var(--blue); transform: rotate(1.5deg); }
 .fo-card.fo-gone { background: transparent; border-style: dashed; box-shadow: none; font-style: italic; }
-.fo-stamp { position: absolute; top: -1.3em; right: -.6em; padding: .15em .6em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); font-weight: 400; font-size: .85em; font-style: normal; transform: rotate(8deg); white-space: nowrap; }
+.fo-stamp { position: absolute; bottom: 100%; right: -.6em; margin-bottom: -.2em; padding: .15em .6em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); font-weight: 400; font-size: .85em; font-style: normal; transform: rotate(4deg); white-space: nowrap; }
 .fo-b .fo-stamp { background: var(--blue); }
-.fo-vs { font-family: var(--display); font-size: 3em; color: var(--blue); text-shadow: .06em .06em 0 var(--pink); }
+.fo-vs { align-self: center; font-family: var(--display); font-size: 3em; color: var(--blue); text-shadow: .06em .06em 0 var(--pink); }
 .fo-meter { position: relative; height: 1.5em; background: var(--card); border: 3px solid var(--ink); }
-.fo-meter i { display: block; height: 100%; background: var(--pink); transition: width .4s; }
+.fo-meter i { display: block; height: 100%; background: var(--pink); }
 .fo-b .fo-meter i { background: var(--blue); }
 .fo-meter b { position: absolute; top: 50%; right: .4em; transform: translateY(-50%); font-family: var(--display); font-weight: 400; line-height: 1; }
 .fo-by { display: flex; align-items: baseline; justify-content: space-between; gap: 1em; font-weight: 700; font-size: 1.2em; }
@@ -57,11 +57,13 @@ body:not(.tv) .fo-clock { font-size: 1.8em; }
 .fo-step { font-weight: 700; }
 .fo-ask small { display: block; margin-bottom: .3em; font-size: .65em; text-transform: uppercase; letter-spacing: .06em; }
 .fo-ask { padding: .7em .9em; background: var(--card); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--pink); font-size: 1.25em; font-weight: 700; line-height: 1.2; transform: rotate(-1deg); }
-.fo-write { display: flex; flex-direction: column; gap: .7em; }
-.fo-ask.fo-small { padding: .5em .8em; font-size: 1.1em; }
+.fo-write { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr; gap: .5em .7em; }
+.fo-write .fo-area { grid-row: 1 / 3; }
+.fo-write button { padding: .65em .8em; font-size: 1.05em; }
+.fo-count { align-self: end; text-align: center; font-weight: 700; }
+.fo-ask.fo-small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; padding: .4em .7em; font-size: 1em; }
 .fo-area { display: block; width: 100%; padding: .55em .7em; font: inherit; font-size: 1.15em; color: var(--ink); background: var(--card); border: 3px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 var(--blue); resize: none; }
 .fo-row { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
-.fo-count { font-weight: 700; }
 .fo-dots { display: flex; justify-content: center; gap: .6em; }
 .fo-dots i { width: 1.2em; height: 1.2em; border: 3px solid var(--ink); border-radius: 50%; background: var(--card); }
 .fo-dots i.on { background: var(--pink); }

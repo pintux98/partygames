@@ -148,6 +148,7 @@ function refocus(k) {
 }
 
 const ctx = (v) => ({
+  code: v.code,
   lang: v.settings.lang,
   send,
   sound: Sound.play,
