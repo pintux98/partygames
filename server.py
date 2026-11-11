@@ -186,7 +186,10 @@ class Handler(BaseHTTPRequestHandler):
         if n > limit:
             raise GameError("Request too big", 413)
         try:
-            data = json.loads(self.rfile.read(n) or b"{}")
+            raw = self.rfile.read(n)
+            if raw.count(b"[") + raw.count(b"{") > 64:
+                raise ValueError
+            data = json.loads(raw or b"{}")
         except ValueError:
             raise GameError("Bad request", 400)
         if not isinstance(data, dict):
@@ -233,7 +236,7 @@ class Handler(BaseHTTPRequestHandler):
                         if data is None:
                             raise GameError("Not found", 404)
                         app.record(room)
-                        return self._send(200, data, "image/png", {"Cache-Control": "private, max-age=300"})
+                        out = data
                     elif method == "GET" and route is None:
                         room.seen(pid, now)
                         room.tick(now)
@@ -242,8 +245,11 @@ class Handler(BaseHTTPRequestHandler):
                     else:
                         raise GameError("Not found", 404)
                     app.record(room)
-                payload = json.dumps(out).encode()
-            self._send(200, payload, "application/json", NO_STORE)
+                if isinstance(out, bytes):
+                    payload, kind, extra = out, "image/png", {"Cache-Control": "private, max-age=300"}
+                else:
+                    payload, kind, extra = json.dumps(out).encode(), "application/json", NO_STORE
+            self._send(200, payload, kind, extra)
         except GameError as e:
             self._json(e.status, {"error": str(e)})
         except Exception as e:

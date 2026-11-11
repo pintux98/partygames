@@ -59,6 +59,7 @@ class Impostor:
         count = min(options["impostors"], max(1, (len(self.pids) - 1) // 3))
         self.impostors = set(ctx.rng.sample(range(len(self.pids)), count))
         self.word, self.decoy, self.category = ctx.deck.draw("words")
+        self.tag = "%08x" % ctx.rng.getrandbits(32)
         self.out: set[int] = set()
         self.points = dict.fromkeys(self.pids, 0)
         self.finished = False
@@ -125,7 +126,7 @@ class Impostor:
         if out is not None:
             self.out.add(out)
             for voter, target in self.votes.items():
-                if target in self.impostors:
+                if target in self.impostors and voter not in self.impostors:
                     self.points[self.pids[voter]] += CORRECT_VOTE
         self.result = {"out": out, "impostor": out in self.impostors}
         self.go("reveal", now, REVEAL_TIME)
@@ -202,9 +203,9 @@ class Impostor:
             self.deadline = now
 
     def file(self, pid, name):
-        m = re.fullmatch(r"d(\d+)-(\d+)\.png", name)
-        if m and int(m.group(1)) == self.round:
-            return self.drawings.get(int(m.group(2)))
+        m = re.fullmatch(r"d([0-9a-f]{8})-(\d+)-(\d+)\.png", name)
+        if m and self.phase != "draw" and m.group(1) == self.tag and int(m.group(2)) == self.round:
+            return self.drawings.get(int(m.group(3)))
         return None
 
     def common(self, now):
@@ -212,13 +213,14 @@ class Impostor:
                 "left": None if self.finished else max(0, self.deadline - now), "hurry": self.hurried}
 
     def over(self):
-        return {"winner": self.winner, "word": self.word, "decoy": self.decoy, "impostors": [self.names[i] for i in sorted(self.impostors)]}
+        return {"winner": self.winner, "word": self.word, "decoy": self.decoy if self.label == "secret" else None,
+                "category": self.category, "impostors": [self.names[i] for i in sorted(self.impostors)]}
 
     def host_view(self, now):
-        view = self.common(now) | {"mode": self.label, "players": [
+        view = self.common(now) | {"mode": self.label, "impostors": len(self.impostors), "players": [
             {"seat": i, "name": n, "out": i in self.out, "drew": i in self.drawings, "voted": i in self.votes} for i, n in enumerate(self.names)]}
         if self.phase in ("vote", "reveal", "guess"):
-            view["drawings"] = [{"seat": i, "file": "d%d-%d.png" % (self.round, i)} for i in sorted(self.drawings)]
+            view["drawings"] = [{"seat": i, "file": "d%s-%d-%d.png" % (self.tag, self.round, i)} for i in sorted(self.drawings)]
             view["votes"] = self.tally()
         if self.phase in ("reveal", "guess"):
             view["result"] = self.result

@@ -359,6 +359,10 @@ class DummyApi(unittest.TestCase):
         for name in ("..%2fx.png", "X.PNG", "y.png", "x.gif"):
             self.assertEqual(self.call("GET", "/api/rooms/%s/files/%s" % (code, name), pid=host)[0], 404, name)
 
+    def test_deeply_nested_body_rejected(self):
+        self.assertEqual(self.call("POST", "/api/rooms/ZZZZZZ/action", raw=b"[" * 3990)[0], 400)
+        self.create()
+
     def test_metrics_mode_label(self):
         code, host, pids = self.started()
         self.act(code, pids[0], type="finish")

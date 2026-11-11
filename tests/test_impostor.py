@@ -198,13 +198,40 @@ class ImpostorTests(unittest.TestCase):
     def test_files_current_round_only(self):
         game, everyone = make(5)
         game.act("p0", {"type": "draw", "png": png()}, 1, everyone)
-        self.assertEqual(game.file("p1", "d1-0.png"), base64.b64decode(png()))
-        self.assertIsNone(game.file("p1", "d1-1.png"))
+        name = "d%s-1-0.png" % game.tag
+        self.assertIsNone(game.file("p1", name))
+        game.tick(31, everyone)
+        self.assertEqual(game.phase, "vote")
+        self.assertEqual(game.file("p1", name), base64.b64decode(png()))
+        self.assertEqual(game.host_view(31)["drawings"], [{"seat": 0, "file": name}])
+        self.assertIsNone(game.file("p1", "d%s-1-1.png" % game.tag))
         self.assertIsNone(game.file("p1", "x.png"))
         for t in (100, 200, 300):
             game.tick(t, everyone)
         self.assertEqual(game.round, 2)
-        self.assertIsNone(game.file("p1", "d1-0.png"))
+        self.assertIsNone(game.file("p1", name))
+
+    def test_impostor_votes_earn_nothing(self):
+        game, everyone = make(10, impostors=2)
+        a, b = sorted(game.impostors)
+        draw_all(game, everyone)
+        for i in game.alive():
+            game.act(game.pids[i], {"type": "vote", "target": b if i != b else a}, 2, everyone)
+        self.assertEqual(game.points[game.pids[a]], 0)
+        crew = seat_of(game, False)[0]
+        self.assertEqual(game.points[game.pids[crew]], CORRECT_VOTE)
+
+    def test_host_sees_impostor_count(self):
+        self.assertEqual(make(6, impostors=3)[0].host_view(0)["impostors"], 1)
+
+    def test_knows_mode_over_hides_decoy(self):
+        game, everyone = make(6, mode="knows")
+        game.end("crew", 0)
+        self.assertEqual(game.host_view(0)["over"]["decoy"], None)
+        self.assertEqual(game.host_view(0)["over"]["category"], game.category)
+
+    def test_file_names_differ_between_games(self):
+        self.assertNotEqual(make(5, seed=1)[0].tag, make(5, seed=2)[0].tag)
 
     def test_hurry(self):
         game, everyone = make(4)

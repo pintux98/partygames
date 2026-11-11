@@ -58,10 +58,10 @@
   let tapped = { key: "", left: CLAPS };
 
   function paint(el, key, build) {
-    if (el.foKey === key) return false;
+    if (el.brKey === key) return false;
     const active = document.activeElement;
     const k = active && el.contains(active) ? active.dataset.k : null;
-    el.foKey = key;
+    el.brKey = key;
     el.replaceChildren(h("div", "br", build()));
     const again = k && el.querySelector('[data-k="' + k + '"]:not([disabled])');
     if (again) again.focus({ preventScroll: true });
@@ -172,7 +172,7 @@
   function host(el, game, ctx) {
     const moment = game.phase + "|" + (game.prompt || "") + "|" + JSON.stringify(game.answers || null);
     if (paint(el, JSON.stringify({ ...game, left: null }), () => [head(ctx, game), hostBody(ctx, game)])) fit(el);
-    const seen = el.foSeen || {};
+    const seen = el.brSeen || {};
     const claps = sum(game.claps);
     if (seen.moment !== moment) {
       if (game.phase === "reveal") ctx.sound(game.sweep != null ? "sweep" : "reveal");
@@ -180,7 +180,7 @@
     } else if (claps > seen.claps) ctx.sound("clap");
     const secs = clock(el, game, ctx);
     if (WAITING.includes(game.phase) && secs > 0 && secs <= 5 && secs !== seen.secs) ctx.sound("tick");
-    el.foSeen = { moment, claps, secs };
+    el.brSeen = { moment, claps, secs };
   }
 
   function message(ctx, key, sub) {
@@ -277,7 +277,7 @@
     const key = typing
       ? game.phase + "|" + (current ? current.i + "|" + current.text : "done")
       : JSON.stringify({ phase: game.phase, prompt: game.prompt, answers: game.answers, claps: game.claps_left, author: game.author, own: game.own });
-    if (el.foKey !== key && !typing) clearDrafts(ctx);
+    if (el.brKey !== key && !typing) clearDrafts(ctx);
     paint(el, key, () => {
       const live = WAITING.includes(game.phase);
       return [live ? head(ctx, game) : null, h("div", "br-phone", phoneBody(ctx, game))];

@@ -40,6 +40,12 @@ class ImpostorContentTests(unittest.TestCase):
             folded = [w.casefold() for w in [e[0] for e in words] + twists]
             self.assertEqual(len(folded), len(set(folded)), [w for w in folded if folded.count(w) > 1])
 
+    def test_nothing_childlike_mixes_with_spicy(self):
+        for lang, modes in IMPOSTOR.items():
+            texts = " ".join(modes["family"]["twists"] + [w for e in modes["family"]["words"] for w in e[:2]]).casefold()
+            for word in ("baby", "bebelus", "teacher", "profesor", "school", "scoala"):
+                self.assertNotIn(word, texts, (lang, word))
+
     def test_categories_have_six_words(self):
         for lang, modes in IMPOSTOR.items():
             words = modes["family"]["words"] + modes["spicy"]["words"]

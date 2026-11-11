@@ -18,3 +18,9 @@ class CleanLineTests(unittest.TestCase):
         with self.assertRaises(GameError) as caught:
             clean_line(5, 20)
         self.assertEqual(caught.exception.status, 400)
+
+
+class LongText(unittest.TestCase):
+    def test_huge_input_cut_early(self):
+        self.assertEqual(clean_line("　" * 16000, 80), "")
+        self.assertEqual(len(clean_line("x" * 48000, 80)), 80)

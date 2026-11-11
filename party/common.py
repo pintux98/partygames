@@ -16,6 +16,7 @@ class GameError(Exception):
 def clean_line(value, limit: int) -> str:
     if not isinstance(value, str):
         raise GameError("Bad text", 400)
+    value = value[:limit * 8]
     kept = "".join(c for c in value if c == "\u200d" or not unicodedata.category(c).startswith("C") or c.isspace())
     return " ".join(unicodedata.normalize("NFKC", kept).split())[:limit].rstrip()
 

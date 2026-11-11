@@ -18,6 +18,8 @@
     crew_won: { ro: "Echipa a castigat!", en: "The crew wins!" },
     imps_won: { ro: "Impostorii au castigat!", en: "The impostors win!" },
     word_was: { ro: "Cuvantul: {w} · al impostorului: {d}", en: "The word: {w} · the impostor's: {d}" },
+    word_cat: { ro: "Cuvantul: {w} · categoria: {c}", en: "The word: {w} · category: {c}" },
+    count: { ro: "Impostori: {n}", en: "Impostors: {n}" },
     impostors_were: { ro: "Impostori: {names}", en: "Impostors: {names}" },
     your_word: { ro: "Cuvantul tau: {w}", en: "Your word: {w}" },
     word_hint: { ro: "Toti deseneaza acelasi cuvant. Unul are altul.", en: "Everyone draws the same word. Someone has another." },
@@ -94,7 +96,8 @@
   function head(ctx, game) {
     const hurry = h("p", "im-hurry");
     hurry.hidden = true;
-    return h("div", "im-head", text("im-badge", say(ctx, "round", { n: game.round, m: game.max_rounds })), hurry, h("span", "im-clock"));
+    const label = say(ctx, "round", { n: game.round, m: game.max_rounds }) + (game.impostors ? " · " + say(ctx, "count", { n: game.impostors }) : "");
+    return h("div", "im-head", text("im-badge", label), hurry, h("span", "im-clock"));
   }
 
   function clock(el, game, ctx) {
@@ -169,7 +172,7 @@
   function ending(ctx, over) {
     return h("div", "im-over",
       h("h1", "im-winner", say(ctx, over.winner === "crew" ? "crew_won" : "imps_won")),
-      text("im-word", say(ctx, "word_was", { w: over.word, d: over.decoy })),
+      text("im-word", over.decoy ? say(ctx, "word_was", { w: over.word, d: over.decoy }) : say(ctx, "word_cat", { w: over.word, c: over.category })),
       text("im-foot", say(ctx, "impostors_were", { names: over.impostors.join(", ") })));
   }
 
@@ -366,7 +369,7 @@
       if (t) t.textContent = game.twist;
     }
     const secs = clock(el, game, ctx);
-    if (game.phase === "draw" && el.imSubmit && game.left != null && game.left <= 1.5 && secs >= 0) el.imSubmit();
+    if (game.phase === "draw" && el.imSubmit && game.left != null && game.left <= 3 && secs >= 0) el.imSubmit();
   }
 
   G.register("impostor", { host, phone });
