@@ -1,0 +1,10 @@
+{
+  "family": {
+    "round": ["Cel mai prost nume pentru un pestisor auriu", "Ce face {player} in secret la 3 noaptea", "Un slogan groaznic pentru un dentist"],
+    "final": ["Adevaratul motiv pentru care petrecerea a inceput tarziu"]
+  },
+  "spicy": {
+    "round": ["Cel mai jenant lucru de spus la prima intalnire", "Ce n-ar recunoaste {player} niciodata in public", "O scuza proasta pentru ca ai intarziat la munca"],
+    "final": ["Cel mai rau lucru pe care il poti auzi din camera de alaturi"]
+  }
+}

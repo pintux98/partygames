@@ -1,0 +1,10 @@
+{
+  "family": {
+    "round": ["The worst name for a pet goldfish", "What {player} secretly does at 3 AM", "A terrible slogan for a dentist"],
+    "final": ["The real reason the party started late"]
+  },
+  "spicy": {
+    "round": ["The most awkward thing to say on a first date", "What {player} would never admit in public", "A bad excuse for being late to work"],
+    "final": ["The worst thing to hear from the next room"]
+  }
+}
