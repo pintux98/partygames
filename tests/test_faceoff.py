@@ -229,6 +229,38 @@ class FaceOffTests(unittest.TestCase):
                 self.assertIn(name, "ABC")
                 self.assertNotIn("p%d" % (ord(name) - 65), prompt["authors"])
 
+    def test_showdown_order_hides_authors(self):
+        broken = False
+        for seed in range(5):
+            game, _ = make(6, seed)
+            prompts = game.prompts
+            broken |= any(prompts[k + 1]["authors"][0] != prompts[k]["authors"][1] for k in range(5))
+        self.assertTrue(broken)
+
+    def test_late_answer_rejected_without_tick(self):
+        game, everyone = make(3)
+        mine = game.player_view("p0", 0)["prompts"][0]["i"]
+        self.fails(409, game, "p0", {"type": "answer", "i": mine, "text": "late"}, 76, everyone)
+
+    def test_walkover_round2_doubled(self):
+        game, everyone = make(3)
+        now = self.skip_until(game, everyone, 0, "answer", 2)
+        first = game.prompts[0]["authors"][0]
+        game.act(first, {"type": "answer", "i": 0, "text": "solo"}, now, everyone)
+        game.hurry(now)
+        game.tick(now + 10, everyone)
+        view = game.host_view(now + 10)
+        self.assertEqual((view["phase"], view["walkover"], view["points"]), ("reveal", True, [200, 0]))
+
+    def test_only_own_final_answer_means_no_claps(self):
+        game, everyone = make(3)
+        now = self.skip_until(game, everyone, 0, "final_answer", "final")
+        game.act("p0", {"type": "answer", "i": 0, "text": "mine"}, now, everyone)
+        game.hurry(now)
+        game.tick(now + 10, everyone)
+        self.assertEqual(game.player_view("p0", now + 10)["claps_left"], 0)
+        self.assertEqual(game.player_view("p1", now + 10)["claps_left"], 3)
+
     def test_registry_has_faceoff(self):
         self.assertIs(GAMES["faceoff"], FaceOff)
 

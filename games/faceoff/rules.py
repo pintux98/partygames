@@ -42,7 +42,8 @@ class FaceOff:
     def start_round(self, now):
         self.round += 1
         ring = self.ctx.rng.sample(list(self.names), len(self.names))
-        pairs = [[ring[i], ring[(i + 1) % len(ring)]] for i in range(len(ring))]
+        pairs = [self.ctx.rng.sample([ring[i], ring[(i + 1) % len(ring)]], 2) for i in range(len(ring))]
+        self.ctx.rng.shuffle(pairs)
         self.prompts = [{"text": self.fill("round", pair), "authors": pair, "answers": [None, None]} for pair in pairs]
         self.idx = -1
         self.go("answer", now, ANSWER_TIME)
@@ -64,8 +65,11 @@ class FaceOff:
         if self.phase == "vote":
             return all(self.spent.get(pid, 0) >= CLAPS for pid in self.voters & active)
         if self.phase == "final_vote":
-            return all(self.spent.get(pid, 0) >= CLAPS or self.order in ([], [pid]) for pid in here)
+            return all(self.spent.get(pid, 0) >= CLAPS or self.stuck(pid) for pid in here)
         return False
+
+    def stuck(self, pid):
+        return self.order in ([], [pid])
 
     def tick(self, now, active):
         while not self.finished and (now >= self.deadline or self.complete(active)):
@@ -122,6 +126,7 @@ class FaceOff:
         self.go("reveal", now, seconds)
 
     def act(self, pid, body, now, active):
+        self.tick(now, active)
         kind = body.get("type")
         if kind == "answer":
             self.answer(pid, body)
@@ -207,7 +212,7 @@ class FaceOff:
             return self.common(now) | {"prompt": prompt["text"], "answers": prompt["answers"], "author": pid in prompt["authors"], "claps_left": left}
         if self.phase == "final_vote":
             own = self.order.index(pid) if pid in self.order else None
-            return self.common(now) | {"prompt": self.prompts[0]["text"], "answers": self.final_answers(), "own": own, "claps_left": CLAPS - self.spent.get(pid, 0)}
+            return self.common(now) | {"prompt": self.prompts[0]["text"], "answers": self.final_answers(), "own": own, "claps_left": 0 if self.stuck(pid) else CLAPS - self.spent.get(pid, 0)}
         view = self.common(now) if self.phase == "answer" else self.host_view(now)
         if self.phase in TYPING:
             view["prompts"] = [{"i": i, "text": p["text"], "answered": p["answers"][p["authors"].index(pid)] is not None} for i, p in enumerate(self.prompts) if pid in p["authors"]]
