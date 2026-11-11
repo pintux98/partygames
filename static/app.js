@@ -18,7 +18,7 @@ function lang() {
   return (navigator.language || "").toLowerCase().startsWith("ro") ? "ro" : "en";
 }
 const t = (key, vars = {}) => I18N[lang()][key].replace(/\{(\w+)\}/g, (_, k) => vars[k]);
-const errText = (msg) => I18N[lang()].errors[msg] || msg;
+const errText = (e) => (e.status ? I18N[lang()].errors[e.message] || e.message : t("network"));
 
 function h(tag, attrs = {}, ...kids) {
   const el = document.createElement(tag);
@@ -61,7 +61,7 @@ async function poll() {
   } catch (e) {
     if (gen !== pollGen) return;
     if (e.status === 404) return closed();
-    if (e.status === 429) toast(errText(e.message));
+    if (e.status === 429) toast(errText(e));
   }
   if (session && !document.hidden) timer = setTimeout(poll, POLL_MS);
 }
@@ -73,7 +73,7 @@ async function send(body) {
     return true;
   } catch (e) {
     if (e.status === 404) closed();
-    else toast(errText(e.message));
+    else toast(errText(e));
     return false;
   } finally {
     poll();
@@ -94,7 +94,7 @@ async function enter(make, role) {
     reset();
     history.replaceState(null, "", "/r/" + d.code);
     poll();
-  } catch (e) { toast(errText(e.message)); }
+  } catch (e) { toast(errText(e)); }
   busy = false;
 }
 
@@ -187,15 +187,14 @@ function shareBox(code) {
   const url = joinUrl(code);
   const link = h("p", { class: "link" }, url.replace(/^https?:\/\//, ""));
   const btn = button(t("share"), async () => {
+    if (navigator.share) {
+      try { return await navigator.share({ title: "GALAGIE!", text: t("invite"), url }); } catch (e) { if (e && e.name === "AbortError") return; }
+    }
     try {
-      if (navigator.share) return await navigator.share({ title: "GALAGIE!", text: t("invite"), url });
       await navigator.clipboard.writeText(url);
       btn.textContent = t("copied");
       setTimeout(() => (btn.textContent = t("share")), 2000);
-    } catch (e) {
-      if (e && e.name === "AbortError") return;
-      getSelection().selectAllChildren(link);
-    }
+    } catch { getSelection().selectAllChildren(link); }
   }, { class: "ghost", "data-k": "share" });
   return h("div", { class: "share" }, link, btn);
 }
@@ -356,7 +355,7 @@ function homeScreen(code = "") {
     const c = readCode(codeIn);
     const n = nameIn.value.trim();
     if (!c) return;
-    if (!n) return toast(errText("Pick a nickname"));
+    if (!n) return toast(t("pick_name"));
     enter(() => api("POST", `/api/rooms/${c}/join`, { name: n }), "player");
   };
   show(h("div", { class: "home" },
@@ -404,7 +403,7 @@ function arrows(e) {
   const d = DIRS[e.key];
   if (!d || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
   const cur = document.activeElement;
-  if (d[0] && cur && cur.matches("input, textarea") && cur.value) return;
+  if (cur && (cur.matches("textarea") || (d[0] && cur.matches("input") && cur.value))) return;
   const scope = document.querySelector(".backdrop") || document;
   const all = [...scope.querySelectorAll("button:not([disabled]), input:not([disabled]), textarea:not([disabled]), a[href], [tabindex='0']")]
     .filter((el) => el.getClientRects().length);
@@ -428,9 +427,10 @@ document.addEventListener("DOMContentLoaded", () => {
   $app = document.getElementById("app");
   $toast = document.getElementById("toast");
   document.addEventListener("keydown", arrows);
-  document.addEventListener("visibilitychange", () => { if (!document.hidden) poll(); });
+  document.addEventListener("visibilitychange", () => (document.hidden ? clearTimeout(timer) : poll()));
   const m = location.pathname.match(/^\/r\/([A-Za-z2-9]{6})$/);
   const code = m ? m[1].toUpperCase() : "";
+  if (code && session && code !== session.code) setSession(null);
   if (session && session.code && (!code || code === session.code)) return poll();
   if (location.pathname === "/tv") return tvScreen();
   homeScreen(code);
