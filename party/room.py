@@ -54,6 +54,7 @@ class Room:
 
     def join(self, name, now: float) -> Player:
         self.check_open()
+        self.last_action = now
         name = clean_line(name, NAME_MAX)
         if not name:
             raise GameError("Pick a nickname", 400)
@@ -73,11 +74,16 @@ class Room:
 
     def request_screen(self, now: float) -> str:
         self.check_open()
+        self.last_action = now
+        self.prune_screens(now)
         if len(self.screen_requests) >= MAX_SCREEN_REQUESTS:
             raise GameError("Too many screen requests", 429)
         sid = secrets.token_urlsafe(16)
         self.screen_requests[sid] = now
         return sid
+
+    def prune_screens(self, now: float):
+        self.screen_requests = {sid: t for sid, t in self.screen_requests.items() if now - t <= SCREEN_TTL}
 
     def is_member(self, pid: str) -> bool:
         return pid == self.host or pid in self.players or pid in self.screen_requests or pid in self.moved
@@ -183,7 +189,7 @@ class Room:
         if self.vip not in active:
             fallback = self.vip if self.vip in self.players else None
             self.vip = next((pid for pid in self.players if pid in active), fallback)
-        self.screen_requests = {sid: t for sid, t in self.screen_requests.items() if now - t <= SCREEN_TTL}
+        self.prune_screens(now)
         if now - self.last_action > IDLE_CLOSE:
             self.phase = "closed"
 

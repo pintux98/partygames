@@ -148,6 +148,20 @@ class RoomTests(unittest.TestCase):
         self.assertEqual(room.phase, "closed")
         self.assertEqual(self.fails(404, room.join, "Dan", 901), "This room is closed")
 
+    def test_joins_keep_room_alive(self):
+        room = Room("ABCDEF", 0, GAMES, random.Random(1))
+        room.join("Ana", 0)
+        room.join("Bob", 800)
+        room.tick(1000)
+        self.assertEqual(room.phase, "lobby")
+
+    def test_stale_screen_requests_do_not_block(self):
+        room, _ = room_with(3)
+        for _ in range(3):
+            room.request_screen(0)
+        sid = room.request_screen(121)
+        self.assertEqual(list(room.screen_requests), [sid])
+
     def test_end_from_lobby_closes(self):
         room, (ana, _, _) = room_with(3)
         room.action(ana.id, {"type": "end"}, 0)
