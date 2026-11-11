@@ -149,6 +149,7 @@ function refocus(k) {
 
 const ctx = (v) => ({
   code: v.code,
+  pid: session.pid,
   lang: v.settings.lang,
   send,
   sound: Sound.play,
