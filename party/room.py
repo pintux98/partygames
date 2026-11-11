@@ -8,7 +8,6 @@ from party.deck import Deck
 MAX_PLAYERS = 16
 AWAY = 60
 IDLE_CLOSE = 900
-REJOIN_IDLE = 10
 SCREEN_TTL = 120
 MAX_SCREEN_REQUESTS = 3
 NAME_MAX = 20
@@ -58,12 +57,8 @@ class Room:
         name = clean_line(name, NAME_MAX)
         if not name:
             raise GameError("Pick a nickname", 400)
-        for player in self.players.values():
-            if player.name.casefold() == name.casefold():
-                if now - player.seen <= REJOIN_IDLE:
-                    raise GameError("That name is taken", 409)
-                player.seen = now
-                return player
+        if any(p.name.casefold() == name.casefold() for p in self.players.values()):
+            raise GameError("That name is taken", 409)
         if len(self.players) >= MAX_PLAYERS:
             raise GameError("Room is full", 409)
         player = Player(secrets.token_urlsafe(16), name, now, now, self.phase == "playing")

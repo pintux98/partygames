@@ -32,11 +32,9 @@ class RoomTests(unittest.TestCase):
         self.assertEqual(self.fails(409, room.join, " ana ", 5), "That name is taken")
         self.assertEqual(self.fails(400, room.join, " \t ", 5), "Pick a nickname")
 
-    def test_rejoin_same_name_takes_idle_seat(self):
-        room, (ana,) = room_with(1)
-        again = room.join("ana", 11)
-        self.assertEqual(again.id, ana.id)
-        self.assertEqual(again.seen, 11)
+    def test_name_never_reclaims_idle_seat(self):
+        room, _ = room_with(1)
+        self.assertEqual(self.fails(409, room.join, "ana", 500), "That name is taken")
 
     def test_room_full_at_16(self):
         room, _ = room_with(MAX_PLAYERS)
