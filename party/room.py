@@ -121,8 +121,6 @@ class Room:
                 player.waiting = False
             self.game = None
             self.phase = "lobby"
-        elif kind == "leave":
-            self.players.pop(pid, None)
         elif kind in ("allow_screen", "deny_screen"):
             if pid != self.vip:
                 raise GameError("Only the VIP can do that", 403)
@@ -167,6 +165,8 @@ class Room:
             raise GameError(f"Need at least {game_cls.meta.min_players} players", 409)
         if len(seats) > game_cls.meta.max_players:
             raise GameError(f"At most {game_cls.meta.max_players} players", 409)
+        for pid, p in self.players.items():
+            p.waiting = pid not in active
         deck = Deck(game_cls.packs, self.settings, self.rng, self.used)
         self.game = game_cls(Context(seats, self.settings, self.rng, deck, now))
         self.seats = seats

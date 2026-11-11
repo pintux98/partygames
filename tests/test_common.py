@@ -7,6 +7,10 @@ class CleanLineTests(unittest.TestCase):
     def test_clean_line_strips_controls_and_spaces(self):
         self.assertEqual(clean_line("  a\u200b\tb\n c\x00 ", 20), "a b c")
 
+    def test_clean_line_keeps_emoji_joiner(self):
+        family = "👨‍👩‍👧"
+        self.assertEqual(clean_line("a" + family + "​", 20), "a" + family)
+
     def test_clean_line_cuts_to_limit(self):
         self.assertEqual(len(clean_line("x" * 100, 80)), 80)
 

@@ -115,12 +115,16 @@ class RoomTests(unittest.TestCase):
         self.assertEqual(room.vip, bob.id)
         self.assertEqual(room.view_for(bob.id, 61)["players"][0], {"name": "Ana", "vip": False, "away": True, "waiting": False})
 
-    def test_leave_removes_player_and_passes_vip(self):
-        room, (ana, bob, _) = room_with(3)
-        room.action(room.host, {"type": "leave"}, 1)
-        room.action(ana.id, {"type": "leave"}, 1)
-        self.assertNotIn(ana.id, room.players)
-        self.assertEqual(room.vip, bob.id)
+    def test_away_at_start_is_waiting(self):
+        room, (ana, bob, cara, dan) = room_with(4)
+        room.seen(ana.id, 61)
+        room.seen(bob.id, 61)
+        room.seen(cara.id, 61)
+        room.action(ana.id, START, 61)
+        self.assertTrue(dan.waiting)
+        self.assertFalse(ana.waiting)
+        room.tick(200)
+        self.assertNotIn(room.vip, [dan.id])
 
     def test_screen_move_needs_vip(self):
         room, (ana, _, _) = room_with(3)

@@ -2,5 +2,5 @@
 .superpowers
 docs
 tests
-__pycache__
+**/__pycache__
 *.md

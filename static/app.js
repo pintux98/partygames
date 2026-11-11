@@ -267,7 +267,7 @@ function bar(v) {
     host ? ticket(v.code) : null,
     h("span", { class: "grow" }),
     button(t("next"), () => send({ type: "next" }), { "data-k": "next", "data-auto": true }),
-    button(t("end"), () => send({ type: "end" }), { class: "ghost", "data-k": "end" }),
+    button(t("end_game"), () => send({ type: "end" }), { class: "ghost", "data-k": "end" }),
     host ? muteButton() : null);
 }
 

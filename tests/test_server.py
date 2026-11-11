@@ -99,6 +99,15 @@ class Api(unittest.TestCase):
         self.assertEqual(self.state(code, pids[0]), (404, {"error": "This room is closed"}))
         self.assertIn('galagie_games_finished_total{game="faceoff"} 1\n', self.app.metrics(t[0]))
 
+    def test_idle_closed_room_404_on_same_poll(self):
+        t = [1000.0]
+        server.clock = lambda: t[0]
+        code, host, pids = self.party()
+        t[0] += 899.9
+        self.assertEqual(self.state(code, pids[0])[0], 200)
+        t[0] += 0.6
+        self.assertEqual(self.state(code, pids[0]), (404, {"error": "This room is closed"}))
+
     def test_non_member_404_same_as_unknown(self):
         code, host = self.create()
         wrong = self.state(code, "nobody")

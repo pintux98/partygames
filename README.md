@@ -21,7 +21,8 @@ Rooms live in memory, so a restart closes any open rooms.
 1. **+ New → Public Repository** and paste this repo's URL, branch `main`.
 2. Build pack: **Dockerfile**. Ports exposes: `8000`.
 3. Set your domain.
-4. **Deploy**. Coolify uses the health check from the Dockerfile.
+4. Map the metrics port to `127.0.0.1` only (Ports Mappings `127.0.0.1:<host>:8001`) or not at all.
+5. **Deploy**. Coolify uses the health check from the Dockerfile.
 
 ## Run with Docker
 
@@ -40,6 +41,8 @@ python server.py
 ```
 
 Open http://localhost:8000.
+
+In production, run it behind Cloudflare (proxy or tunnel) and never expose the origin port, because the rate limits and the connection cap trust the `CF-Connecting-IP` header.
 
 ## Settings
 
@@ -72,7 +75,7 @@ games/<id>/
 - `__init__(ctx)`: `ctx` is a `Context` with `seats`, `settings` (`lang`, `spicy`), `rng`, `deck` and `now`
 - `act(pid, body, now, active)`: a player sent an action; raise `GameError(message, status)` to reject it
 - `tick(now, active)`: called regularly to move timers forward
-- `hurry(now)`: the VIP pressed Next while waiting
+- `hurry(now)`: the VIP pressed Next, in any phase
 - `host_view(now)` and `player_view(pid, now)`: JSON-serializable state for the host screen and for one phone
 - `scores()`: points per player id
 
@@ -103,13 +106,15 @@ G.register("<id>", { host(el, game, ctx) {}, phone(el, game, ctx) {} });
 GAMES = {g.meta.id: g for g in (FaceOff, YourGame)}
 ```
 
-`view.js` and `view.css` are picked up from the folder automatically, with versioned URLs.
+A game needs both `view.js` and `view.css` in its folder; they are served with versioned URLs.
 
 ## Tests
 
 ```sh
-python -m unittest discover -s tests
+PYTHONUTF8=1 python -m unittest discover -s tests
 ```
+
+`PYTHONUTF8=1` is for Windows.
 
 ## Credits
 

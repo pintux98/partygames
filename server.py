@@ -225,6 +225,7 @@ class Handler(BaseHTTPRequestHandler):
                     elif method == "GET" and route is None:
                         room.seen(pid, now)
                         room.tick(now)
+                        room.check_open()
                         out = room.view_for(pid, now)
                     else:
                         raise GameError("Not found", 404)
