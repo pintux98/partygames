@@ -39,6 +39,7 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--paper);
   color: var(--ink);
   font: 500 17px/1.35 "Space Grotesk", system-ui, sans-serif;
@@ -64,6 +65,7 @@ body.tv { font-size: 2.5vh; overflow: hidden; }
   flex-direction: column;
   gap: 1em;
 }
+body:not(.tv) #app { height: 100vh; height: 100dvh; min-height: 0; padding-bottom: 1.2em; overflow-x: hidden; overflow-y: auto; }
 body.tv #app { max-width: none; height: 100vh; min-height: 0; padding: 3vh 3.5vw; overflow: hidden; }
 
 h1, h2 { font-family: var(--display); font-weight: 400; line-height: 1.1; margin: 0; }
@@ -175,6 +177,8 @@ input {
 .join { display: flex; flex-direction: column; gap: .55em; transform: rotate(-1deg); }
 .join button { margin-top: .5em; }
 .tv-actions { display: flex; flex-direction: column; gap: .6em; }
+body:not(.tv) .home { gap: .8em; }
+body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .hint { font-size: .9em; text-align: center; }
 
 .lobby { display: grid; grid-template-columns: 38fr 62fr; gap: 4vw; height: 100%; }
@@ -198,9 +202,21 @@ input {
 .go .hint { flex: 1; text-align: left; font-weight: 700; }
 .go .mute { margin-left: auto; font-size: .95em; }
 
-.phone-lobby { display: flex; flex-direction: column; gap: 1.2em; }
-.phone-lobby .logo { font-size: 2.2em; }
-.vip-card { display: flex; flex-direction: column; gap: .7em; transform: rotate(1deg); box-shadow: 6px 6px 0 var(--blue); }
+.phone-lobby { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1em; }
+.phone-lobby > * { flex: 1 1 100%; }
+.phone-lobby > .logo, .phone-lobby > .ticket { flex: none; }
+.phone-lobby .logo { font-size: 2em; }
+.phone-lobby .ticket { padding: .3em 1em .25em; }
+.phone-lobby .ticket b { font-size: 1.6em; }
+.phone-lobby .stickers { gap: .4em; }
+.phone-lobby .sticker { padding: .2em .6em; font-size: .9em; }
+.phone-lobby .share { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: .4em 1em; }
+.phone-lobby .share button { font-size: 1em; padding: .45em .9em; }
+.vip-card { display: flex; flex-wrap: wrap; gap: .7em; transform: rotate(1deg); box-shadow: 6px 6px 0 var(--blue); }
+.vip-card > * { flex: 1 1 100%; }
+.vip-card > button { flex: 1 1 auto; font-size: 1.15em; }
+.vip-card > button.ghost { flex: none; font-size: 1em; }
+.vip-card .hint { order: 1; }
 .wait { font-weight: 700; text-align: center; }
 
 .top { display: contents; }
@@ -209,6 +225,8 @@ input {
 .bar .ticket { padding: .2em .9em; }
 .bar .ticket b { font-size: 1.2em; }
 .bar button { font-size: 1em; }
+body:not(.tv) .bar { gap: .6em; }
+body:not(.tv) .bar button { font-size: .85em; padding: .45em .8em; white-space: nowrap; box-shadow: 3px 3px 0 var(--ink); }
 .grow { flex: 1; }
 .game { flex: 1; min-height: 0; display: flex; flex-direction: column; }
 
@@ -237,6 +255,12 @@ body.tv .ranking { display: grid; grid-template-rows: repeat(8, auto); grid-auto
 .ranking li::before { content: counter(rank); font-family: var(--display); color: var(--blue); min-width: 1.4em; }
 .ranking span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ranking b { font-family: var(--display); font-weight: 400; }
+body:not(.tv) .results { gap: .8em; }
+body:not(.tv) .winner { padding: .5em 1.4em; }
+body:not(.tv) .winner strong { font-size: 1.6em; }
+body:not(.tv) .ranking { display: grid; grid-template-rows: repeat(8, auto); grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .35em .6em; font-size: .85em; }
+body:not(.tv) .ranking li { gap: .4em; padding: .25em .5em; border-width: 2px; }
+body:not(.tv) .ranking li::before { min-width: 1.2em; }
 
 .confetti { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 5; overflow: hidden; pointer-events: none; }
 .confetti i {
