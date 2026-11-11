@@ -272,15 +272,15 @@ function bar(v) {
 }
 
 function allowDialog(v) {
-  const sid = v.screen_requests[0];
-  if (!sid) return null;
+  const handle = v.screen_requests[0];
+  if (!handle) return null;
   return h("div", { class: "backdrop" },
     h("div", { class: "card dialog", role: "alertdialog", "aria-modal": "true", "aria-labelledby": "allow-q" },
       h("h2", { id: "allow-q" }, t("allow_q")),
       h("p", {}, t("allow_text")),
       h("div", { class: "actions" },
-        button(t("allow"), () => send({ type: "allow_screen", sid }), { "data-k": "allow" }),
-        button(t("deny"), () => send({ type: "deny_screen", sid }), { class: "ghost", "data-k": "deny" }))));
+        button(t("allow"), () => send({ type: "allow_screen", handle }), { "data-k": "allow" }),
+        button(t("deny"), () => send({ type: "deny_screen", handle }), { class: "ghost", "data-k": "deny" }))));
 }
 
 function confetti() {

@@ -1,5 +1,6 @@
 import http.client
 import json
+import socket
 import threading
 import time
 import unittest
@@ -117,6 +118,33 @@ class Api(unittest.TestCase):
         self.create(ip="2001:db8:0:1::2")
         self.assertEqual(self.call("POST", "/api/rooms", {}, ip="2001:db8:0:1::3")[0], 429)
 
+    def test_ipv6_48_open_rooms_capped(self):
+        for n in range(5):
+            self.create(ip="2001:db8:1:%d::1" % n)
+            self.create(ip="2001:db8:1:%d::2" % n)
+        self.assertEqual(self.call("POST", "/api/rooms", {}, ip="2001:db8:1:5::1")[0], 429)
+        self.create(ip="2001:db8:2::1")
+
+    def test_ipv6_48_wrong_codes_capped(self):
+        code, _ = self.create()
+        for n in range(5):
+            for _ in range(20):
+                self.assertEqual(self.join("ZZZZZZ", "g", ip="2001:db8:1:%d::1" % n)[0], 404)
+        self.assertEqual(self.join(code, "g", ip="2001:db8:1:5::1")[0], 429)
+        self.assertEqual(self.join(code, "g", ip="2001:db8:2::1")[0], 200)
+
+    def test_one_pending_screen_per_client(self):
+        code, _ = self.create()
+        screen = "/api/rooms/%s/screen" % code
+        self.assertEqual(self.call("POST", screen, {}, ip="5.5.5.5")[0], 200)
+        self.assertEqual(self.call("POST", screen, {}, ip="5.5.5.5")[0], 429)
+        self.assertEqual(self.call("POST", screen, {}, ip="5.5.5.6")[0], 200)
+
+    def test_bad_cf_header_uses_peer(self):
+        self.create(ip="garbage1")
+        self.create(ip="garbage2")
+        self.assertEqual(self.call("POST", "/api/rooms", {}, ip="garbage3")[0], 429)
+
     def test_wrong_code_limit(self):
         code, host = self.create(ip="7.7.7.7")
         for i in range(10):
@@ -204,6 +232,89 @@ class Api(unittest.TestCase):
 
     def test_handler_has_socket_timeout(self):
         self.assertEqual(server.Handler.timeout, 15)
+
+
+class Limits(unittest.TestCase):
+    def setUp(self):
+        self.saved = server.MAX_CONNECTIONS, server.REQUEST_DEADLINE
+        self.socks = []
+        self.srv = None
+
+    def tearDown(self):
+        for s in self.socks:
+            s.close()
+        if self.srv:
+            self.srv.shutdown()
+            self.srv.server_close()
+        server.MAX_CONNECTIONS, server.REQUEST_DEADLINE = self.saved
+
+    def start(self):
+        self.srv = server.make_server("127.0.0.1", 0, GAMES)
+        threading.Thread(target=self.srv.serve_forever, daemon=True).start()
+
+    def connect(self):
+        s = socket.create_connection(self.srv.server_address, timeout=5)
+        self.socks.append(s)
+        return s
+
+    def get(self):
+        c = http.client.HTTPConnection(*self.srv.server_address, timeout=5)
+        try:
+            c.request("GET", "/")
+            return c.getresponse().status
+        except ConnectionError:
+            return None
+        finally:
+            c.close()
+
+    def test_slow_request_cut_at_deadline(self):
+        server.REQUEST_DEADLINE = 1
+        self.start()
+        s = self.connect()
+        s.settimeout(0.3)
+        began, gone = time.monotonic(), False
+        while not gone and time.monotonic() - began < 5:
+            try:
+                s.sendall(b"G")
+                gone = s.recv(1) == b""
+            except TimeoutError:
+                pass
+            except ConnectionError:
+                gone = True
+        self.assertTrue(gone)
+        self.assertLess(time.monotonic() - began, 4)
+        self.assertEqual(self.get(), 200)
+
+    def test_connections_capped(self):
+        server.MAX_CONNECTIONS = 2
+        self.start()
+        busy = [self.connect(), self.connect()]
+        self.assertEqual(self.connect().recv(1), b"")
+        for s in busy:
+            s.close()
+        began, status = time.monotonic(), None
+        while status != 200 and time.monotonic() - began < 5:
+            status = self.get()
+        self.assertEqual(status, 200)
+
+
+class AppTests(unittest.TestCase):
+    def test_janitor_sweeps_once_per_second(self):
+        app = server.App(GAMES)
+        room = app.rooms[app.create("1.1.1.1", 1000)["code"]]
+        ticks = []
+        room.tick = ticks.append
+        app.janitor(1002)
+        app.janitor(1002.5)
+        self.assertEqual(ticks, [1002])
+
+    def test_never_joined_room_closes(self):
+        app = server.App(GAMES)
+        code = app.create("1.1.1.1", 1000)["code"]
+        app.janitor(1300)
+        self.assertIn(code, app.rooms)
+        app.janitor(1302)
+        self.assertNotIn(code, app.rooms)
 
 
 if __name__ == "__main__":

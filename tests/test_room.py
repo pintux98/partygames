@@ -1,3 +1,4 @@
+import json
 import random
 import unittest
 
@@ -31,6 +32,12 @@ class RoomTests(unittest.TestCase):
         room, _ = room_with(1)
         self.assertEqual(self.fails(409, room.join, " ana ", 5), "That name is taken")
         self.assertEqual(self.fails(400, room.join, " \t ", 5), "Pick a nickname")
+
+    def test_look_alike_names_taken(self):
+        room, _ = room_with(1)
+        room.join("x" * 19, 0)
+        self.fails(409, room.join, "x" * 19 + " y", 0)
+        self.fails(409, room.join, "\uff21\uff2e\uff21", 0)
 
     def test_name_never_reclaims_idle_seat(self):
         room, _ = room_with(1)
@@ -118,25 +125,47 @@ class RoomTests(unittest.TestCase):
     def test_screen_move_needs_vip(self):
         room, (ana, _, _) = room_with(3)
         old = room.host
-        sid = room.request_screen(0)
+        sid = room.request_screen(0, "tv")
         self.assertTrue(room.is_member(sid))
         self.assertEqual(room.view_for(sid, 0)["role"], "screen_pending")
-        self.assertEqual(room.view_for(ana.id, 0)["screen_requests"], [sid])
-        self.fails(403, room.action, old, {"type": "allow_screen", "sid": sid}, 0)
-        room.action(ana.id, {"type": "allow_screen", "sid": sid}, 0)
+        handle = room.view_for(ana.id, 0)["screen_requests"][0]
+        self.fails(403, room.action, old, {"type": "allow_screen", "handle": handle}, 0)
+        self.fails(404, room.action, ana.id, {"type": "allow_screen", "handle": sid}, 0)
+        room.action(ana.id, {"type": "allow_screen", "handle": handle}, 0)
         self.assertEqual(room.host, sid)
         self.assertEqual(room.view_for(sid, 0)["role"], "host")
         self.assertEqual(room.view_for(old, 0)["role"], "moved")
         self.assertFalse(room.is_member("stranger"))
 
+    def test_vip_never_sees_screen_token(self):
+        room, players = room_with(3)
+        ana = players[0]
+        sid = room.request_screen(0, "tv")
+        before = room.view_for(ana.id, 0)
+        self.assertNotIn(sid, json.dumps(before))
+        room.action(ana.id, {"type": "allow_screen", "handle": before["screen_requests"][0]}, 0)
+        self.assertEqual(room.host, sid)
+        for p in players:
+            self.assertNotIn(room.host, json.dumps(room.view_for(p.id, 0)))
+        room.request_screen(0, "tv")
+        room.action(ana.id, {"type": "deny_screen", "handle": room.view_for(ana.id, 0)["screen_requests"][0]}, 0)
+        self.assertEqual(room.screen_requests, {})
+
+    def test_moved_tokens_bounded(self):
+        room, (ana, _, _) = room_with(3)
+        for _ in range(100):
+            room.request_screen(0, "tv")
+            room.action(ana.id, {"type": "allow_screen", "handle": room.view_for(ana.id, 0)["screen_requests"][0]}, 0)
+        self.assertLessEqual(len(room.moved), 4)
+
     def test_screen_requests_capped_and_expire(self):
         room, _ = room_with(3)
-        for _ in range(3):
-            room.request_screen(0)
-        self.fails(429, room.request_screen, 0)
+        for i in range(3):
+            room.request_screen(0, str(i))
+        self.fails(429, room.request_screen, 0, "3")
         room.tick(121)
         self.assertEqual(room.screen_requests, {})
-        room.request_screen(121)
+        room.request_screen(121, "0")
 
     def test_idle_close_after_900s(self):
         room, _ = room_with(3)
@@ -155,9 +184,9 @@ class RoomTests(unittest.TestCase):
 
     def test_stale_screen_requests_do_not_block(self):
         room, _ = room_with(3)
-        for _ in range(3):
-            room.request_screen(0)
-        sid = room.request_screen(121)
+        for i in range(3):
+            room.request_screen(0, str(i))
+        sid = room.request_screen(121, "0")
         self.assertEqual(list(room.screen_requests), [sid])
 
     def test_end_from_lobby_closes(self):

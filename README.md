@@ -28,7 +28,7 @@ Rooms live in memory, so a restart closes any open rooms.
 ```sh
 docker build -t galagie .
 docker run -d --name galagie --restart unless-stopped \
-  -p 8000:8000 -p 127.0.0.1:8001:8001 galagie
+  -p 127.0.0.1:8000:8000 -p 127.0.0.1:8001:8001 galagie
 ```
 
 ## Run without Docker

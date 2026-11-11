@@ -1,5 +1,6 @@
 import random
 import secrets
+from collections import deque
 from dataclasses import dataclass
 
 from party.common import Context, Game, GameError, Seat, Settings, clean_line
@@ -8,6 +9,7 @@ from party.deck import Deck
 MAX_PLAYERS = 16
 AWAY = 60
 IDLE_CLOSE = 900
+EMPTY_CLOSE = 300
 SCREEN_TTL = 120
 MAX_SCREEN_REQUESTS = 3
 NAME_MAX = 20
@@ -42,8 +44,8 @@ class Room:
         self.seats: list[Seat] = []
         self.last_scores: dict[str, int] = {}
         self.used: set[str] = set()
-        self.screen_requests: dict[str, float] = {}
-        self.moved: set[str] = set()
+        self.screen_requests: dict[str, tuple[float, str, str]] = {}
+        self.moved: deque[str] = deque(maxlen=4)
         self.last_action = now
         self.events: list[tuple[str, str]] = []
 
@@ -67,18 +69,18 @@ class Room:
             self.vip = player.id
         return player
 
-    def request_screen(self, now: float) -> str:
+    def request_screen(self, now: float, client: str) -> str:
         self.check_open()
         self.last_action = now
         self.prune_screens(now)
-        if len(self.screen_requests) >= MAX_SCREEN_REQUESTS:
+        if len(self.screen_requests) >= MAX_SCREEN_REQUESTS or any(r[1] == client for r in self.screen_requests.values()):
             raise GameError("Too many screen requests", 429)
         sid = secrets.token_urlsafe(16)
-        self.screen_requests[sid] = now
+        self.screen_requests[sid] = (now, client, secrets.token_urlsafe(8))
         return sid
 
     def prune_screens(self, now: float):
-        self.screen_requests = {sid: t for sid, t in self.screen_requests.items() if now - t <= SCREEN_TTL}
+        self.screen_requests = {sid: r for sid, r in self.screen_requests.items() if now - r[0] <= SCREEN_TTL}
 
     def is_member(self, pid: str) -> bool:
         return pid == self.host or pid in self.players or pid in self.screen_requests or pid in self.moved
@@ -124,12 +126,12 @@ class Room:
         elif kind in ("allow_screen", "deny_screen"):
             if pid != self.vip:
                 raise GameError("Only the VIP can do that", 403)
-            sid = body.get("sid")
-            if not isinstance(sid, str) or sid not in self.screen_requests:
+            sid = next((s for s, r in self.screen_requests.items() if r[2] == body.get("handle")), None)
+            if sid is None:
                 raise GameError("That screen request expired", 404)
             del self.screen_requests[sid]
             if kind == "allow_screen":
-                self.moved.add(self.host)
+                self.moved.append(self.host)
                 self.host = sid
         elif self.phase == "playing" and self.seated(pid):
             self.game.act(pid, body, now, self.active(now))
@@ -185,7 +187,7 @@ class Room:
             fallback = self.vip if self.vip in self.players else None
             self.vip = next((pid for pid in self.players if pid in active), fallback)
         self.prune_screens(now)
-        if now - self.last_action > IDLE_CLOSE:
+        if now - self.last_action > (IDLE_CLOSE if self.players else EMPTY_CLOSE):
             self.phase = "closed"
 
     def view_for(self, pid: str, now: float) -> dict:
@@ -219,7 +221,7 @@ class Room:
             "games": [{"id": gid, "names": g.meta.names, "min": g.meta.min_players, "max": g.meta.max_players, "minutes": g.meta.minutes} for gid, g in self.games.items()],
             "settings": {"lang": self.settings.lang, "spicy": self.settings.spicy},
             "players": [{"name": p.name, "vip": p.id == self.vip, "away": not p.here(now), "waiting": p.waiting} for p in self.players.values()],
-            "screen_requests": list(self.screen_requests) if pid == self.vip else [],
+            "screen_requests": [r[2] for r in self.screen_requests.values()] if pid == self.vip else [],
             "scores": scores,
             "game": game,
         }
