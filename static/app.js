@@ -7,7 +7,7 @@ const CONFETTI = 24;
 const DIRS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
 let $app, $toast, timer, toastTimer, topEl, gameEl;
 let session = load("partygames");
-let view = null, roomLang = null, shellKey = "", pollGen = 0, busy = false, lastCount = -1, lastPhase = "";
+let view = null, roomLang = null, shellKey = "", pollGen = 0, busy = false, lastCount = -1, lastPhase = "", lastVip = null, showOptions = false;
 
 function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
 function store(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch {} }
@@ -78,7 +78,7 @@ async function send(body) {
 }
 
 function reset() {
-  view = null; shellKey = ""; topEl = gameEl = null; lastCount = -1; lastPhase = "";
+  view = null; shellKey = ""; topEl = gameEl = null; lastCount = -1; lastPhase = ""; lastVip = null; showOptions = false;
   document.body.classList.remove("tv");
 }
 
@@ -113,6 +113,9 @@ function render(v) {
   const samePhase = lastPhase === v.phase;
   lastCount = v.players.length;
   lastPhase = v.phase;
+  const vip = (v.players.find((p) => p.vip) || {}).name || null;
+  if (lastVip && vip && vip !== lastVip && !v.players.some((p) => p.name === lastVip && !p.away)) toast(t("vip_now", { name: vip }));
+  lastVip = vip;
   const playing = v.phase === "playing" && v.game;
   const key = JSON.stringify({ ...v, game: null });
   if (key !== shellKey) {
@@ -217,6 +220,21 @@ function choice(k, label, on, body) {
 }
 const group = (label, ...buttons) => h("div", { class: "group", role: "group", "aria-label": label }, h("span", { class: "label" }, label), ...buttons);
 
+function gameCard(v, lang) {
+  const i = v.games.findIndex((g) => g.id === v.game_id);
+  const g = v.games[i];
+  const flip = (d) => send({ type: "settings", game: v.games[(i + d + v.games.length) % v.games.length].id });
+  const card = h("div", { class: "game-card" }, h("strong", {}, g.names[lang] || g.id), h("p", {}, g.blurb[lang] || ""), h("small", {}, t("game_info", g)));
+  if (!v.controller || v.games.length < 2) return h("div", { class: "flip" }, card);
+  return h("div", { class: "flip" },
+    button("◀", () => flip(-1), { class: "arrow", "aria-label": t("prev_game"), "data-k": "game-prev" }),
+    card,
+    button("▶", () => flip(1), { class: "arrow", "aria-label": t("next_game"), "data-k": "game-next" }));
+}
+
+const optionGroups = (v, lang) => v.options.map((o) => group(o.names[lang] || o.key,
+  ...o.choices.map((c) => choice("opt-" + o.key + "-" + c.value, c.names[lang] || String(c.value), c.value === o.value, { option: { [o.key]: c.value } }))));
+
 function startBlock(v) {
   const g = currentGame(v);
   const can = ready(v) >= g.min;
@@ -228,7 +246,6 @@ function startBlock(v) {
 
 function hostLobby(v) {
   const s = v.settings;
-  const gameLabel = (g) => [h("span", {}, g.names[s.lang] || g.id), h("small", {}, t("game_info", g))];
   return h("div", { class: "lobby" },
     h("section", { class: "join-side" },
       h("div", { class: "qr-card" }, qr(v.code), h("p", {}, t("scan"))),
@@ -240,22 +257,25 @@ function hostLobby(v) {
       h("div", { class: "settings" },
         group(t("language"), choice("lang-ro", "RO", s.lang === "ro", { lang: "ro" }), choice("lang-en", "EN", s.lang === "en", { lang: "en" })),
         group(t("mode"), choice("family", t("family"), !s.spicy, { spicy: false }), choice("spicy", t("spicy"), s.spicy, { spicy: true })),
-        group(t("game"), v.games.length > 1
-          ? v.games.map((g) => choice("game-" + g.id, gameLabel(g), g.id === v.game_id, { game: g.id }))
-          : h("span", { class: "solo" }, gameLabel(v.games[0])))),
+        gameCard(v, s.lang),
+        ...optionGroups(v, s.lang)),
       h("div", { class: "go" }, startBlock(v))),
     h("header", { class: "lobby-top" }, logo(), muteButton()));
 }
+
+const toggleOptions = () => button(t(showOptions ? "options_hide" : "options"), () => { showOptions = !showOptions; shellKey = ""; render(view); }, { class: "ghost", "data-k": "options" });
 
 function phoneLobby(v) {
   return h("div", { class: "phone-lobby" },
     logo(),
     ticket(v.code),
-    stickers(v.players),
+    showOptions && v.vip ? null : stickers(v.players),
     v.vip
-      ? h("div", { class: "card vip-card" }, h("h2", {}, t("vip_you")), h("p", {}, t("vip_hint")), startBlock(v),
-          button(t("end"), () => send({ type: "end" }), { class: "ghost", "data-k": "end" }))
-      : h("p", { class: "wait" }, t("wait_vip")),
+      ? h("div", { class: "card vip-card" }, ...(showOptions
+          ? [h("div", { class: "settings" }, ...optionGroups(v, v.settings.lang)), toggleOptions(v)]
+          : [h("h2", {}, t("vip_you")), gameCard(v, v.settings.lang), v.options.length ? toggleOptions(v) : null, startBlock(v),
+             button(t("end"), () => send({ type: "end" }), { class: "ghost", "data-k": "end" })]))
+      : h("div", { class: "wait-box" }, gameCard(v, v.settings.lang), h("p", { class: "wait" }, t("wait_vip"))),
     shareBox(v.code));
 }
 

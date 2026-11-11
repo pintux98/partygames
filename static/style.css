@@ -200,8 +200,12 @@ body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .settings { display: flex; flex-direction: column; gap: 1.6vh; }
 .group { display: flex; align-items: center; flex-wrap: wrap; gap: .7em; }
 .group .label { min-width: 5.5em; font-weight: 700; }
-.solo { font-weight: 700; }
-.solo small { display: block; font-size: .75em; font-weight: 500; }
+.flip { display: flex; align-items: stretch; gap: .6em; }
+.flip .arrow { flex: none; font-size: 1.2em; padding: 0 .6em; background: var(--card); color: var(--ink); }
+.game-card { flex: 1; min-width: 0; background: var(--card); border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--blue); padding: .5em .8em; transform: rotate(-.5deg); }
+.game-card strong { display: block; font-family: var(--display); font-size: 1.3em; font-weight: 400; }
+.game-card p { margin: .15em 0; font-size: .85em; }
+.game-card small { font-size: .75em; font-weight: 700; }
 .go { display: flex; align-items: center; gap: 1.2em; }
 .go .hint { flex: 1; text-align: left; font-weight: 700; }
 
@@ -217,6 +221,9 @@ body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .phone-lobby .share button { font-size: 1em; padding: .45em .9em; }
 .vip-card { display: flex; flex-wrap: wrap; gap: .7em; box-shadow: 6px 6px 0 var(--blue); }
 .vip-card > * { flex: 1 1 100%; }
+.vip-card .group { gap: .4em; }
+.vip-card .group .label { flex: 1 1 100%; min-width: 0; }
+.vip-card .pill { padding: .35em .7em; }
 .vip-card > button { flex: 1 1 auto; font-size: 1.15em; }
 .vip-card > button.ghost { flex: none; font-size: 1em; }
 .vip-card .hint { order: 1; }

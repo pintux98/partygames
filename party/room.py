@@ -39,7 +39,7 @@ class Room:
         self.players: dict[str, Player] = {}
         self.vip: str | None = None
         self.game_id = next(iter(games))
-        self.settings = Settings()
+        self.settings = Settings(options=self.defaults(self.game_id))
         self.game: Game | None = None
         self.seats: list[Seat] = []
         self.last_scores: dict[str, int] = {}
@@ -48,6 +48,9 @@ class Room:
         self.moved: deque[str] = deque(maxlen=4)
         self.last_action = now
         self.events: list[tuple[str, str]] = []
+
+    def defaults(self, game_id: str) -> dict:
+        return {o.key: o.default for o in self.games[game_id].meta.options}
 
     def check_open(self):
         if self.phase == "closed":
@@ -152,9 +155,21 @@ class Room:
             raise GameError("Bad spicy setting", 400)
         if not isinstance(game_id, str) or game_id not in self.games:
             raise GameError("Unknown game", 400)
+        options = self.defaults(game_id) if game_id != self.game_id else dict(self.settings.options)
+        changes = body.get("option", {})
+        if not isinstance(changes, dict):
+            raise GameError("Bad option", 400)
+        allowed = {o.key: [v for v, _ in o.choices] for o in self.games[game_id].meta.options}
+        for key, value in changes.items():
+            if key not in allowed:
+                raise GameError("Unknown option", 400)
+            if not any(type(value) is type(v) and value == v for v in allowed[key]):
+                raise GameError("Bad option", 400)
+            options[key] = value
         self.settings.lang = lang
         self.settings.spicy = spicy
         self.game_id = game_id
+        self.settings.options = options
 
     def start(self, now: float):
         self.need("lobby")
@@ -218,7 +233,9 @@ class Room:
             "vip": pid == self.vip,
             "controller": pid in (self.host, self.vip),
             "game_id": self.game_id,
-            "games": [{"id": gid, "names": g.meta.names, "min": g.meta.min_players, "max": g.meta.max_players, "minutes": g.meta.minutes} for gid, g in self.games.items()],
+            "games": [{"id": gid, "names": g.meta.names, "blurb": g.meta.blurb, "min": g.meta.min_players, "max": g.meta.max_players, "minutes": g.meta.minutes} for gid, g in self.games.items()],
+            "options": [{"key": o.key, "names": o.names, "value": self.settings.options.get(o.key, o.default),
+                         "choices": [{"value": v, "names": n} for v, n in o.choices]} for o in self.games[self.game_id].meta.options],
             "settings": {"lang": self.settings.lang, "spicy": self.settings.spicy},
             "players": [{"name": p.name, "vip": p.id == self.vip, "away": not p.here(now), "waiting": p.waiting} for p in self.players.values()],
             "screen_requests": [r[2] for r in self.screen_requests.values()] if pid == self.vip else [],

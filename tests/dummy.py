@@ -1,4 +1,4 @@
-from party.common import GameMeta
+from party.common import GameMeta, GameOption
 
 
 class Dummy:
@@ -31,6 +31,11 @@ class Dummy:
 
     def scores(self):
         return dict(self.points)
+
+
+class Optioned(Dummy):
+    meta = GameMeta("opt", {"ro": "Optiuni", "en": "Options"}, 3, 16, "1",
+                    options=(GameOption("x", {"ro": "X", "en": "X"}, ((1, {"ro": "1", "en": "1"}), (2, {"ro": "2", "en": "2"})), 1),))
 
 
 GAMES = {"dummy": Dummy}

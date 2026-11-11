@@ -10,9 +10,9 @@ from party.room import Room
 PACKS = {"en": {"family": {"round": ["r1", "r2", "r3", "r4"], "final": ["f1"]}, "spicy": {"round": ["s1"], "final": ["sf"]}}}
 
 
-def make(n, seed=1, packs=PACKS):
+def make(n, seed=1, packs=PACKS, options=None):
     rng = random.Random(seed)
-    settings = Settings(lang="en")
+    settings = Settings(lang="en", options=options or {})
     seats = [Seat("p%d" % i, chr(65 + i)) for i in range(n)]
     game = Bravo(Context(seats, settings, rng, Deck(packs, settings, rng, set()), 0))
     return game, {s.pid for s in seats}
@@ -29,6 +29,13 @@ def pairs(game):
 
 
 class BravoTests(unittest.TestCase):
+    def test_answer_time_option(self):
+        game, everyone = make(3, options={"answer_time": 45, "vote_time": 15})
+        self.assertEqual(game.deadline, 45)
+        answer_all(game, everyone, 1)
+        game.tick(1, everyone)
+        self.assertEqual((game.phase, game.deadline), ("vote", 16))
+
     def fails(self, status, game, pid, body, now, active):
         with self.assertRaises(GameError) as caught:
             game.act(pid, body, now, active)

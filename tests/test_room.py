@@ -4,7 +4,8 @@ import unittest
 
 from party.common import GameError
 from party.room import MAX_PLAYERS, Room
-from dummy import GAMES
+from dummy import GAMES, Dummy, Optioned
+from games import GAMES as REAL
 
 NAMES = ["Ana", "Bob", "Cara"] + ["P%d" % i for i in range(3, MAX_PLAYERS)]
 START = {"type": "start"}
@@ -16,6 +17,40 @@ def room_with(n, now=0):
 
 
 class RoomTests(unittest.TestCase):
+    def test_options_default_and_change(self):
+        room = Room("ABCDEF", 0, REAL, random.Random(1))
+        ana = room.join("Ana", 0)
+        self.assertEqual(room.settings.options, {"answer_time": 75, "vote_time": 20})
+        room.action(ana.id, {"type": "settings", "option": {"answer_time": 60}}, 0)
+        self.assertEqual(room.settings.options["answer_time"], 60)
+        opts = room.view_for(ana.id, 0)["options"]
+        self.assertEqual((opts[0]["key"], opts[0]["value"]), ("answer_time", 60))
+        self.assertIn({"value": 45, "names": {"ro": "45 s", "en": "45 s"}}, opts[0]["choices"])
+
+    def test_option_validation(self):
+        room = Room("ABCDEF", 0, REAL, random.Random(1))
+        ana = room.join("Ana", 0)
+        act = lambda option: room.action(ana.id, {"type": "settings", "option": option}, 0)
+        self.assertEqual(self.fails(400, act, {"answer_time": 61}), "Bad option")
+        self.assertEqual(self.fails(400, act, {"nope": 1}), "Unknown option")
+        self.assertEqual(self.fails(400, act, {"answer_time": True}), "Bad option")
+        self.fails(400, act, [1])
+        room.join("Bob", 0)
+        room.join("Cara", 0)
+        room.action(ana.id, START, 0)
+        self.fails(409, act, {"answer_time": 60})
+
+    def test_game_change_resets_options(self):
+        room = Room("ABCDEF", 0, {"opt": Optioned, "dummy": Dummy}, random.Random(1))
+        ana = room.join("Ana", 0)
+        self.assertEqual(room.settings.options, {"x": 1})
+        room.action(ana.id, {"type": "settings", "option": {"x": 2}}, 0)
+        room.action(ana.id, {"type": "settings", "game": "dummy"}, 0)
+        self.assertEqual(room.settings.options, {})
+        room.action(ana.id, {"type": "settings", "game": "opt"}, 0)
+        self.assertEqual(room.settings.options, {"x": 1})
+        self.assertEqual(room.view_for(ana.id, 0)["games"][0]["blurb"], {})
+
     def fails(self, status, fn, *args):
         with self.assertRaises(GameError) as caught:
             fn(*args)

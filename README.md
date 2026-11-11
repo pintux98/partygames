@@ -69,7 +69,7 @@ games/<id>/
 
 **`rules.py`** holds a class that follows the `Game` protocol from `party/common.py`:
 
-- `meta`: a `GameMeta(id, names, min_players, max_players, minutes)`, for example `GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25")`
+- `meta`: a `GameMeta(id, names, min_players, max_players, minutes)`, for example `GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25")`. Optional: `blurb` (one line per language for the lobby card) and `options`, a tuple of `GameOption(key, names, choices, default)` where `choices` is a tuple of `(value, {"ro": label, "en": label})`. The VIP picks options in the lobby; the game reads them from `ctx.settings.options`.
 - `packs`: the content, loaded with `load_packs(Path(__file__).parent / "content")`
 - `finished`: set to `True` when the game is over
 - `__init__(ctx)`: `ctx` is a `Context` with `seats`, `settings` (`lang`, `spicy`), `rng`, `deck` and `now`

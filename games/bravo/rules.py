@@ -1,10 +1,8 @@
 from pathlib import Path
 
-from party.common import Context, GameError, GameMeta, clean_line
+from party.common import Context, GameError, GameMeta, GameOption, clean_line
 from party.deck import load_packs
 
-ANSWER_TIME = 75
-VOTE_TIME = 20
 REVEAL_TIME = 6
 EMPTY_TIME = 3
 SCORES_TIME = 8
@@ -20,12 +18,21 @@ TYPING = ("answer", "final_answer")
 WAITING = ("answer", "vote", "final_answer", "final_vote")
 
 
+def seconds(key, names, values, default):
+    return GameOption(key, names, tuple((v, {"ro": "%d s" % v, "en": "%d s" % v}) for v in values), default)
+
+
 class Bravo:
-    meta = GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25")
+    meta = GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25",
+                    blurb={"ro": "Raspunsuri amuzante fata in fata, sala aplauda", "en": "Funny answers go head to head, the room claps"},
+                    options=(seconds("answer_time", {"ro": "Timp de raspuns", "en": "Answer time"}, (45, 60, 75, 90, 120), 75),
+                             seconds("vote_time", {"ro": "Timp de vot", "en": "Vote time"}, (15, 20, 30, 45), 20)))
     packs = load_packs(Path(__file__).parent / "content")
 
     def __init__(self, ctx: Context):
         self.ctx = ctx
+        options = {o.key: o.default for o in self.meta.options} | ctx.settings.options
+        self.answer_time, self.vote_time = options["answer_time"], options["vote_time"]
         self.names = {s.pid: s.name for s in ctx.seats}
         self.points = dict.fromkeys(self.names, 0)
         self.finished = False
@@ -46,14 +53,14 @@ class Bravo:
         self.ctx.rng.shuffle(pairs)
         self.prompts = [{"text": self.fill("round", pair), "authors": pair, "answers": [None, None]} for pair in pairs]
         self.idx = -1
-        self.go("answer", now, ANSWER_TIME)
+        self.go("answer", now, self.answer_time)
 
     def start_final(self, now):
         self.round = "final"
         authors = list(self.names)
         self.prompts = [{"text": self.fill("final", []), "authors": authors, "answers": [None] * len(authors)}]
         self.idx = 0
-        self.go("final_answer", now, ANSWER_TIME)
+        self.go("final_answer", now, self.answer_time)
 
     def answered(self, pid):
         return all(p["answers"][p["authors"].index(pid)] is not None for p in self.prompts if pid in p["authors"])
@@ -90,7 +97,7 @@ class Bravo:
             self.order = [pid for pid, text in zip(self.prompts[0]["authors"], answers) if text is not None]
             self.ctx.rng.shuffle(self.order)
             self.claps, self.spent = [0] * len(self.order), {}
-            self.go("final_vote", now, VOTE_TIME)
+            self.go("final_vote", now, self.vote_time)
         elif self.phase == "final_vote":
             self.gained = [n * FINAL_CLAP_POINTS for n in self.claps]
             for pid, gain in zip(self.order, self.gained):
@@ -109,7 +116,7 @@ class Bravo:
         self.walkover = any(given) and not all(given)
         if all(given):
             self.voters = set(active) & set(self.names) - set(prompt["authors"])
-            return self.go("vote", now, VOTE_TIME)
+            return self.go("vote", now, self.vote_time)
         self.award([WALKOVER_POINTS * self.round * g for g in given], now, REVEAL_TIME if self.walkover else EMPTY_TIME)
 
     def reveal(self, now):

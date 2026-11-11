@@ -1,6 +1,6 @@
 import random
 import unicodedata
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, ClassVar, Protocol
 
 if TYPE_CHECKING:
@@ -24,6 +24,7 @@ def clean_line(value, limit: int) -> str:
 class Settings:
     lang: str = "en"
     spicy: bool = False
+    options: dict = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -42,12 +43,23 @@ class Context:
 
 
 @dataclass(frozen=True)
+class GameOption:
+    key: str
+    names: dict[str, str]
+    choices: tuple
+    default: object
+
+
+@dataclass(frozen=True)
 class GameMeta:
     id: str
     names: dict[str, str]
     min_players: int
     max_players: int
     minutes: str
+    blurb: dict = field(default_factory=dict)
+    options: tuple = ()
+    upload_max: int = 0
 
 
 class Game(Protocol):
