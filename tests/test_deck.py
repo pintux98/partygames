@@ -33,3 +33,10 @@ class DeckTests(unittest.TestCase):
             for lang in ("en", "ro"):
                 Path(folder, lang + ".json").write_text(json.dumps({"family": {}}))
             self.assertEqual(set(load_packs(Path(folder))), {"en", "ro"})
+
+
+class ListItems(unittest.TestCase):
+    def test_list_items(self):
+        packs = {"en": {"family": {"words": [["a", "b", "c"], ["d", "e", "f"]]}, "spicy": {"words": []}}}
+        deck = Deck(packs, Settings(lang="en"), random.Random(1), set())
+        self.assertEqual(sorted([deck.draw("words"), deck.draw("words")]), [["a", "b", "c"], ["d", "e", "f"]])

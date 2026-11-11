@@ -1,0 +1,67 @@
+{
+  "family": {
+    "words": [
+      [
+        "bicicleta",
+        "motocicleta",
+        "transport"
+      ],
+      [
+        "autobuz",
+        "tramvai",
+        "transport"
+      ],
+      [
+        "masina",
+        "duba",
+        "transport"
+      ],
+      [
+        "barca",
+        "pluta",
+        "transport"
+      ],
+      [
+        "avion",
+        "zmeu",
+        "transport"
+      ],
+      [
+        "tren",
+        "metrou",
+        "transport"
+      ],
+      [
+        "pisica",
+        "caine",
+        "animal"
+      ],
+      [
+        "vaca",
+        "cal",
+        "animal"
+      ]
+    ],
+    "twists": [
+      "Deseneaza-l de sus",
+      "Doar 5 linii",
+      "Deseneaza cu cealalta mana",
+      "Deseneaza-l ca bebelus"
+    ]
+  },
+  "spicy": {
+    "words": [
+      [
+        "pat",
+        "canapea",
+        "casa"
+      ],
+      [
+        "sarut",
+        "imbratisare",
+        "iubire"
+      ]
+    ],
+    "twists": []
+  }
+}

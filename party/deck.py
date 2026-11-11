@@ -21,10 +21,11 @@ class Deck:
         pool = list(modes["family"][tag])
         if self.settings.spicy:
             pool += modes["spicy"][tag]
-        fresh = [p for p in pool if p not in self.used]
+        key = lambda p: p if isinstance(p, str) else tuple(p)
+        fresh = [p for p in pool if key(p) not in self.used]
         if not fresh:
-            self.used.difference_update(pool)
+            self.used.difference_update(map(key, pool))
             fresh = pool
         pick = self.rng.choice(fresh)
-        self.used.add(pick)
+        self.used.add(key(pick))
         return pick

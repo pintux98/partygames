@@ -1,0 +1,67 @@
+{
+  "family": {
+    "words": [
+      [
+        "bicycle",
+        "motorcycle",
+        "transport"
+      ],
+      [
+        "bus",
+        "tram",
+        "transport"
+      ],
+      [
+        "car",
+        "van",
+        "transport"
+      ],
+      [
+        "boat",
+        "raft",
+        "transport"
+      ],
+      [
+        "plane",
+        "kite",
+        "transport"
+      ],
+      [
+        "train",
+        "metro",
+        "transport"
+      ],
+      [
+        "cat",
+        "dog",
+        "animal"
+      ],
+      [
+        "cow",
+        "horse",
+        "animal"
+      ]
+    ],
+    "twists": [
+      "Draw it from above",
+      "Only 5 lines",
+      "Draw it with your other hand",
+      "Draw it as a baby"
+    ]
+  },
+  "spicy": {
+    "words": [
+      [
+        "bed",
+        "sofa",
+        "home"
+      ],
+      [
+        "kiss",
+        "hug",
+        "love"
+      ]
+    ],
+    "twists": []
+  }
+}
