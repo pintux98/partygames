@@ -15,7 +15,7 @@ body:not(.tv) .fo-clock { font-size: 1.8em; }
 
 .fo-title { text-align: center; font-size: 2.4em; margin-top: auto; }
 .fo-foot { text-align: center; font-weight: 700; }
-.fo-prompt { font-size: 1.85em; font-weight: 700; line-height: 1.15; text-align: center; max-width: 34em; margin: 0 auto; }
+.fo-prompt { font-size: 1.85em; font-weight: 700; line-height: 1.15; text-align: center; text-wrap: balance; max-width: 34em; margin: 0 auto; }
 .fo-prompt.fo-small { font-size: 1.6em; }
 .fo-names { justify-content: center; margin-bottom: auto; }
 .fo-names .sticker { background: var(--card); color: var(--ink); }
@@ -57,7 +57,7 @@ body:not(.tv) .fo-clock { font-size: 1.8em; }
 .fo-phone { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: .8em; }
 .fo-step { font-weight: 700; }
 .fo-ask small { display: block; margin-bottom: .3em; font-size: .65em; text-transform: uppercase; letter-spacing: .06em; }
-.fo-ask { padding: .7em .9em; background: var(--card); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--pink); font-size: 1.25em; font-weight: 700; line-height: 1.2; transform: rotate(-1deg); }
+.fo-ask { padding: .7em .9em; background: var(--card); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--pink); font-size: 1.25em; font-weight: 700; line-height: 1.2; text-wrap: balance; transform: rotate(-1deg); }
 .fo-write { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto 1fr; gap: .5em .7em; }
 .fo-write .fo-area { grid-row: 1 / 3; }
 .fo-write button { padding: .65em .8em; font-size: 1.05em; }

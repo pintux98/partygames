@@ -169,7 +169,7 @@ input {
 
 .home, .message { width: 100%; max-width: 30em; margin: 0 auto; display: flex; flex-direction: column; gap: 1em; }
 .message { text-align: center; margin: auto; align-items: center; }
-.home h1, .tagline { text-align: center; text-wrap: balance; }
+.home h1, .tagline, .message h1 { text-align: center; text-wrap: balance; }
 .tagline { font-weight: 700; }
 .join { display: flex; flex-direction: column; gap: .55em; }
 .join button { margin-top: .5em; }
@@ -179,11 +179,12 @@ body.tv .home { margin: auto; }
 body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .hint { font-size: .9em; text-align: center; }
 
-.lobby { display: grid; grid-template-columns: 38fr 62fr; grid-template-rows: auto minmax(0, 1fr); gap: 2vh 4vw; height: 100%; }
-.lobby-top { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 1em; }
+.lobby { display: grid; grid-template-columns: 38fr 62fr; grid-template-rows: auto minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 4vw; height: 100%; }
+.lobby > section { grid-row: 3; }
+.lobby-top { grid-row: 1; grid-column: 1 / -1; margin-bottom: 2vh; display: flex; align-items: center; justify-content: space-between; gap: 1em; }
 .lobby-top .logo { font-size: 2.2em; align-self: center; }
 .lobby-top .mute { font-size: .95em; }
-.join-side { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3vh; min-height: 0; }
+.join-side { display: flex; flex-direction: column; align-items: center; gap: 3vh; min-height: 0; }
 .join-side .ticket { transform: rotate(2deg); }
 .qr-card { background: var(--card); border: 3px solid var(--ink); box-shadow: 8px 8px 0 var(--blue); padding: 1.6vh; text-align: center; font-weight: 700; }
 .qr { display: block; width: 32vh; height: 32vh; image-rendering: pixelated; margin-bottom: .8vh; }
@@ -192,13 +193,15 @@ body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .join-side .share { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: .6em 1em; }
 .join-side .share button { font-size: 1em; }
 
-.room-side { display: flex; flex-direction: column; gap: 2.4vh; min-height: 0; justify-content: center; }
+.room-side { display: flex; flex-direction: column; gap: 2.4vh; min-height: 0; }
 .head { display: flex; align-items: baseline; justify-content: space-between; }
 .count { font-family: var(--display); font-size: 1.3em; }
 .room-side .stickers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; }
 .settings { display: flex; flex-direction: column; gap: 1.6vh; }
 .group { display: flex; align-items: center; flex-wrap: wrap; gap: .7em; }
 .group .label { min-width: 5.5em; font-weight: 700; }
+.solo { font-weight: 700; }
+.solo small { display: block; font-size: .75em; font-weight: 500; }
 .go { display: flex; align-items: center; gap: 1.2em; }
 .go .hint { flex: 1; text-align: left; font-weight: 700; }
 
@@ -273,7 +276,7 @@ body:not(.tv) .ranking li::before { min-width: 1.2em; }
   width: .6em;
   height: 1.1em;
   background: var(--pink);
-  animation: fall 3.2s linear calc(var(--i) * -.29s) 3 forwards;
+  animation: fall 3.2s linear calc(var(--i) * -.29s) 1 forwards;
 }
 .confetti i:nth-child(3n) { background: var(--blue); animation-duration: 2.6s; }
 .confetti i:nth-child(3n+1) { background: var(--ink); width: .9em; height: .5em; animation-duration: 3.8s; }

@@ -163,7 +163,7 @@ const logo = (size = "") => h("div", { class: "logo " + size }, "GALAGIE!");
 const ticket = (code) => h("div", { class: "ticket" }, h("span", { class: "label" }, t("code")), h("b", {}, code));
 const button = (label, onclick, attrs = {}) => h("button", { type: "button", onclick, ...attrs }, label);
 const message = (title, text, ...extra) => h("div", { class: "message" }, logo("big"), h("h1", {}, t(title)), h("p", {}, t(text)), ...extra);
-const homeButton = () => button(t("home"), () => homeScreen(), { class: "ghost", "data-k": "home" });
+const homeButton = () => button(t("home"), () => homeScreen(), { class: "ghost", "data-k": "home", "data-auto": true });
 
 function screen(v) {
   if (v.role === "screen_pending") return message("pending_title", "pending_text", ticket(v.code));
@@ -228,8 +228,8 @@ function startBlock(v) {
 
 function hostLobby(v) {
   const s = v.settings;
+  const gameLabel = (g) => [h("span", {}, g.names[s.lang] || g.id), h("small", {}, t("game_info", g))];
   return h("div", { class: "lobby" },
-    h("header", { class: "lobby-top" }, logo(), muteButton()),
     h("section", { class: "join-side" },
       h("div", { class: "qr-card" }, qr(v.code), h("p", {}, t("scan"))),
       ticket(v.code),
@@ -240,9 +240,11 @@ function hostLobby(v) {
       h("div", { class: "settings" },
         group(t("language"), choice("lang-ro", "RO", s.lang === "ro", { lang: "ro" }), choice("lang-en", "EN", s.lang === "en", { lang: "en" })),
         group(t("mode"), choice("family", t("family"), !s.spicy, { spicy: false }), choice("spicy", t("spicy"), s.spicy, { spicy: true })),
-        group(t("game"), v.games.map((g) => choice("game-" + g.id,
-          [h("span", {}, g.names[s.lang] || g.id), h("small", {}, t("game_info", g))], g.id === v.game_id, { game: g.id })))),
-      h("div", { class: "go" }, startBlock(v))));
+        group(t("game"), v.games.length > 1
+          ? v.games.map((g) => choice("game-" + g.id, gameLabel(g), g.id === v.game_id, { game: g.id }))
+          : h("span", { class: "solo" }, gameLabel(v.games[0])))),
+      h("div", { class: "go" }, startBlock(v))),
+    h("header", { class: "lobby-top" }, logo(), muteButton()));
 }
 
 function phoneLobby(v) {
@@ -327,6 +329,7 @@ function moved() {
   stop();
   history.replaceState(null, "", "/");
   show(message("moved_title", "moved_text", homeButton()));
+  refocus(null);
 }
 
 function codeInput(code) {
@@ -411,7 +414,8 @@ function arrows(e) {
     const lead = x ? (x > 0 ? b.left - a.right : a.left - b.right) : (y > 0 ? b.top - a.bottom : a.top - b.bottom);
     const side = x ? Math.max(0, b.top - a.bottom, a.top - b.bottom) : Math.max(0, b.left - a.right, a.left - b.right);
     const drift = x ? b.top + b.bottom - a.top - a.bottom : b.left + b.right - a.left - a.right;
-    if (el === cur || lead < -8) continue;
+    const far = x ? (x > 0 ? b.right - a.right : a.left - b.left) : (y > 0 ? b.bottom - a.bottom : a.top - b.top);
+    if (el === cur || lead < -8 || far <= 0 || (x && side)) continue;
     const score = Math.max(0, lead) + 2 * side + Math.abs(drift) / 4;
     if (score < bestScore) { bestScore = score; best = el; }
   }
