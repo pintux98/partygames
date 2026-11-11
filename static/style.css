@@ -197,10 +197,19 @@ body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .head { display: flex; align-items: baseline; justify-content: space-between; }
 .count { font-family: var(--display); font-size: 1.3em; }
 .room-side .stickers { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; }
+.room-side { gap: 1.8vh; }
+.room-side .sticker { padding-top: .35em; padding-bottom: .35em; }
+.room-side .game-card { padding: .35em .8em; }
+.room-side .game-card p { margin: 0; }
 .settings { display: flex; flex-direction: column; gap: 1.6vh; }
 .group { display: flex; align-items: center; flex-wrap: wrap; gap: .7em; }
 .group .label { min-width: 5.5em; font-weight: 700; }
 .flip { display: flex; align-items: stretch; gap: .6em; }
+.opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2vh 2vw; align-items: start; }
+.opts .group { align-content: flex-start; }
+.opts .group { gap: .4em; }
+.opts .group .label { flex: 1 1 100%; min-width: 0; }
+.opts .pill { padding: .35em .7em; }
 .flip .arrow { flex: none; font-size: 1.2em; padding: 0 .6em; background: var(--card); color: var(--ink); }
 .game-card { flex: 1; min-width: 0; background: var(--card); border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--blue); padding: .5em .8em; transform: rotate(-.5deg); }
 .game-card strong { display: block; font-family: var(--display); font-size: 1.3em; font-weight: 400; }

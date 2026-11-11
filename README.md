@@ -2,9 +2,12 @@
 
 Party games for a room full of friends. One screen (a TV or a laptop) shows the game, everyone else plays on their phone. No accounts, no app to install: scan the QR code, type a nickname and play.
 
-The first game is **Bravo!**: everyone answers silly prompts on their phone, answers meet head to head, and the room votes with claps.
+Two games so far:
 
-- 3 to 16 players, the first player to join is the VIP and starts the games
+- **Bravo!** (3 to 16 players): everyone answers silly prompts on their phone, answers meet head to head, and the room votes with claps.
+- **Impostor** (4 to 16 players): everyone draws the same secret word on their phone, with a new twist each round, except the impostors, who have a different word (or, in the "Impostor knows" variant, only its category). All drawings show on the TV and the room votes someone out, round after round, until the impostors are caught or win.
+
+- The first player to join is the VIP and starts the games; the game, its variant and its timers are picked in the lobby
 - English by default, Romanian can be picked in the lobby; Family and Spicy modes
 - Python standard library only, plain HTML, CSS and JS, no database, no build step
 
@@ -12,7 +15,7 @@ The first game is **Bravo!**: everyone answers silly prompts on their phone, ans
 
 1. On the big screen, open the site and tap **New party**. That device becomes the host screen. A TV browser works, and the TV can be driven with arrow keys and Enter.
 2. Players join with the QR code, the 6-character room code or the share link, and pick a nickname.
-3. The VIP chooses language, mode and game, then starts.
+3. The VIP chooses language, mode, game and the game's options, then starts. After a game, Play again returns to the lobby, where another game can be picked.
 
 Rooms live in memory, so a restart closes any open rooms.
 
@@ -98,12 +101,20 @@ Use `ctx.deck.draw(tag)` to draw a prompt that was not used yet in the room. Use
 G.register("<id>", { host(el, game, ctx) {}, phone(el, game, ctx) {} });
 ```
 
-`ctx` has `code`, `lang`, `send(body)` (posts an action to `act`), `sound`, `t({ en, ro })`, `me`, `vip`, `controller`, `players`. Build the DOM with `textContent` only: the CSP forbids inline scripts and styles.
+`ctx` has `code`, `pid`, `lang`, `send(body)` (posts an action to `act`), `sound`, `t({ en, ro })`, `me`, `vip`, `controller`, `players`. Build the DOM with `textContent` only: the CSP forbids inline scripts and styles.
+
+Optional extras a game can use:
+
+- `GameMeta(..., upload_max=48000)` lets `/action` bodies grow to that size for this app (default limit 2048 bytes), for example to send a drawing.
+- `file(pid, name)` returns bytes for `GET /api/rooms/<code>/files/<name>.png` (members only, PNG only), or `None` for 404. Fetch it with the `X-Player` header and show it through a blob URL.
+- `label`: a short string (for example the variant) added as `mode="..."` to the games started/finished metrics.
+
+Content entries may also be lists (for example `["word", "decoy", "category"]`); `draw(tag)` returns them as they are.
 
 **Registry**: add the class to the tuple in `games/__init__.py`:
 
 ```python
-GAMES = {g.meta.id: g for g in (Bravo, YourGame)}
+GAMES = {g.meta.id: g for g in (Bravo, Impostor, YourGame)}
 ```
 
 A game needs both `view.js` and `view.css` in its folder; they are served with versioned URLs.

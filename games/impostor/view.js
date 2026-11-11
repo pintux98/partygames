@@ -176,7 +176,7 @@
   function hostBody(ctx, game) {
     if (game.phase === "over") return ending(ctx, game.over);
     const twist = text("im-twist", game.twist);
-    if (game.phase === "draw") return [head(ctx, game), twist, h("h1", "im-title", say(ctx, "draw_tv")), chips(game)];
+    if (game.phase === "draw") return [head(ctx, game), h("div", "im-center", twist, h("h1", "im-title", say(ctx, "draw_tv")), chips(game))];
     return [head(ctx, game), twist, verdict(ctx, game) || text("im-foot", say(ctx, "vote_tv")), grid(ctx, game)];
   }
 

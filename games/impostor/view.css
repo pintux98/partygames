@@ -7,10 +7,11 @@
 .im-clock.im-low { color: var(--ink); text-shadow: .06em .06em 0 var(--pink); }
 .im-hurry { margin: 0; padding: .3em .9em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); text-align: center; }
 
-.im-twist { margin: 0; text-align: center; font-family: var(--display); font-size: 2.2em; line-height: 1.1; color: var(--blue); text-wrap: balance; }
-.im-title { text-align: center; font-size: 1.6em; margin: auto 0 0; }
+.im-twist { margin: 0; text-align: center; text-transform: uppercase; font-family: var(--display); font-size: 2.2em; line-height: 1.1; color: var(--blue); text-wrap: balance; }
+.im-center { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: 3vh; }
+.im-title { text-align: center; font-size: 1.6em; margin: 0; }
 .im-foot { margin: 0; text-align: center; font-weight: 700; }
-.im-chips { justify-content: center; margin-bottom: auto; }
+.im-chips { justify-content: center; }
 .im-chips .sticker { background: var(--card); color: var(--ink); }
 .im-chips .sticker.im-ok { background: var(--pink); color: #fff; }
 .im-chips .sticker.im-gone { opacity: .35; }
@@ -19,7 +20,7 @@
 .im-verdict.im-imp { color: var(--pink); text-shadow: .05em .05em 0 var(--ink); }
 .im-grid { flex: 1; min-height: 0; margin: 0; padding: 0 0 1.4em; list-style: none; display: grid; gap: 2.4em 1.2vw;
   grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); grid-template-rows: repeat(var(--rows), minmax(0, 1fr)); }
-.im-tile { position: relative; min-height: 0; display: flex; align-items: center; justify-content: center; background: var(--card); border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+.im-tile { position: relative; min-height: 0; height: 100%; max-width: 100%; aspect-ratio: 1; justify-self: center; display: flex; align-items: center; justify-content: center; background: var(--card); border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); }
 .im-tile:nth-child(odd) { transform: rotate(-1deg); }
 .im-tile:nth-child(even) { transform: rotate(1deg); }
 .im-tile img { width: 100%; height: 100%; object-fit: contain; }

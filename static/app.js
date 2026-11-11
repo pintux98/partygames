@@ -251,16 +251,17 @@ function hostLobby(v) {
     h("section", { class: "join-side" },
       h("div", { class: "qr-card" }, qr(v.code), h("p", {}, t("scan"))),
       ticket(v.code),
-      shareBox(v.code)),
+      shareBox(v.code),
+      h("div", { class: "go" }, startBlock(v))),
     h("section", { class: "room-side" },
       h("div", { class: "head" }, h("h2", {}, t("players")), h("span", { class: "count" }, t("count", { n: v.players.length }))),
       stickers(v.players),
       h("div", { class: "settings" },
-        group(t("language"), choice("lang-ro", "RO", s.lang === "ro", { lang: "ro" }), choice("lang-en", "EN", s.lang === "en", { lang: "en" })),
-        group(t("mode"), choice("family", t("family"), !s.spicy, { spicy: false }), choice("spicy", t("spicy"), s.spicy, { spicy: true })),
+        h("div", { class: "opts" },
+          group(t("language"), choice("lang-ro", "RO", s.lang === "ro", { lang: "ro" }), choice("lang-en", "EN", s.lang === "en", { lang: "en" })),
+          group(t("mode"), choice("family", t("family"), !s.spicy, { spicy: false }), choice("spicy", t("spicy"), s.spicy, { spicy: true }))),
         gameCard(v, s.lang),
-        ...optionGroups(v, s.lang)),
-      h("div", { class: "go" }, startBlock(v))),
+        h("div", { class: "opts" }, ...optionGroups(v, s.lang)))),
     h("header", { class: "lobby-top" }, logo(), muteButton()));
 }
 

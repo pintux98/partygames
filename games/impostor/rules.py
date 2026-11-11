@@ -40,7 +40,7 @@ def picture(data):
 class Impostor:
     meta = GameMeta("impostor", {"ro": "Impostor", "en": "Impostor"}, 4, 16, "5-10",
                     blurb={"ro": "Desenati acelasi cuvant. Unul dintre voi are altul.", "en": "Everyone draws the same word. One of you has another."},
-                    options=(GameOption("mode", {"ro": "Mod", "en": "Mode"},
+                    options=(GameOption("mode", {"ro": "Varianta", "en": "Variant"},
                                         (("secret", {"ro": "Impostor secret", "en": "Secret impostor"}),
                                          ("knows", {"ro": "Impostorul stie", "en": "Impostor knows"})), "secret"),
                              GameOption("impostors", {"ro": "Impostori", "en": "Impostors"},
