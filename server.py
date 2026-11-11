@@ -66,7 +66,7 @@ class App:
             self.meta.pop(room.code, None)
 
     def janitor(self, now: float) -> None:
-        if now - self.swept < 1:
+        if 0 <= now - self.swept < 1:
             return
         self.swept = now
         for room in list(self.rooms.values()):
