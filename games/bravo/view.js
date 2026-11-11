@@ -42,7 +42,7 @@
   const fill = (s, vars) => s.replace(/\{(\w+)\}/g, (_, k) => vars[k]);
   const say = (ctx, key, vars = {}) => fill(ctx.t(S[key]), vars);
   const sum = (a) => (a || []).reduce((x, y) => x + y, 0);
-  const draftKey = (ctx, i) => "galagie.draft." + ctx.code + "." + i;
+  const draftKey = (ctx, i) => "partygames.draft." + ctx.code + "." + i;
   const draft = (ctx, i, text) => {
     try {
       if (text === undefined) return sessionStorage.getItem(draftKey(ctx, i)) || "";
@@ -62,15 +62,15 @@
     const active = document.activeElement;
     const k = active && el.contains(active) ? active.dataset.k : null;
     el.foKey = key;
-    el.replaceChildren(h("div", "fo", build()));
+    el.replaceChildren(h("div", "br", build()));
     const again = k && el.querySelector('[data-k="' + k + '"]:not([disabled])');
     if (again) again.focus({ preventScroll: true });
     return true;
   }
 
   function fit(el) {
-    for (const li of el.querySelectorAll(".fo-grid li")) {
-      const t = li.querySelector(".fo-text");
+    for (const li of el.querySelectorAll(".br-grid li")) {
+      const t = li.querySelector(".br-text");
       for (let size = 92; size >= 50 && li.scrollHeight > li.clientHeight + 1; size -= 8) t.style.fontSize = size + "%";
     }
   }
@@ -78,16 +78,16 @@
   function clock(el, game, ctx) {
     const live = WAITING.includes(game.phase) && game.left != null;
     const secs = live ? Math.ceil(game.left) : 0;
-    const c = el.querySelector(".fo-clock");
+    const c = el.querySelector(".br-clock");
     if (c) {
       c.textContent = live ? secs : "";
-      c.classList.toggle("fo-low", live && secs <= 5);
+      c.classList.toggle("br-low", live && secs <= 5);
     }
-    const b = el.querySelector(".fo-hurry");
+    const b = el.querySelector(".br-hurry");
     if (b) {
       const words = live && game.hurry ? say(ctx, "hurry", { n: secs }) : "";
       b.hidden = !words;
-      b.parentNode.classList.toggle("fo-rush", !!words);
+      b.parentNode.classList.toggle("br-rush", !!words);
       if (b.textContent !== words) b.textContent = words;
       if (c && c.getAttribute("aria-label") !== words) words ? c.setAttribute("aria-label", words) : c.removeAttribute("aria-label");
     }
@@ -96,9 +96,9 @@
 
   function head(ctx, game) {
     const label = game.round === "final" ? say(ctx, "final") : game.round === 2 ? say(ctx, "double") : say(ctx, "round", { n: game.round });
-    const hurry = h("p", "fo-hurry");
+    const hurry = h("p", "br-hurry");
     hurry.setAttribute("role", "status");
-    return h("div", "fo-head", h("span", "fo-badge", label), hurry, h("span", "fo-clock"));
+    return h("div", "br-head", h("span", "br-badge", label), hurry, h("span", "br-clock"));
   }
 
   const text = (cls, s) => {
@@ -108,26 +108,26 @@
   };
 
   function names(ctx, done) {
-    return h("ul", "stickers fo-names", ctx.players.filter((p) => !p.waiting).map((p) => {
+    return h("ul", "stickers br-names", ctx.players.filter((p) => !p.waiting).map((p) => {
       const ok = done.includes(p.name);
-      return h("li", "sticker" + (ok ? " fo-ok" : ""), text("", p.name), ok ? h("b", "tag", "OK") : null);
+      return h("li", "sticker" + (ok ? " br-ok" : ""), text("", p.name), ok ? h("b", "tag", "OK") : null);
     }));
   }
 
   function card(ctx, game, side) {
     const answer = game.answers[side];
     const reveal = game.phase === "reveal";
-    const box = h("div", "fo-side fo-" + "ab"[side]);
-    const c = h("div", "fo-card" + (answer == null ? " fo-gone" : ""), text("", answer == null ? say(ctx, "ran_away") : answer));
-    if (reveal && game.sweep === side) c.append(h("b", "fo-stamp", say(ctx, "sweep")));
-    if (reveal && game.walkover && answer != null) c.append(h("b", "fo-stamp", say(ctx, "walkover")));
+    const box = h("div", "br-side br-" + "ab"[side]);
+    const c = h("div", "br-card" + (answer == null ? " br-gone" : ""), text("", answer == null ? say(ctx, "ran_away") : answer));
+    if (reveal && game.sweep === side) c.append(h("b", "br-stamp", say(ctx, "sweep")));
+    if (reveal && game.walkover && answer != null) c.append(h("b", "br-stamp", say(ctx, "walkover")));
     box.append(c);
     if (game.voters) {
       const bar = h("i");
       bar.style.width = Math.min(100, (100 * game.claps[side]) / (game.voters * CLAPS)) + "%";
-      box.append(h("div", "fo-meter", bar, h("b", "", String(game.claps[side]))));
+      box.append(h("div", "br-meter", bar, h("b", "", String(game.claps[side]))));
     }
-    if (reveal) box.append(h("div", "fo-by", text("", game.authors[side]), h("b", "", "+" + game.points[side])));
+    if (reveal) box.append(h("div", "br-by", text("", game.authors[side]), h("b", "", "+" + game.points[side])));
     return box;
   }
 
@@ -137,34 +137,34 @@
     if (game.phase === "vote") foot = say(ctx, "vote_hint") + " · " + say(ctx, "voted", { d: game.voters_done, n: game.voters });
     if (game.phase === "reveal" && both) foot = say(ctx, "nobody");
     return [
-      text("fo-prompt", game.prompt),
-      h("div", "fo-duel", card(ctx, game, 0), h("span", "fo-vs", "VS"), card(ctx, game, 1)),
-      foot ? text("fo-foot", foot) : null,
+      text("br-prompt", game.prompt),
+      h("div", "br-duel", card(ctx, game, 0), h("span", "br-vs", "VS"), card(ctx, game, 1)),
+      foot ? text("br-foot", foot) : null,
     ];
   }
 
   function grid(game) {
     const reveal = game.phase === "final_reveal";
     const top = Math.max(1, ...game.claps);
-    return h("ol", "fo-grid" + (game.answers.length > 8 ? " fo-two" : ""), game.answers.map((a, j) => {
-      const by = reveal ? h("span", "fo-who", text("", game.authors[j]), h("b", "", "+" + game.points[j])) : null;
-      return h("li", reveal && game.claps[j] === top ? "fo-best" : "", text("fo-text", a), by, h("b", "fo-claps", String(game.claps[j])));
+    return h("ol", "br-grid" + (game.answers.length > 8 ? " br-two" : ""), game.answers.map((a, j) => {
+      const by = reveal ? h("span", "br-who", text("", game.authors[j]), h("b", "", "+" + game.points[j])) : null;
+      return h("li", reveal && game.claps[j] === top ? "br-best" : "", text("br-text", a), by, h("b", "br-claps", String(game.claps[j])));
     }));
   }
 
   function standings(ctx, game) {
     return [
-      h("h1", "fo-title", say(ctx, "standings")),
+      h("h1", "br-title", say(ctx, "standings")),
       h("ol", "ranking", game.standings.map((s) => h("li", "", h("span", "", s.name), h("b", "", String(s.points))))),
     ];
   }
 
   function hostBody(ctx, game) {
     const p = game.phase;
-    if (p === "answer") return [h("h1", "fo-title", say(ctx, "write")), text("fo-foot", say(ctx, "write_hint")), names(ctx, game.done)];
-    if (p === "final_answer") return [text("fo-foot", say(ctx, "final_write")), text("fo-prompt", game.prompt), names(ctx, game.done)];
+    if (p === "answer") return [h("h1", "br-title", say(ctx, "write")), text("br-foot", say(ctx, "write_hint")), names(ctx, game.done)];
+    if (p === "final_answer") return [text("br-foot", say(ctx, "final_write")), text("br-prompt", game.prompt), names(ctx, game.done)];
     if (p === "vote" || p === "reveal") return duel(ctx, game);
-    if (p === "final_vote" || p === "final_reveal") return [text("fo-prompt fo-small", game.prompt), grid(game)];
+    if (p === "final_vote" || p === "final_reveal") return [text("br-prompt br-small", game.prompt), grid(game)];
     if (p === "scores") return standings(ctx, game);
     return [];
   }
@@ -184,19 +184,19 @@
   }
 
   function message(ctx, key, sub) {
-    return h("div", "fo-msg", h("h1", "", say(ctx, key)), sub ? text("", say(ctx, sub)) : null);
+    return h("div", "br-msg", h("h1", "", say(ctx, key)), sub ? text("", say(ctx, sub)) : null);
   }
 
   function writer(ctx, game, prompt) {
     const area = document.createElement("textarea");
-    area.className = "fo-area";
+    area.className = "br-area";
     area.rows = 5;
     area.enterKeyHint = "send";
     area.placeholder = say(ctx, "placeholder");
     area.setAttribute("aria-label", say(ctx, "your_answer"));
     area.dataset.k = "answer";
     area.value = draft(ctx, prompt.i);
-    const count = h("span", "fo-count");
+    const count = h("span", "br-count");
     const sendBtn = h("button", "", say(ctx, "send"));
     sendBtn.type = "submit";
     sendBtn.dataset.k = "send";
@@ -210,7 +210,7 @@
     area.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); sendBtn.click(); }
     });
-    const form = h("form", "fo-write", area, sendBtn, count);
+    const form = h("form", "br-write", area, sendBtn, count);
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (!area.value.trim() || sendBtn.disabled) return;
@@ -221,7 +221,7 @@
     update();
     const mine = game.prompts;
     const n = mine.indexOf(prompt) + 1;
-    const ask = h("div", "fo-ask", mine.length > 1 ? h("small", "", say(ctx, "prompt_of", { a: n, b: mine.length })) : null, text("", prompt.text));
+    const ask = h("div", "br-ask", mine.length > 1 ? h("small", "", say(ctx, "prompt_of", { a: n, b: mine.length })) : null, text("", prompt.text));
     return [ask, form];
   }
 
@@ -229,10 +229,10 @@
     const key = game.phase + "|" + game.prompt + "|" + JSON.stringify(game.answers);
     if (tapped.key !== key) tapped = { key, left: CLAPS };
     tapped.left = Math.min(tapped.left, game.claps_left);
-    const row = h("div", "fo-dots", Array.from({ length: CLAPS }, () => h("i")));
+    const row = h("div", "br-dots", Array.from({ length: CLAPS }, () => h("i")));
     row.setAttribute("role", "img");
     const list = h("div", cls, options.map(([label, side, k, body, own]) => {
-      const b = h("button", "fo-pick fo-" + "ab"[side % 2], own ? h("small", "", say(ctx, "yours")) : null, text("", label));
+      const b = h("button", "br-pick br-" + "ab"[side % 2], own ? h("small", "", say(ctx, "yours")) : null, text("", label));
       b.type = "button";
       b.dataset.k = k;
       b.disabled = own;
@@ -250,7 +250,7 @@
       if (!tapped.left) list.querySelectorAll("button").forEach((b) => (b.disabled = true));
     };
     show();
-    return [text("fo-ask fo-small", game.prompt), h("div", "fo-row", text("fo-step", say(ctx, "pick")), row), list];
+    return [text("br-ask br-small", game.prompt), h("div", "br-row", text("br-step", say(ctx, "pick")), row), list];
   }
 
   function phoneBody(ctx, game) {
@@ -262,11 +262,11 @@
     if (p === "vote") {
       if (game.author) return message(ctx, "on_screen", "others_vote");
       if (!game.claps_left) return message(ctx, "done");
-      return picker(ctx, game, "fo-list fo-duo", game.answers.map((a, side) => [a, side, "side-" + side, { type: "clap", side }, false]));
+      return picker(ctx, game, "br-list br-duo", game.answers.map((a, side) => [a, side, "side-" + side, { type: "clap", side }, false]));
     }
     if (p === "final_vote") {
       if (!game.claps_left) return message(ctx, "done");
-      return picker(ctx, game, "fo-list", game.answers.map((a, j) => [a, j, "target-" + j, { type: "clap", target: j }, j === game.own]));
+      return picker(ctx, game, "br-list", game.answers.map((a, j) => [a, j, "target-" + j, { type: "clap", target: j }, j === game.own]));
     }
     return message(ctx, "look");
   }
@@ -280,10 +280,10 @@
     if (el.foKey !== key && !typing) clearDrafts(ctx);
     paint(el, key, () => {
       const live = WAITING.includes(game.phase);
-      return [live ? head(ctx, game) : null, h("div", "fo-phone", phoneBody(ctx, game))];
+      return [live ? head(ctx, game) : null, h("div", "br-phone", phoneBody(ctx, game))];
     });
     clock(el, game, ctx);
   }
 
-  G.register("faceoff", { host, phone });
+  G.register("bravo", { host, phone });
 })();

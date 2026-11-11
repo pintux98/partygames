@@ -144,7 +144,7 @@ class App:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "galagie"
+    server_version = "partygames"
     sys_version = ""
     timeout = 15
     app: App
@@ -288,7 +288,7 @@ def index_page(games: dict) -> bytes:
 
 
 class MetricsHandler(BaseHTTPRequestHandler):
-    server_version = "galagie"
+    server_version = "partygames"
     sys_version = ""
     timeout = 15
     app: App
@@ -366,7 +366,7 @@ def make_server(host: str, port: int, games: dict) -> Server:
 def main() -> None:
     port = int(os.environ.get("PORT", "8000"))
     metrics_port = int(os.environ.get("METRICS_PORT", "8001"))
-    print("galagie on :%d" % port, flush=True)
+    print("partygames on :%d" % port, flush=True)
     srv = make_server("0.0.0.0", port, GAMES)
     threading.Thread(target=make_metrics_server("0.0.0.0", metrics_port, srv.RequestHandlerClass.app).serve_forever,
                      daemon=True).start()

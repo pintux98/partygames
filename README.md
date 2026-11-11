@@ -1,8 +1,8 @@
-# Galagie
+# Party Games
 
 Party games for a room full of friends. One screen (a TV or a laptop) shows the game, everyone else plays on their phone. No accounts, no app to install: scan the QR code, type a nickname and play.
 
-The first game is **Face-off**: everyone answers silly prompts on their phone, answers meet head to head, and the room votes with claps.
+The first game is **Bravo!**: everyone answers silly prompts on their phone, answers meet head to head, and the room votes with claps.
 
 - 3 to 16 players, the first player to join is the VIP and starts the games
 - English by default, Romanian can be picked in the lobby; Family and Spicy modes
@@ -27,9 +27,9 @@ Rooms live in memory, so a restart closes any open rooms.
 ## Run with Docker
 
 ```sh
-docker build -t galagie .
-docker run -d --name galagie --restart unless-stopped \
-  -p 127.0.0.1:8000:8000 -p 127.0.0.1:8001:8001 galagie
+docker build -t partygames .
+docker run -d --name partygames --restart unless-stopped \
+  -p 127.0.0.1:8000:8000 -p 127.0.0.1:8001:8001 partygames
 ```
 
 ## Run without Docker
@@ -55,7 +55,7 @@ The metrics port is not meant for the internet. Map it to `127.0.0.1` on the hos
 
 ## Adding a game
 
-A game is one folder under `games/` plus one line in the registry. Face-off in `games/faceoff/` is the example.
+A game is one folder under `games/` plus one line in the registry. Bravo! in `games/bravo/` is the example.
 
 ```
 games/<id>/
@@ -69,7 +69,7 @@ games/<id>/
 
 **`rules.py`** holds a class that follows the `Game` protocol from `party/common.py`:
 
-- `meta`: a `GameMeta(id, names, min_players, max_players, minutes)`, for example `GameMeta("faceoff", {"ro": "Fata in fata", "en": "Face-off"}, 3, 16, "15-25")`
+- `meta`: a `GameMeta(id, names, min_players, max_players, minutes)`, for example `GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25")`
 - `packs`: the content, loaded with `load_packs(Path(__file__).parent / "content")`
 - `finished`: set to `True` when the game is over
 - `__init__(ctx)`: `ctx` is a `Context` with `seats`, `settings` (`lang`, `spicy`), `rng`, `deck` and `now`
@@ -103,7 +103,7 @@ G.register("<id>", { host(el, game, ctx) {}, phone(el, game, ctx) {} });
 **Registry**: add the class to the tuple in `games/__init__.py`:
 
 ```python
-GAMES = {g.meta.id: g for g in (FaceOff, YourGame)}
+GAMES = {g.meta.id: g for g in (Bravo, YourGame)}
 ```
 
 A game needs both `view.js` and `view.css` in its folder; they are served with versioned URLs.

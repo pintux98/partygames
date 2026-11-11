@@ -2,7 +2,7 @@ import random
 import unittest
 
 from games import GAMES
-from games.faceoff.rules import FaceOff
+from games.bravo.rules import Bravo
 from party.common import Context, GameError, Seat, Settings
 from party.deck import Deck
 from party.room import Room
@@ -14,7 +14,7 @@ def make(n, seed=1, packs=PACKS):
     rng = random.Random(seed)
     settings = Settings(lang="en")
     seats = [Seat("p%d" % i, chr(65 + i)) for i in range(n)]
-    game = FaceOff(Context(seats, settings, rng, Deck(packs, settings, rng, set()), 0))
+    game = Bravo(Context(seats, settings, rng, Deck(packs, settings, rng, set()), 0))
     return game, {s.pid for s in seats}
 
 
@@ -28,7 +28,7 @@ def pairs(game):
     return {frozenset(p["authors"]) for p in game.prompts}
 
 
-class FaceOffTests(unittest.TestCase):
+class BravoTests(unittest.TestCase):
     def fails(self, status, game, pid, body, now, active):
         with self.assertRaises(GameError) as caught:
             game.act(pid, body, now, active)
@@ -261,10 +261,10 @@ class FaceOffTests(unittest.TestCase):
         self.assertEqual(game.player_view("p0", now + 10)["claps_left"], 0)
         self.assertEqual(game.player_view("p1", now + 10)["claps_left"], 3)
 
-    def test_registry_has_faceoff(self):
-        self.assertIs(GAMES["faceoff"], FaceOff)
+    def test_registry_has_bravo(self):
+        self.assertIs(GAMES["bravo"], Bravo)
 
-    def test_platform_runs_faceoff(self):
+    def test_platform_runs_bravo(self):
         room = Room("ABCDEF", 0, GAMES, random.Random(1))
         ana = room.join("Ana", 0)
         room.join("Bob", 0)

@@ -6,12 +6,12 @@ const POLL_MS = 1000;
 const CONFETTI = 24;
 const DIRS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
 let $app, $toast, timer, toastTimer, topEl, gameEl;
-let session = load("galagie");
+let session = load("partygames");
 let view = null, roomLang = null, shellKey = "", pollGen = 0, busy = false, lastCount = -1, lastPhase = "";
 
 function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch { return null; } }
 function store(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch {} }
-function setSession(s) { session = s; store("galagie", s); }
+function setSession(s) { session = s; store("partygames", s); }
 
 const lang = () => roomLang || "en";
 const t = (key, vars = {}) => I18N[lang()][key].replace(/\{(\w+)\}/g, (_, k) => vars[k]);
@@ -159,7 +159,7 @@ const ctx = (v) => ({
 const joinUrl = (code) => location.origin + "/r/" + code;
 const ready = (v) => v.players.filter((p) => !p.away && !p.waiting).length;
 const currentGame = (v) => v.games.find((g) => g.id === v.game_id);
-const logo = (size = "") => h("div", { class: "logo " + size }, "GALAGIE!");
+const logo = (size = "") => h("div", { class: "logo " + size }, "PARTY GAMES");
 const ticket = (code) => h("div", { class: "ticket" }, h("span", { class: "label" }, t("code")), h("b", {}, code));
 const button = (label, onclick, attrs = {}) => h("button", { type: "button", onclick, ...attrs }, label);
 const message = (title, text, ...extra) => h("div", { class: "message" }, logo("big"), h("h1", {}, t(title)), h("p", {}, t(text)), ...extra);
@@ -186,7 +186,7 @@ function shareBox(code) {
   const link = h("p", { class: "link" }, url.replace(/^https?:\/\//, ""));
   const btn = button(t("share"), async () => {
     if (navigator.share) {
-      try { return await navigator.share({ title: "GALAGIE!", text: t("invite"), url }); } catch (e) { if (e && e.name === "AbortError") return; }
+      try { return await navigator.share({ title: "Party Games", text: t("invite"), url }); } catch (e) { if (e && e.name === "AbortError") return; }
     }
     try {
       await navigator.clipboard.writeText(url);

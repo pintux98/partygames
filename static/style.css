@@ -85,7 +85,7 @@ p { margin: 0; }
   transform: rotate(-2deg);
   white-space: nowrap;
 }
-.logo.big { font-size: min(3.2em, 15vw); align-self: center; margin: .3em 0 .1em; }
+.logo.big { font-size: min(3.2em, 10.5vw); align-self: center; margin: .3em 0 .1em; }
 body.tv .logo.big { font-size: 3.2em; }
 
 :focus-visible { outline: 4px solid var(--blue); outline-offset: 3px; box-shadow: none !important; }

@@ -56,7 +56,7 @@ const I18N = {
     again: "Inca o data",
     share: "Trimite linkul",
     copied: "Link copiat",
-    invite: "Intra la petrecerea mea pe GALAGIE!",
+    invite: "Intra la petrecerea mea pe Party Games!",
     errors: {
       "That name is taken": "Porecla e luata",
       "Room is full": "Camera e plina",
@@ -146,7 +146,7 @@ const I18N = {
     again: "Play again",
     share: "Share link",
     copied: "Copied",
-    invite: "Join my party on GALAGIE!",
+    invite: "Join my party on Party Games!",
     errors: {},
   },
 };

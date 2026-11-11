@@ -5,7 +5,7 @@ from pathlib import Path
 from party.deck import load_packs
 
 ROOT = Path(__file__).resolve().parent.parent
-PACKS = load_packs(ROOT / "games" / "faceoff" / "content")
+PACKS = load_packs(ROOT / "games" / "bravo" / "content")
 MINIMUMS = {("family", "round"): 120, ("family", "final"): 30, ("spicy", "round"): 48, ("spicy", "final"): 12}
 DIACRITICS = re.compile("[ăâîșțşţĂÂÎȘȚŞŢ]")
 

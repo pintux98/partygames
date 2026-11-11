@@ -97,7 +97,7 @@ class Api(unittest.TestCase):
         self.assertEqual(len(d["scores"]), 3)
         self.assertEqual(self.act(code, pids[0], type="end")[0], 200)
         self.assertEqual(self.state(code, pids[0]), (404, {"error": "This room is closed"}))
-        self.assertIn('galagie_games_finished_total{game="faceoff"} 1\n', self.app.metrics(t[0]))
+        self.assertIn('galagie_games_finished_total{game="bravo"} 1\n', self.app.metrics(t[0]))
 
     def test_idle_closed_room_404_on_same_poll(self):
         t = [1000.0]
@@ -195,16 +195,16 @@ class Api(unittest.TestCase):
         self.assertEqual(r.getheader("Content-Security-Policy"), CSP)
         self.assertRegex(html, r'"/static/app\.js\?v=[0-9a-f]{10}"')
         self.assertRegex(html, r'"/static/style\.css\?v=[0-9a-f]{10}"')
-        self.assertLess(html.index('<link rel="stylesheet" href="/games/faceoff/view.css?v='), html.index("</head>"))
-        self.assertLess(html.index("</head>"), html.index('<script src="/games/faceoff/view.js?v='))
-        self.assertLess(html.index("/games/faceoff/view.js?v="), html.index("</body>"))
+        self.assertLess(html.index('<link rel="stylesheet" href="/games/bravo/view.css?v='), html.index("</head>"))
+        self.assertLess(html.index("</head>"), html.index('<script src="/games/bravo/view.js?v='))
+        self.assertLess(html.index("/games/bravo/view.js?v="), html.index("</body>"))
 
     def test_game_assets_whitelisted(self):
-        r, _ = self.raw("GET", "/games/faceoff/view.js?v=1")
+        r, _ = self.raw("GET", "/games/bravo/view.js?v=1")
         self.assertEqual(r.status, 200)
         self.assertIn("immutable", r.getheader("Cache-Control"))
-        self.assertEqual(self.raw("GET", "/games/faceoff/view.css")[0].status, 200)
-        for path in ("/games/faceoff/rules.py", "/games/nope/view.js", "/games/faceoff/../faceoff/view.js",
+        self.assertEqual(self.raw("GET", "/games/bravo/view.css")[0].status, 200)
+        for path in ("/games/bravo/rules.py", "/games/nope/view.js", "/games/bravo/../bravo/view.js",
                      "/static/../server.py", "/static/%2e%2e/server.py", "/server.py"):
             self.assertEqual(self.raw("GET", path)[0].status, 404, path)
 
@@ -231,7 +231,7 @@ class Api(unittest.TestCase):
             r, body = self.raw("GET", "/metrics", port=msrv.server_address[1])
             text = body.decode()
             self.assertEqual(r.status, 200)
-            for line in ('galagie_games_started_total{game="faceoff"} 1', 'galagie_games_finished_total{game="faceoff"} 0',
+            for line in ('galagie_games_started_total{game="bravo"} 1', 'galagie_games_finished_total{game="bravo"} 0',
                          "galagie_parties_created_total 1", "galagie_players_joined_total 3",
                          "galagie_parties_open 1", "galagie_players_online 3"):
                 self.assertIn(line + "\n", text)

@@ -11,8 +11,8 @@ const Sound = (() => {
   addEventListener("pointerdown", unlock);
   addEventListener("keydown", unlock);
 
-  const muted = () => { try { return localStorage.getItem("galagie.mute") === "1"; } catch { return false; } };
-  const setMuted = (on) => { try { localStorage.setItem("galagie.mute", on ? "1" : "0"); } catch {} };
+  const muted = () => { try { return localStorage.getItem("partygames.mute") === "1"; } catch { return false; } };
+  const setMuted = (on) => { try { localStorage.setItem("partygames.mute", on ? "1" : "0"); } catch {} };
 
   function envelope(at, dur, peak) {
     const g = ac.createGain();

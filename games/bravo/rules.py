@@ -20,8 +20,8 @@ TYPING = ("answer", "final_answer")
 WAITING = ("answer", "vote", "final_answer", "final_vote")
 
 
-class FaceOff:
-    meta = GameMeta("faceoff", {"ro": "Fata in fata", "en": "Face-off"}, 3, 16, "15-25")
+class Bravo:
+    meta = GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25")
     packs = load_packs(Path(__file__).parent / "content")
 
     def __init__(self, ctx: Context):
