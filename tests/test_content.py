@@ -86,3 +86,23 @@ class ContentTests(unittest.TestCase):
         for f in files:
             if f.name != "qrcode.js":
                 self.assertIsNone(DIACRITICS.search(f.read_text(encoding="utf-8")), f)
+
+
+POTATO = load_packs(ROOT / "games" / "hotpotato" / "content")
+POTATO_MINIMUMS = {("family", "topics"): 50, ("spicy", "topics"): 20, ("family", "dares"): 20, ("spicy", "dares"): 15}
+
+
+class HotPotatoContentTests(unittest.TestCase):
+    def test_sizes_unique_and_short(self):
+        self.assertEqual(set(POTATO), {"en", "ro"})
+        for lang, modes in POTATO.items():
+            for (mode, tag), minimum in POTATO_MINIMUMS.items():
+                self.assertGreaterEqual(len(modes[mode][tag]), minimum, (lang, mode, tag))
+            for tag, limit in (("topics", 40), ("dares", 70)):
+                items = modes["family"][tag] + modes["spicy"][tag]
+                folded = [p.casefold() for p in items]
+                self.assertEqual(len(folded), len(set(folded)), [p for p in folded if folded.count(p) > 1])
+                for p in items:
+                    self.assertTrue(p.strip(), lang)
+                    self.assertLessEqual(len(p), limit, p)
+                    self.assertNotIn("{", p)

@@ -1,0 +1,41 @@
+{
+ "family": {
+  "topics": ["Fruits", "Vegetables", "Things in a fridge", "Animals that live in water", "Animals with four legs", "Birds",
+   "Pizza toppings", "Things in a bathroom", "Things you take to the beach", "Board games", "Sports equipment",
+   "Countries in Europe", "Capital cities", "Cities in Romania", "Car brands", "Things that are red", "Things that are round",
+   "Things with wheels", "Musical instruments", "Jobs", "Body parts", "Clothes", "Things in a kitchen", "Desserts",
+   "Breakfast foods", "Drinks", "Cartoon characters", "Superheroes", "Disney movies", "Famous singers", "Movie titles",
+   "TV series", "Things you find in a forest", "Things that fly", "Things that smell bad", "Things in a backpack",
+   "Words that rhyme with cat", "Words that start with B", "Words that start with S", "Words that end in -ing",
+   "Colors", "Insects", "Things you plug in", "Things in a toolbox", "Ice cream flavors", "Phone apps", "Chocolate brands",
+   "Things at a wedding", "Things in the sky", "Things you do in the morning", "Christmas things", "Halloween costumes",
+   "Things that are cold", "Things with buttons", "Dog breeds", "Famous footballers", "Things in a hospital",
+   "Things you can open", "Holiday destinations", "Things made of wood"],
+  "dares": ["Talk like a robot until the next round", "Do your best chicken dance for 10 seconds",
+   "Say something nice about every player", "Sing the chorus of any song", "Do 10 squats right now",
+   "Speak only in questions until the next round", "Do your best impression of another player",
+   "Tell the room your most embarrassing nickname", "Hold a plank until the next round starts",
+   "Say the alphabet backwards from M", "Make the sound of 3 different animals", "Do a runway walk across the room",
+   "Speak with an accent until the next round", "Tell a terrible joke", "Make up a short poem for the player on your left",
+   "Do your best evil laugh", "Mime brushing your teeth until everyone laughs", "Name 5 fruits in 5 seconds",
+   "Stand on one leg until the next round", "Narrate the next round like a sports commentator",
+   "Do your best opera singing for 5 seconds", "Act like a cat until someone pets you",
+   "Make up a 10 second song about the bomb", "Show the last photo in your camera roll",
+   "Swap seats with someone of your choice", "Give a 10 second speech about potatoes"]
+ },
+ "spicy": {
+  "topics": ["Things you say in bed", "Pickup lines", "Excuses for being late", "Reasons to break up", "Things you hide from your parents",
+   "Bad first date ideas", "Drinking games", "Cocktails", "Things that are sticky", "Things you do after a party",
+   "Hangover cures", "Places to kiss", "Things in a nightstand", "Lies people tell on dating apps", "Words for being drunk",
+   "Things you shout at a bachelor party", "Red flags in an ex", "Things you should not text your boss",
+   "Embarrassing things to google", "Things that vibrate", "Shots", "Reasons to call in sick", "Things you find in a club",
+   "Romantic movies", "Words that sound dirty but are not"],
+  "dares": ["Take a sip of your drink", "Let the group read your last sent message", "Text your ex the word potato",
+   "Do your sexiest dance for 10 seconds", "Tell the room about your worst date", "Let the player on your right post a story on your phone",
+   "Take a shot of water from your own hand", "Reveal your celebrity crush", "Read your last search out loud",
+   "Whisper a pickup line to the player on your left", "Take two sips of your drink", "Show your most recent selfie",
+   "Do your best moan for 3 seconds", "Call someone and sing them happy birthday", "Kiss the next bomb holder on the cheek",
+   "Confess the last lie you told", "Give a lap dance to a chair", "Rate everyone in the room from 1 to 10 out loud",
+   "Swap a piece of clothing with the player on your left", "Finish your drink"]
+ }
+}

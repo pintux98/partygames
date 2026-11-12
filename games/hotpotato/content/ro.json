@@ -1,0 +1,41 @@
+{
+ "family": {
+  "topics": ["Fructe", "Legume", "Lucruri din frigider", "Animale care traiesc in apa", "Animale cu patru picioare", "Pasari",
+   "Ingrediente pe pizza", "Lucruri din baie", "Lucruri pe care le iei la mare", "Jocuri de societate", "Echipament sportiv",
+   "Tari din Europa", "Capitale", "Orase din Romania", "Marci de masini", "Lucruri rosii", "Lucruri rotunde",
+   "Lucruri cu roti", "Instrumente muzicale", "Meserii", "Parti ale corpului", "Haine", "Lucruri din bucatarie", "Deserturi",
+   "Mancare de micul dejun", "Bauturi", "Personaje din desene animate", "Supereroi", "Filme Disney", "Cantareti celebri",
+   "Titluri de filme", "Seriale", "Lucruri din padure", "Lucruri care zboara", "Lucruri care miros urat", "Lucruri din rucsac",
+   "Cuvinte care rimeaza cu pisica", "Cuvinte care incep cu B", "Cuvinte care incep cu S", "Cuvinte care se termina in -ie",
+   "Culori", "Insecte", "Lucruri care se baga in priza", "Lucruri din trusa de scule", "Arome de inghetata", "Aplicatii pe telefon",
+   "Marci de ciocolata", "Lucruri de la o nunta", "Lucruri de pe cer", "Ce faci dimineata", "Lucruri de Craciun",
+   "Costume de Halloween", "Lucruri reci", "Lucruri cu butoane", "Rase de caini", "Fotbalisti celebri", "Lucruri din spital",
+   "Lucruri care se deschid", "Destinatii de vacanta", "Lucruri din lemn"],
+  "dares": ["Vorbeste ca un robot pana la runda urmatoare", "Fa dansul gainii 10 secunde",
+   "Spune ceva dragut despre fiecare jucator", "Canta refrenul unei melodii", "Fa 10 genuflexiuni acum",
+   "Vorbeste doar in intrebari pana la runda urmatoare", "Imita un alt jucator",
+   "Spune-ne cea mai jenanta porecla a ta", "Tine o planseta pana incepe runda urmatoare",
+   "Spune alfabetul invers de la M", "Imita 3 animale diferite", "Defileaza prin camera ca pe podium",
+   "Vorbeste cu accent pana la runda urmatoare", "Spune o gluma proasta", "Fa o poezie scurta pentru jucatorul din stanga",
+   "Fa cel mai malefic ras", "Mimeaza ca te speli pe dinti pana rade toata lumea", "Spune 5 fructe in 5 secunde",
+   "Stai intr-un picior pana la runda urmatoare", "Comenteaza runda urmatoare ca la meci",
+   "Canta ca la opera 5 secunde", "Fa pe pisica pana te mangaie cineva",
+   "Inventeaza un cantec de 10 secunde despre bomba", "Arata ultima poza din galerie",
+   "Schimba locul cu cine vrei tu", "Tine un discurs de 10 secunde despre cartofi"]
+ },
+ "spicy": {
+  "topics": ["Ce spui in pat", "Replici de agatat", "Scuze pentru intarziere", "Motive de despartire", "Ce ascunzi de parinti",
+   "Idei proaste de prima intalnire", "Jocuri cu bautura", "Cocktailuri", "Lucruri lipicioase", "Ce faci dupa petrecere",
+   "Leacuri de mahmureala", "Locuri unde te saruti", "Lucruri din noptiera", "Minciuni de pe aplicatiile de dating", "Cuvinte pentru beat",
+   "Ce strigi la petrecerea burlacilor", "Semnale rosii la un fost", "Ce nu ii scrii sefului",
+   "Cautari jenante pe google", "Lucruri care vibreaza", "Shoturi", "Motive sa-ti iei liber", "Lucruri dintr-un club",
+   "Filme romantice", "Cuvinte care suna urat dar nu sunt"],
+  "dares": ["Ia o gura din bautura", "Lasa grupul sa-ti citeasca ultimul mesaj trimis", "Scrie-i fostului cuvantul cartof",
+   "Danseaza sexy 10 secunde", "Povesteste cea mai proasta intalnire", "Lasa jucatorul din dreapta sa-ti posteze un story",
+   "Bea apa din palma ca pe un shot", "Spune-ne vedeta pe care o placi", "Citeste cu voce tare ultima cautare",
+   "Sopteste o replica de agatat jucatorului din stanga", "Ia doua guri din bautura", "Arata ultimul selfie",
+   "Geme 3 secunde cat de bine poti", "Suna pe cineva si canta-i la multi ani", "Pupa pe obraz urmatorul care tine bomba",
+   "Spune ultima minciuna pe care ai zis-o", "Fa un lap dance unui scaun", "Da note de la 1 la 10 tuturor, cu voce tare",
+   "Schimba o haina cu jucatorul din stanga", "Termina-ti bautura"]
+ }
+}
