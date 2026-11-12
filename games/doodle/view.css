@@ -1,0 +1,28 @@
+.dd { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2vh; }
+.dd p, .dd li, .dd h1, .dd button { overflow-wrap: anywhere; }
+.dd-stage { flex: 1; min-height: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3vw; align-items: center; }
+.dd-art { height: min(100%, 72vh); aspect-ratio: 1; display: grid; place-items: center; background: var(--card); border: 3px solid var(--ink); box-shadow: 6px 6px 0 var(--blue); transform: rotate(-1deg); }
+.dd-art img { width: 100%; height: 100%; object-fit: contain; }
+@supports not (aspect-ratio: 1) { .dd-art { width: 72vh; } }
+.dd-blank { margin: 0; font-style: italic; }
+.dd-side { min-width: 0; display: flex; flex-direction: column; gap: 2.5vh; }
+.dd-hint { margin: 0; font-family: var(--display); font-size: 2.6em; letter-spacing: .25em; color: var(--blue); white-space: pre-wrap; }
+.dd-label { margin: 0; font-weight: 700; }
+.dd-word { margin: 0; font-size: 3em; color: var(--pink); text-shadow: .06em .06em 0 var(--blue); }
+.dd-feed { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: .3em; }
+.dd-feed li { align-self: flex-start; max-width: 100%; padding: .2em .7em; background: var(--card); border: 3px solid var(--ink); font-size: 1.1em; }
+.dd-feed li:last-child { box-shadow: 4px 4px 0 var(--pink); }
+.dd-side .im-chips { justify-content: flex-start; }
+.dd-gains .sticker { background: var(--card); color: var(--ink); }
+
+.dd-choices { display: flex; flex-direction: column; gap: .6em; }
+.dd-choices .im-target { min-height: 3.6em; font-size: 1.2em; }
+.dd-form { display: flex; gap: .5em; }
+.dd-input { flex: 1; min-width: 0; padding: .6em .7em; font: inherit; font-size: 1.1em; border: 3px solid var(--ink); background: var(--card); color: var(--ink); }
+
+body:not(.tv) .dd-hint { font-size: 1.6em; text-align: center; }
+body:not(.tv) .dd-label { text-align: center; font-weight: 500; }
+@media (max-aspect-ratio: 1/1) {
+  .dd-stage { grid-template-columns: 1fr; justify-items: center; }
+  .dd-art { height: min(50vh, 90vw); }
+}

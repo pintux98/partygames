@@ -103,6 +103,8 @@ const I18N = {
       "Bad pass": "Nu poti da bomba acolo",
       "They are away": "Jucatorul nu e aici",
       "Pass it to someone else": "Da-o altcuiva",
+      "Bad choice": "Alegere invalida",
+      "Type a guess": "Scrie ce crezi ca e",
     },
   },
   en: {

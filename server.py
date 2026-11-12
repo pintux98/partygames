@@ -30,7 +30,7 @@ MAX_ROOMS = 300
 CREATE_LIMIT, CREATE_WINDOW = 5, 600
 OPEN_PER_CLIENT, OPEN_PER_48 = 2, 10
 MISS_LIMIT, MISS_LIMIT_48, MISS_WINDOW = 20, 100, 600
-STATIC_ASSETS = ("app.js", "i18n.js", "sound.js", "style.css", "qrcode.js", "favicon.svg")
+STATIC_ASSETS = ("app.js", "i18n.js", "sound.js", "draw.js", "style.css", "qrcode.js", "favicon.svg")
 GAME_ASSETS = ("view.js", "view.css", "icon.svg")
 TYPES = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
          ".svg": "image/svg+xml", ".woff2": "font/woff2", ".png": "image/png", ".json": "application/json"}

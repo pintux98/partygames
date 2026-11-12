@@ -42,15 +42,6 @@
 .im-word-card p { margin: 0; }
 .im-imp-card { box-shadow: 4px 4px 0 var(--pink); }
 .im-small { font-size: .8em; font-weight: 500; }
-.im-board { flex: 1; min-height: 0; display: flex; justify-content: center; }
-.im-canvas { height: 100%; max-width: 100%; aspect-ratio: 1; background: #fff; border: 3px solid var(--ink); touch-action: none; }
-.im-tools { flex: none; display: flex; gap: .3em; justify-content: space-between; }
-.im-tools button { flex: 1 1 0; min-width: 0; height: 2.4em; padding: 0; display: grid; place-items: center; box-shadow: none; background: var(--card); color: var(--ink); }
-.im-tools button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
-.im-tools svg { width: 1.3em; height: 1.3em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
-.im-swatch { background: var(--swatch) !important; }
-.im-swatch[aria-pressed="true"] { outline: 3px solid var(--pink); outline-offset: 1px; }
-.im-dot { display: block; width: var(--dot); height: var(--dot); border-radius: 50%; background: currentColor; }
 .im-done { flex: none; }
 .im-ask { margin: .2em 0 0; }
 .im-targets { flex: 0 1 auto; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: .5em; }

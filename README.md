@@ -2,16 +2,18 @@
 
 Party games for a room full of friends. One screen (a TV or a laptop) shows the game, everyone else plays on their phone. No accounts, no app to install: scan the QR code, type a nickname and play.
 
-Three games so far:
+Four games so far:
 
 - **Bravo!** (3 to 16 players): everyone answers silly prompts on their phone, answers meet head to head, and the room votes with claps.
 - **Impostor** (4 to 16 players): everyone draws the same secret word on their phone, with a new twist each round, except the impostors, who have a different word (or, in the "Impostor knows" variant, only its category). All drawings show on the TV and the room votes someone out, round after round, until the impostors are caught or win.
 - **Hot Potato** (3 to 16 players): the TV shows a topic and a ticking bomb. Whoever holds it says something from the topic out loud and passes it on from their phone. The fuse is secret; whoever holds the bomb when it blows gets a forfeit, everyone else scores.
+- **Doodle** (3 to 16 players): one player picks a word and draws it on their phone while the TV shows the drawing as it grows. Everyone else types guesses; faster correct guesses score more and the drawer scores for every player who gets it. Wrong guesses scroll on the TV.
 
 - The first player to join is the VIP and starts the games; the game and its options are picked in the lobby
 - Bravo! options: answer time (45 to 120 s, default 75) and vote time (15 to 45 s, default 20)
 - Impostor options: variant (Secret impostor or Impostor knows), impostors (1 to 3, capped at one per three players), draw time (20 to 60 s, default 30) and vote time (20 to 60 s, default 40)
 - Hot Potato options: rounds (5, 8 or 12, default 8) and fuse (short, normal or long)
+- Doodle options: draw time (60 to 100 s, default 80) and drawings each (1 or 2); it uses the Impostor word list
 - English by default, Romanian can be picked in the lobby; Family and Spicy modes
 - Python standard library only, plain HTML, CSS and JS, no database, no build step
 
