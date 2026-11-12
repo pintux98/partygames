@@ -1,4 +1,5 @@
 .br { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2vh; }
+.br-center { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; gap: 3vh; padding-bottom: 6vh; }
 .br p, .br li, .br button, .br textarea { overflow-wrap: anywhere; }
 
 .br-head { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
@@ -17,7 +18,7 @@ body:not(.tv) .br-clock { font-size: 1.8em; }
 .br-foot { text-align: center; font-weight: 700; }
 .br-prompt { font-size: 1.85em; font-weight: 700; line-height: 1.15; text-align: center; text-wrap: balance; max-width: 34em; margin: 0 auto; }
 .br-prompt.br-small { font-size: 1.6em; }
-.br-names { justify-content: center; margin-bottom: auto; }
+.br-names { justify-content: center; }
 .br-names .sticker { background: var(--card); color: var(--ink); }
 .br-names .sticker.br-ok { background: var(--pink); color: #fff; }
 
@@ -72,6 +73,12 @@ body:not(.tv) .br-clock { font-size: 1.8em; }
 .br-pick.br-a { box-shadow: 5px 5px 0 var(--pink); }
 .br-pick.br-b { box-shadow: 5px 5px 0 var(--blue); }
 .br-pick small { display: block; font-size: .75em; text-transform: uppercase; }
+.br-pick { position: relative; }
+.br-mine { position: absolute; top: -.7em; right: -.5em; padding: 0 .45em; background: var(--pink); color: #fff; border: 3px solid var(--ink); font-weight: 700; transform: rotate(6deg); }
+.br-mine:empty { display: none; }
+.br-hit { animation: br-hit .25s; }
+@keyframes br-hit { 50% { transform: scale(.94); } }
+@media (prefers-reduced-motion: reduce) { .br-hit { animation: none; } }
 .br-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: .8em; padding: .2em .5em .6em .2em; }
 .br-list .br-pick { flex: none; }
 .br-duo .br-pick { flex: 1 0 auto; }

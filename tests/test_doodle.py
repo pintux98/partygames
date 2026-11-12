@@ -83,6 +83,9 @@ class DoodleTests(unittest.TestCase):
         game.act(game.pids[a], {"type": "guess", "text": "nope"}, 10, everyone)
         self.assertEqual(game.points[game.pids[a]], 0)
         self.assertEqual(game.host_view(10)["feed"], [{"name": "N%d" % a, "text": "nope"}])
+        self.assertEqual(game.player_view(game.pids[a], 10)["tried"], ["nope"])
+        self.assertEqual(game.player_view(game.pids[b], 10)["tried"], [])
+        self.assertNotIn("tried", game.host_view(10))
         game.act(game.pids[a], {"type": "guess", "text": word.upper()}, 0, everyone)
         self.assertEqual(game.points[game.pids[a]], GUESS_MAX)
         self.assertEqual(game.points[game.pids[game.drawer]], DRAWER_BONUS)
@@ -96,6 +99,7 @@ class DoodleTests(unittest.TestCase):
         game.act(game.pids[c], {"type": "guess", "text": word}, 40, everyone)
         self.assertEqual(game.phase, "reveal")
         self.assertEqual(game.points[game.pids[game.drawer]], 3 * DRAWER_BONUS)
+        self.assertEqual(game.player_view(game.pids[game.drawer], 40)["gain"], 3 * DRAWER_BONUS)
 
     def test_feed_keeps_last_eight(self):
         game, everyone = make(3)

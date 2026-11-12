@@ -70,6 +70,7 @@ class Doodle:
         self.png, self.version = None, 0
         self.guessed: dict[int, int] = {}
         self.feed: list[dict] = []
+        self.tried: dict[int, list[str]] = {}
         self.go("pick", now, PICK_TIME)
 
     def start_drawing(self, word, now):
@@ -124,6 +125,7 @@ class Doodle:
                 self.points[self.pids[self.drawer]] += DRAWER_BONUS
             else:
                 self.feed = (self.feed + [{"name": self.names[i], "text": text}])[-FEED:]
+                self.tried[i] = (self.tried.get(i, []) + [text])[-FEED:]
         self.tick(now, active)
 
     def hurry(self, now):
@@ -161,7 +163,8 @@ class Doodle:
 
     def player_view(self, pid, now):
         i = self.pids.index(pid) if pid in self.pids else None
-        view = self.common(now) | {"drawing": i == self.drawer, "got": i in self.guessed, "gain": self.guessed.get(i)}
+        gain = DRAWER_BONUS * len(self.guessed) if i == self.drawer else self.guessed.get(i)
+        view = self.common(now) | {"drawing": i == self.drawer, "got": i in self.guessed, "gain": gain, "tried": self.tried.get(i, [])}
         if i == self.drawer and self.phase == "pick":
             view["choices"] = self.choices
         if self.word and (i == self.drawer or i in self.guessed):

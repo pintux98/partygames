@@ -2,7 +2,7 @@ import random
 import unittest
 
 from games import GAMES
-from games.hotpotato.rules import BOOM_TIME, FUSES, READY_TIME, SURVIVE, HotPotato
+from games.hotpotato.rules import FUSES, GRACE, READY_TIME, SURVIVE, HotPotato
 from party.common import Context, GameError, Seat, Settings
 from party.deck import Deck
 
@@ -48,21 +48,19 @@ class HotPotatoTests(unittest.TestCase):
             self.assertIsNone(view["left"])
             self.assertNotIn("deadline", view)
 
-    def test_only_holder_passes_and_not_back(self):
+    def test_random_pass_never_back_to_giver(self):
         game, everyone = make(4)
         now = live(game, everyone)
         a = game.holder
-        b = other(game, a)
-        self.fails(409, game.act, game.pids[b], {"type": "pass", "target": a}, now, everyone)
-        self.fails(400, game.act, game.pids[a], {"type": "pass", "target": a}, now, everyone)
-        self.fails(400, game.act, game.pids[a], {"type": "pass", "target": 99}, now, everyone)
-        self.fails(400, game.act, game.pids[a], {"type": "pass", "target": "1"}, now, everyone)
-        game.act(game.pids[a], {"type": "pass", "target": b}, now, everyone)
-        self.assertEqual((game.holder, game.giver), (b, a))
-        self.fails(400, game.act, game.pids[b], {"type": "pass", "target": a}, now, everyone)
-        c = other(game, a, b)
-        game.act(game.pids[b], {"type": "pass", "target": c}, now, everyone)
-        self.assertEqual(game.holder, c)
+        self.fails(409, game.act, game.pids[other(game, a)], {"type": "pass"}, now, everyone)
+        game.act(game.pids[a], {"type": "pass"}, now, everyone)
+        b = game.holder
+        self.assertNotEqual(b, a)
+        self.assertEqual(game.giver, a)
+        for _ in range(20):
+            game.act(game.pids[game.holder], {"type": "pass"}, now, everyone)
+            self.assertNotIn(game.holder, (game.giver,))
+        self.assertEqual(game.passes, 21)
 
     def test_pass_back_allowed_when_only_two_here(self):
         game, everyone = make(3)
@@ -71,16 +69,40 @@ class HotPotatoTests(unittest.TestCase):
         b = other(game, a)
         c = other(game, a, b)
         here = everyone - {game.pids[c]}
-        game.act(game.pids[a], {"type": "pass", "target": b}, now, here)
-        game.act(game.pids[b], {"type": "pass", "target": a}, now, here)
+        game.act(game.pids[a], {"type": "pass"}, now, here)
+        self.assertEqual(game.holder, b)
+        game.act(game.pids[b], {"type": "pass"}, now, here)
         self.assertEqual(game.holder, a)
 
-    def test_cannot_pass_to_away_player(self):
+    def test_never_passes_to_away_player(self):
         game, everyone = make(4)
         now = live(game, everyone)
         a = game.holder
-        b = other(game, a)
-        self.fails(409, game.act, game.pids[a], {"type": "pass", "target": b}, now, everyone - {game.pids[b]})
+        gone = {other(game, a), other(game, a, other(game, a))}
+        here = everyone - {game.pids[g] for g in gone}
+        for _ in range(10):
+            game.act(game.pids[game.holder], {"type": "pass"}, now, here)
+            self.assertNotIn(game.holder, gone)
+
+    def test_alone_cannot_pass(self):
+        game, everyone = make(3)
+        now = live(game, everyone)
+        a = game.holder
+        self.fails(409, game.act, game.pids[a], {"type": "pass"}, now, {game.pids[a]})
+
+    def test_receiver_gets_grace_once_per_round(self):
+        game, everyone = make(4)
+        live(game, everyone)
+        fuse = game.deadline
+        game.act(game.pids[game.holder], {"type": "pass"}, fuse - 1, everyone)
+        self.assertEqual(game.deadline, fuse - 1 + GRACE)
+        game.act(game.pids[game.holder], {"type": "pass"}, fuse + 1, everyone)
+        self.assertEqual(game.deadline, fuse - 1 + GRACE)
+        early, everyone = make(4)
+        start = live(early, everyone)
+        fuse = early.deadline
+        early.act(early.pids[early.holder], {"type": "pass"}, start, everyone)
+        self.assertEqual(early.deadline, fuse)
 
     def test_boom_scores_and_next_round_starts_with_victim(self):
         game, everyone = make(4, rounds=5)
@@ -92,7 +114,7 @@ class HotPotatoTests(unittest.TestCase):
         self.assertIn(game.dare, ("d1", "d2"))
         self.assertEqual(game.points[game.pids[victim]], 0)
         self.assertTrue(all(game.points[p] == SURVIVE for i, p in enumerate(game.pids) if i != victim))
-        self.fails(409, game.act, game.pids[victim], {"type": "pass", "target": other(game, victim)}, game.deadline - 1, everyone)
+        self.fails(409, game.act, game.pids[victim], {"type": "pass"}, game.deadline - 1, everyone)
         game.tick(game.deadline, everyone)
         self.assertEqual((game.phase, game.round, game.holder, game.giver), ("ready", 2, victim, None))
 
@@ -100,7 +122,7 @@ class HotPotatoTests(unittest.TestCase):
         game, everyone = make(4)
         now = live(game, everyone)
         a = game.holder
-        self.fails(409, game.act, game.pids[a], {"type": "pass", "target": other(game, a)}, game.deadline, everyone)
+        self.fails(409, game.act, game.pids[a], {"type": "pass"}, game.deadline, everyone)
         self.assertEqual(game.victim, a)
 
     def test_game_ends_after_rounds(self):
@@ -140,10 +162,8 @@ class HotPotatoTests(unittest.TestCase):
         a = game.holder
         mine = game.player_view(game.pids[a], now)
         self.assertTrue(mine["holding"])
-        self.assertEqual({t["seat"] for t in mine["targets"]}, set(range(4)) - {a})
         theirs = game.player_view(game.pids[other(game, a)], now)
         self.assertFalse(theirs["holding"])
-        self.assertNotIn("targets", theirs)
         self.assertEqual(theirs["holder"], game.names[a])
         tv = game.host_view(now + 2)
         self.assertEqual((tv["holder"], tv["elapsed"]), (a, 2))

@@ -239,6 +239,8 @@ body:not(.tv) .home .logo.big { margin: .1em 0 0; }
 .vip-card > button.ghost { flex: none; font-size: 1em; }
 .vip-card .hint { order: 1; }
 .wait { font-weight: 700; text-align: center; }
+.wait-box { display: flex; flex-direction: column; gap: 1.2em; }
+.wait-box .wait { margin: 0; }
 
 .top { display: contents; }
 .bar { display: flex; align-items: center; gap: 1em; }

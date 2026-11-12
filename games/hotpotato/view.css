@@ -38,8 +38,8 @@
 .hp-phone.hp-mine .hp-topic { color: #fff; text-shadow: .05em .05em 0 var(--ink); }
 @keyframes hp-pulse { to { background: #e01e70; } }
 .hp-yours { margin: 0; text-align: center; font-size: 2em; text-shadow: .05em .05em 0 var(--ink); }
-.hp-targets { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: .6em; align-content: start; }
-.hp-target { min-height: 4.2em; padding: .6em .4em; background: var(--card); color: var(--ink); font-size: 1.1em; }
+.hp-mine .hp-label { text-align: center; }
+.hp-pass { flex: 1 1 auto; min-height: 5em; margin-top: .4em; background: var(--card); color: var(--ink); font-size: 2.6em; font-family: var(--display); }
 
 body:not(.tv) .hp-topic { font-size: 1.8em; }
 body:not(.tv) .hp-who { font-size: 1.3em; }

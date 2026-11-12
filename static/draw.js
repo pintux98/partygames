@@ -44,7 +44,7 @@ const DrawPad = (() => {
     const canvas = h("canvas", "im-canvas");
     canvas.width = canvas.height = SIZE;
     canvas.setAttribute("aria-label", aria);
-    const g = canvas.getContext("2d");
+    const g = canvas.getContext("2d", { willReadFrequently: true });
     g.fillStyle = "#ffffff";
     g.fillRect(0, 0, SIZE, SIZE);
     const state = { color: COLORS[0], size: SIZES[1], tool: "pen", undo: [], redo: [], down: false, last: null };
@@ -171,9 +171,10 @@ const DrawPad = (() => {
       const img = g.getImageData(0, 0, SIZE, SIZE);
       const d = img.data;
       const palette = COLORS.map(rgb);
+      const greys = palette.slice(0, 2);
       for (let i = 0; i < d.length; i += 4) {
         let best = palette[0], score = Infinity;
-        for (const c of palette) {
+        for (const c of Math.max(d[i], d[i + 1], d[i + 2]) - Math.min(d[i], d[i + 1], d[i + 2]) < 40 ? greys : palette) {
           const s = (d[i] - c[0]) ** 2 + (d[i + 1] - c[1]) ** 2 + (d[i + 2] - c[2]) ** 2;
           if (s < score) { score = s; best = c; }
         }

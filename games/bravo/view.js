@@ -161,8 +161,8 @@
 
   function hostBody(ctx, game) {
     const p = game.phase;
-    if (p === "answer") return [h("h1", "br-title", say(ctx, "write")), text("br-foot", say(ctx, "write_hint")), names(ctx, game.done)];
-    if (p === "final_answer") return [text("br-foot", say(ctx, "final_write")), text("br-prompt", game.prompt), names(ctx, game.done)];
+    if (p === "answer") return h("div", "br-center", h("h1", "br-title", say(ctx, "write")), text("br-foot", say(ctx, "write_hint")), names(ctx, game.done));
+    if (p === "final_answer") return h("div", "br-center", text("br-foot", say(ctx, "final_write")), text("br-prompt", game.prompt), names(ctx, game.done));
     if (p === "vote" || p === "reveal") return duel(ctx, game);
     if (p === "final_vote" || p === "final_reveal") return [text("br-prompt br-small", game.prompt), grid(game)];
     if (p === "scores") return standings(ctx, game);
@@ -227,18 +227,26 @@
 
   function picker(ctx, game, cls, options) {
     const key = game.phase + "|" + game.prompt + "|" + JSON.stringify(game.answers);
-    if (tapped.key !== key) tapped = { key, left: CLAPS };
+    if (tapped.key !== key) tapped = { key, left: CLAPS, mine: {} };
     tapped.left = Math.min(tapped.left, game.claps_left);
     const row = h("div", "br-dots", Array.from({ length: CLAPS }, () => h("i")));
     row.setAttribute("role", "img");
     const list = h("div", cls, options.map(([label, side, k, body, own]) => {
-      const b = h("button", "br-pick br-" + "ab"[side % 2], own ? h("small", "", say(ctx, "yours")) : null, text("", label));
+      const mine = h("span", "br-mine");
+      const b = h("button", "br-pick br-" + "ab"[side % 2], own ? h("small", "", say(ctx, "yours")) : null, text("", label), mine);
+      const mark = () => (mine.textContent = tapped.mine[k] ? "+" + tapped.mine[k] : "");
       b.type = "button";
       b.dataset.k = k;
       b.disabled = own;
+      mark();
       b.addEventListener("click", () => {
         if (tapped.left <= 0) return;
         tapped.left -= 1;
+        tapped.mine[k] = (tapped.mine[k] || 0) + 1;
+        mark();
+        b.classList.remove("br-hit");
+        void b.offsetWidth;
+        b.classList.add("br-hit");
         show();
         ctx.send(body);
       });

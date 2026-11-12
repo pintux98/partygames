@@ -20,8 +20,19 @@
 .dd-form { display: flex; gap: .5em; }
 .dd-input { flex: 1; min-width: 0; padding: .6em .7em; font: inherit; font-size: 1.1em; border: 3px solid var(--ink); background: var(--card); color: var(--ink); }
 
-body:not(.tv) .dd-hint { font-size: 1.6em; text-align: center; }
+body:not(.tv) .dd-hint { font-size: 2.2em; text-align: center; }
 body:not(.tv) .dd-label { text-align: center; font-weight: 500; }
+body:not(.tv) .dd-art { height: auto; width: min(62vw, 30vh); }
+body:not(.tv) .dd-word { font-size: 2.4em; }
+.dd-tried { flex: 1; min-height: 0; overflow-y: auto; align-content: flex-end; justify-content: center; }
+.dd-tried li { background: var(--card); color: var(--ink); text-decoration: line-through; }
+.dd-tried li.dd-dup { background: var(--pink); color: #fff; animation: dd-shake .4s; }
+@keyframes dd-shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@media (prefers-reduced-motion: reduce) { .dd-tried li.dd-dup { animation: none; } }
+.dd-reveal { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: .6em; text-align: center; }
+.dd-reveal .dd-label, .dd-reveal .dd-word { margin: 0; }
+.dd-mine { margin: 0; font-family: var(--display); font-size: 1.5em; }
+.dd-mine.dd-win { color: var(--pink); text-shadow: .05em .05em 0 var(--blue); }
 @media (max-aspect-ratio: 1/1) {
   .dd-stage { grid-template-columns: 1fr; justify-items: center; }
   .dd-art { height: min(50vh, 90vw); }

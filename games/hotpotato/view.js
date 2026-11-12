@@ -7,7 +7,8 @@
     you_start: { ro: "Tu incepi! Pregateste-te", en: "You start! Get ready" },
     has: { ro: "{name} are bomba", en: "{name} has the bomb" },
     yours: { ro: "AI BOMBA!", en: "YOU HAVE THE BOMB!" },
-    say: { ro: "Spune ceva din categorie, apoi da-o:", en: "Say one out loud, then pass it:" },
+    say: { ro: "Spune ceva din categorie, apoi da-o mai departe", en: "Say one out loud, then pass it" },
+    pass: { ro: "DA-O!", en: "PASS IT!" },
     rule: { ro: "Spuneti cate ceva din categorie si dati bomba mai departe", en: "Say something from the topic and pass the bomb" },
     boom: { ro: "BUM!", en: "BOOM!" },
     blew: { ro: "{name} a explodat", en: "{name} blew up" },
@@ -122,18 +123,14 @@
     const topic = text("h1", "hp-topic", game.topic);
     if (game.phase === "ready") return h("div", "hp-center", topic, text("p", "hp-who", game.holding ? say(ctx, "you_start") : say(ctx, "starts", { name: game.holder })));
     if (!game.holding) return h("div", "hp-center", topic, text("p", "hp-who", say(ctx, "has", { name: game.holder })), text("p", "hp-label", say(ctx, "look")));
-    return [text("h1", "hp-yours", say(ctx, "yours")), topic, text("p", "hp-label", say(ctx, "say")),
-      h("div", "hp-targets", game.targets.map((t) => {
-        const b = text("button", "hp-target", t.name);
-        b.type = "button";
-        b.dataset.k = "pass-" + t.seat;
-        b.addEventListener("click", async () => {
-          const all = b.closest(".hp-targets").querySelectorAll("button");
-          all.forEach((x) => (x.disabled = true));
-          if (!(await ctx.send({ type: "pass", target: t.seat }))) all.forEach((x) => (x.disabled = false));
-        });
-        return b;
-      }))];
+    const pass = text("button", "hp-pass", say(ctx, "pass"));
+    pass.type = "button";
+    pass.dataset.k = "pass";
+    pass.addEventListener("click", async () => {
+      pass.disabled = true;
+      if (!(await ctx.send({ type: "pass" }))) pass.disabled = false;
+    });
+    return [text("h1", "hp-yours", say(ctx, "yours")), topic, text("p", "hp-label", say(ctx, "say")), pass];
   }
 
   function phone(el, game, ctx) {

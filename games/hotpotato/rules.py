@@ -4,9 +4,10 @@ from party.common import Context, GameError, GameMeta, GameOption
 from party.deck import load_packs
 
 READY_TIME = 4
-BOOM_TIME = 8
-OVER_TIME = 8
+BOOM_TIME = 15
+OVER_TIME = 4
 HURRY = 3
+GRACE = 3
 SURVIVE = 100
 FUSES = {"short": (10, 20), "normal": (15, 35), "long": (25, 50)}
 
@@ -44,7 +45,7 @@ class HotPotato:
     def next_round(self, starter, now):
         self.round += 1
         self.topic = self.ctx.deck.draw("topics")
-        self.holder, self.giver, self.passes = starter, None, 0
+        self.holder, self.giver, self.passes, self.graced = starter, None, 0, False
         self.victim = self.dare = None
         self.go("ready", now, READY_TIME)
 
@@ -53,7 +54,7 @@ class HotPotato:
         if self.phase == "live" and now < self.deadline and self.holder not in self.here:
             rest = sorted(self.here)
             if rest:
-                self.holder, self.giver = self.ctx.rng.choice(rest), None
+                self.give(self.ctx.rng.choice(rest), None, now)
         while not self.finished and now >= self.deadline:
             self.advance(self.deadline if self.phase == "live" else now)
 
@@ -88,15 +89,18 @@ class HotPotato:
         i = self.pids.index(pid) if pid in self.pids else None
         if self.phase != "live" or i != self.holder:
             raise GameError("Not right now", 409)
-        target = body.get("target")
-        if type(target) is not int or not 0 <= target < len(self.pids) or target == i:
-            raise GameError("Bad pass", 400)
-        if target not in self.here:
-            raise GameError("They are away", 409)
-        if target == self.giver and len(self.here - {i}) > 1:
-            raise GameError("Pass it to someone else", 400)
-        self.holder, self.giver = target, i
+        targets = sorted(self.here - {i})
+        if len(targets) > 1 and self.giver in targets:
+            targets.remove(self.giver)
+        if not targets:
+            raise GameError("Not right now", 409)
+        self.give(self.ctx.rng.choice(targets), i, now)
         self.passes += 1
+
+    def give(self, target, giver, now):
+        self.holder, self.giver = target, giver
+        if not self.graced and self.deadline < now + GRACE:
+            self.deadline, self.graced = now + GRACE, True
 
     def hurry(self, now):
         self.deadline = min(self.deadline, now + HURRY) if self.phase == "live" else now
@@ -123,9 +127,6 @@ class HotPotato:
         i = self.pids.index(pid) if pid in self.pids else None
         view = self.common(now) | {"holder": self.names[self.holder], "holding": i == self.holder, "me": i,
                                    "names": self.names}
-        if self.phase == "live" and i == self.holder:
-            back = self.giver if len(self.here - {i}) > 1 else None
-            view["targets"] = [{"seat": j, "name": self.names[j]} for j in sorted(self.here) if j not in (i, back)]
         return view
 
     def scores(self):
