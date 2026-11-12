@@ -1,8 +1,10 @@
 import re
 import unicodedata
+from pathlib import Path
 
 from games.impostor.rules import Impostor, picture, seconds
 from party.common import Context, GameError, GameMeta, GameOption, clean_line
+from party.deck import load_packs
 
 PICK_TIME = 12
 REVEAL_TIME = 6
@@ -28,7 +30,7 @@ class Doodle:
                              GameOption("laps", {"ro": "Desene de fiecare", "en": "Drawings each"},
                                         tuple((n, {"ro": str(n), "en": str(n)}) for n in (1, 2)), 1)),
                     upload_max=Impostor.meta.upload_max)
-    packs = Impostor.packs
+    packs = load_packs(Path(__file__).parent / "content")
 
     def __init__(self, ctx: Context):
         self.ctx = ctx
@@ -47,9 +49,7 @@ class Doodle:
         self.next_turn(ctx.now)
 
     def pool(self):
-        modes = self.ctx.deck.packs[self.ctx.settings.lang]
-        entries = modes["family"]["words"] + (modes["spicy"]["words"] if self.ctx.settings.spicy else [])
-        return list(dict.fromkeys(w for e in entries for w in e[:2]))
+        return list(dict.fromkeys(self.ctx.deck.pool("words")))
 
     def go(self, phase, now, seconds):
         self.phase, self.deadline, self.started, self.hurried = phase, now + seconds, now, False

@@ -1,0 +1,2 @@
+.pl-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6em; }
+.pl-num { min-height: 3.2em; font-size: 1.4em; background: var(--card); color: var(--ink); }

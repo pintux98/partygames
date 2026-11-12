@@ -7,8 +7,8 @@ from party.common import Context, GameError, Seat, Settings
 from party.deck import Deck
 from test_impostor import png
 
-WORDS = [["ice cream", "cupcake", "food"], ["bus", "tram", "transport"], ["cat", "dog", "animals"], ["owl", "parrot", "animals"]]
-PACKS = {"en": {"family": {"words": WORDS, "twists": []}, "spicy": {"words": [["beer", "wine", "drinks"]], "twists": []}}}
+WORDS = ["ice cream", "cupcake", "bus", "tram", "cat", "dog", "owl", "parrot"]
+PACKS = {"en": {"family": {"words": WORDS}, "spicy": {"words": ["beer", "wine", "handcuffs", "lingerie"]}}}
 
 
 def make(n, seed=1, spicy=False, **options):
@@ -36,7 +36,7 @@ class DoodleTests(unittest.TestCase):
 
     def test_registry_and_shared_words(self):
         self.assertIs(GAMES["doodle"], Doodle)
-        self.assertIs(Doodle.packs, GAMES["impostor"].packs)
+        self.assertIsNot(Doodle.packs, GAMES["impostor"].packs)
 
     def test_same(self):
         self.assertTrue(same("  Ice-Cream ", "ice cream"))
@@ -55,7 +55,7 @@ class DoodleTests(unittest.TestCase):
         self.assertEqual(game.phase, "pick")
         mine = game.player_view(game.pids[game.drawer], 0)
         self.assertEqual(len(mine["choices"]), 3)
-        self.assertTrue(set(mine["choices"]) <= {w for e in WORDS for w in e[:2]})
+        self.assertTrue(set(mine["choices"]) <= set(WORDS))
         other = game.player_view(game.pids[guessers(game)[0]], 0)
         self.assertNotIn("choices", other)
         self.assertNotIn("word", other)
@@ -166,9 +166,10 @@ class DoodleTests(unittest.TestCase):
         self.assertGreaterEqual(len(seen), 8)
         self.assertEqual(len(set(seen[:8])), 8)
 
-    def test_spicy_adds_words(self):
+    def test_spicy_uses_only_spicy_words(self):
         game, _ = make(3, spicy=True)
-        self.assertIn("beer", game.pool())
+        self.assertEqual(set(game.pool()), set(PACKS["en"]["spicy"]["words"]))
+        self.assertTrue(set(game.choices) <= set(PACKS["en"]["spicy"]["words"]))
 
     def test_hurry(self):
         game, everyone = make(3, draw_time=80)

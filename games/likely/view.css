@@ -1,0 +1,6 @@
+.pl-list { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6em; align-content: start; padding: 0 6px 6px 0; }
+.pl-name { min-height: 3.4em; padding: .4em; background: var(--card); color: var(--ink); overflow-wrap: anywhere; }
+.pl-bars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5em; width: min(100%, 34em); }
+.pl-bars li { display: flex; justify-content: space-between; gap: 1em; padding: .4em .9em; background: var(--card); border: 3px solid var(--ink); font-size: 1.2em; font-weight: 700; }
+.pl-bars li span { min-width: 0; overflow-wrap: anywhere; text-align: left; }
+.pl-bars li.pl-top { background: var(--pink); color: #fff; box-shadow: 5px 5px 0 var(--blue); }

@@ -16,17 +16,20 @@ class DeckTests(unittest.TestCase):
             deck = Deck(PACKS, Settings(), random.Random(seed), set())
             self.assertNotEqual(deck.draw("t"), "s")
 
-    def test_deck_spicy_adds_pack(self):
+    def test_deck_spicy_is_spicy_only(self):
         deck = Deck(PACKS, Settings(spicy=True), random.Random(1), set())
-        self.assertEqual({deck.draw("t") for _ in range(3)}, {"a", "b", "s"})
+        self.assertEqual({deck.draw("t") for _ in range(3)}, {"s"})
+
+    def test_deck_spicy_falls_back_to_family_when_empty(self):
+        deck = Deck({"en": {"family": {"t": ["a"]}, "spicy": {"t": []}}}, Settings(spicy=True), random.Random(1), set())
+        self.assertEqual(deck.draw("t"), "a")
 
     def test_deck_no_repeats_until_exhausted(self):
         used = set()
-        settings = Settings(spicy=True)
         rng = random.Random(2)
-        drawn = [Deck(PACKS, settings, rng, used).draw("t") for _ in range(3)]
-        self.assertEqual(len(set(drawn)), 3)
-        self.assertIn(Deck(PACKS, settings, rng, used).draw("t"), {"a", "b", "s"})
+        drawn = [Deck(PACKS, Settings(), rng, used).draw("t") for _ in range(2)]
+        self.assertEqual(len(set(drawn)), 2)
+        self.assertIn(Deck(PACKS, Settings(), rng, used).draw("t"), {"a", "b"})
 
     def test_load_packs_reads_langs(self):
         with tempfile.TemporaryDirectory() as folder:

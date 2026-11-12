@@ -1,711 +1,935 @@
 {
- "family": {
-  "words": [
-   [
-    "bicycle",
-    "motorcycle",
-    "transport"
-   ],
-   [
-    "bus",
-    "tram",
-    "transport"
-   ],
-   [
-    "car",
-    "van",
-    "transport"
-   ],
-   [
-    "sailboat",
-    "canoe",
-    "transport"
-   ],
-   [
-    "airplane",
-    "helicopter",
-    "transport"
-   ],
-   [
-    "train",
-    "subway",
-    "transport"
-   ],
-   [
-    "scooter",
-    "skateboard",
-    "transport"
-   ],
-   [
-    "tractor",
-    "bulldozer",
-    "transport"
-   ],
-   [
-    "ambulance",
-    "fire truck",
-    "transport"
-   ],
-   [
-    "cat",
-    "dog",
-    "animals"
-   ],
-   [
-    "horse",
-    "donkey",
-    "animals"
-   ],
-   [
-    "cow",
-    "goat",
-    "animals"
-   ],
-   [
-    "lion",
-    "tiger",
-    "animals"
-   ],
-   [
-    "rabbit",
-    "hamster",
-    "animals"
-   ],
-   [
-    "penguin",
-    "duck",
-    "animals"
-   ],
-   [
-    "shark",
-    "dolphin",
-    "animals"
-   ],
-   [
-    "snake",
-    "worm",
-    "animals"
-   ],
-   [
-    "owl",
-    "parrot",
-    "animals"
-   ],
-   [
-    "frog",
-    "turtle",
-    "animals"
-   ],
-   [
-    "pizza",
-    "pie",
-    "food"
-   ],
-   [
-    "hamburger",
-    "sandwich",
-    "food"
-   ],
-   [
-    "ice cream",
-    "cupcake",
-    "food"
-   ],
-   [
-    "banana",
-    "cucumber",
-    "food"
-   ],
-   [
-    "watermelon",
-    "pumpkin",
-    "food"
-   ],
-   [
-    "spaghetti",
-    "noodle soup",
-    "food"
-   ],
-   [
-    "pancakes",
-    "waffles",
-    "food"
-   ],
-   [
-    "popcorn",
-    "cotton candy",
-    "food"
-   ],
-   [
-    "egg",
-    "potato",
-    "food"
-   ],
-   [
-    "grapes",
-    "cherries",
-    "food"
-   ],
-   [
-    "frying pan",
-    "pot",
-    "kitchen"
-   ],
-   [
-    "fork",
-    "spoon",
-    "kitchen"
-   ],
-   [
-    "kettle",
-    "coffee maker",
-    "kitchen"
-   ],
-   [
-    "toaster",
-    "microwave",
-    "kitchen"
-   ],
-   [
-    "blender",
-    "mixer",
-    "kitchen"
-   ],
-   [
-    "fridge",
-    "oven",
-    "kitchen"
-   ],
-   [
-    "knife",
-    "scissors",
-    "kitchen"
-   ],
-   [
-    "sofa",
-    "armchair",
-    "home"
-   ],
-   [
-    "bed",
-    "hammock",
-    "home"
-   ],
-   [
-    "lamp",
-    "candle",
-    "home"
-   ],
-   [
-    "window",
-    "mirror",
-    "home"
-   ],
-   [
-    "door",
-    "gate",
-    "home"
-   ],
-   [
-    "bathtub",
-    "shower",
-    "home"
-   ],
-   [
-    "toilet",
-    "sink",
-    "home"
-   ],
-   [
-    "stairs",
-    "ladder",
-    "home"
-   ],
-   [
-    "clock",
-    "calendar",
-    "home"
-   ],
-   [
-    "hat",
-    "helmet",
-    "clothes"
-   ],
-   [
-    "sock",
-    "glove",
-    "clothes"
-   ],
-   [
-    "sneakers",
-    "sandals",
-    "clothes"
-   ],
-   [
-    "dress",
-    "skirt",
-    "clothes"
-   ],
-   [
-    "sunglasses",
-    "swim goggles",
-    "clothes"
-   ],
-   [
-    "scarf",
-    "tie",
-    "clothes"
-   ],
-   [
-    "jacket",
-    "raincoat",
-    "clothes"
-   ],
-   [
-    "pajamas",
-    "tracksuit",
-    "clothes"
-   ],
-   [
-    "football",
-    "rugby",
-    "sports"
-   ],
-   [
-    "tennis",
-    "badminton",
-    "sports"
-   ],
-   [
-    "swimming",
-    "diving",
-    "sports"
-   ],
-   [
-    "skiing",
-    "snowboarding",
-    "sports"
-   ],
-   [
-    "boxing",
-    "wrestling",
-    "sports"
-   ],
-   [
-    "basketball",
-    "volleyball",
-    "sports"
-   ],
-   [
-    "bowling",
-    "golf",
-    "sports"
-   ],
-   [
-    "chess",
-    "checkers",
-    "sports"
-   ],
-   [
-    "guitar",
-    "violin",
-    "music"
-   ],
-   [
-    "drums",
-    "tambourine",
-    "music"
-   ],
-   [
-    "piano",
-    "accordion",
-    "music"
-   ],
-   [
-    "trumpet",
-    "saxophone",
-    "music"
-   ],
-   [
-    "microphone",
-    "megaphone",
-    "music"
-   ],
-   [
-    "headphones",
-    "earmuffs",
-    "music"
-   ],
-   [
-    "doctor",
-    "nurse",
-    "jobs"
-   ],
-   [
-    "firefighter",
-    "police officer",
-    "jobs"
-   ],
-   [
-    "chef",
-    "baker",
-    "jobs"
-   ],
-   [
-    "pilot",
-    "astronaut",
-    "jobs"
-   ],
-   [
-    "lawyer",
-    "judge",
-    "jobs"
-   ],
-   [
-    "hairdresser",
-    "barber",
-    "jobs"
-   ],
-   [
-    "farmer",
-    "gardener",
-    "jobs"
-   ],
-   [
-    "plumber",
-    "electrician",
-    "jobs"
-   ],
-   [
-    "tree",
-    "bush",
-    "nature"
-   ],
-   [
-    "mountain",
-    "volcano",
-    "nature"
-   ],
-   [
-    "river",
-    "waterfall",
-    "nature"
-   ],
-   [
-    "sun",
-    "moon",
-    "nature"
-   ],
-   [
-    "cloud",
-    "fog",
-    "nature"
-   ],
-   [
-    "rainbow",
-    "bridge",
-    "nature"
-   ],
-   [
-    "cactus",
-    "palm tree",
-    "nature"
-   ],
-   [
-    "island",
-    "beach",
-    "nature"
-   ],
-   [
-    "hospital",
-    "pharmacy",
-    "places"
-   ],
-   [
-    "castle",
-    "church",
-    "places"
-   ],
-   [
-    "airport",
-    "train station",
-    "places"
-   ],
-   [
-    "cinema",
-    "theater",
-    "places"
-   ],
-   [
-    "zoo",
-    "farm",
-    "places"
-   ],
-   [
-    "supermarket",
-    "market",
-    "places"
-   ],
-   [
-    "swimming pool",
-    "lake",
-    "places"
-   ],
-   [
-    "tent",
-    "cabin",
-    "places"
-   ],
-   [
-    "hammer",
-    "axe",
-    "tools"
-   ],
-   [
-    "screwdriver",
-    "wrench",
-    "tools"
-   ],
-   [
-    "saw",
-    "drill",
-    "tools"
-   ],
-   [
-    "umbrella",
-    "parasol",
-    "tools"
-   ],
-   [
-    "broom",
-    "mop",
-    "tools"
-   ],
-   [
-    "wheelbarrow",
-    "shopping cart",
-    "tools"
-   ],
-   [
-    "balloon",
-    "soap bubble",
-    "party"
-   ],
-   [
-    "birthday cake",
-    "wedding cake",
-    "party"
-   ],
-   [
-    "gift",
-    "envelope",
-    "party"
-   ],
-   [
-    "fireworks",
-    "sparkler",
-    "party"
-   ],
-   [
-    "clown",
-    "magician",
-    "party"
-   ],
-   [
-    "confetti",
-    "snow",
-    "party"
-   ]
-  ],
-  "twists": [
-   "Draw it from above",
-   "Only 5 lines",
-   "Draw it with your other hand",
-   "Draw it as a grandpa",
-   "Draw it very, very small",
-   "Draw it huge, off the edges",
-   "One line, never lift your finger",
-   "Draw only its shadow",
-   "Draw it feeling sad",
-   "Draw it in the year 3000",
-   "Draw it upside down",
-   "Use only circles",
-   "Use only one color",
-   "Draw 5 seconds with your eyes closed",
-   "Draw it on fire",
-   "Draw it underwater",
-   "Draw it as a robot",
-   "Draw it from the inside",
-   "Draw it as a cartoon character",
-   "Draw where you would find it",
-   "Draw it in winter",
-   "Draw it at grandma's house",
-   "Draw it as a monster",
-   "Draw it on vacation"
-  ]
- },
- "spicy": {
-  "words": [
-   [
-    "candlelit dinner",
-    "picnic",
-    "date night"
-   ],
-   [
-    "rose",
-    "tulip",
-    "date night"
-   ],
-   [
-    "love letter",
-    "postcard",
-    "date night"
-   ],
-   [
-    "wine glass",
-    "champagne flute",
-    "date night"
-   ],
-   [
-    "perfume",
-    "deodorant",
-    "date night"
-   ],
-   [
-    "kiss",
-    "hug",
-    "date night"
-   ],
-   [
-    "handcuffs",
-    "bracelet",
-    "bedroom"
-   ],
-   [
-    "lingerie",
-    "swimsuit",
-    "bedroom"
-   ],
-   [
-    "heart-shaped bed",
-    "waterbed",
-    "bedroom"
-   ],
-   [
-    "massage oil",
-    "sunscreen",
-    "bedroom"
-   ],
-   [
-    "pillow fight",
-    "snowball fight",
-    "bedroom"
-   ],
-   [
-    "blindfold",
-    "sleep mask",
-    "bedroom"
-   ],
-   [
-    "shot glass",
-    "thimble",
-    "night out"
-   ],
-   [
-    "hangover",
-    "headache",
-    "night out"
-   ],
-   [
-    "beer pong",
-    "ping pong",
-    "night out"
-   ],
-   [
-    "karaoke",
-    "concert",
-    "night out"
-   ],
-   [
-    "stripper pole",
-    "fireman pole",
-    "night out"
-   ],
-   [
-    "bachelor party",
-    "office party",
-    "night out"
-   ],
-   [
-    "skinny dipping",
-    "snorkeling",
-    "beach"
-   ],
-   [
-    "thong",
-    "bikini",
-    "beach"
-   ],
-   [
-    "sunburn",
-    "tan",
-    "beach"
-   ],
-   [
-    "hot tub",
-    "bubble bath",
-    "beach"
-   ],
-   [
-    "lifeguard",
-    "swim coach",
-    "beach"
-   ],
-   [
-    "beach towel",
-    "picnic blanket",
-    "beach"
-   ],
-   [
-    "walk of shame",
-    "marathon",
-    "awkward"
-   ],
-   [
-    "dating app",
-    "weather app",
-    "awkward"
-   ],
-   [
-    "mistletoe",
-    "holly",
-    "awkward"
-   ],
-   [
-    "speed dating",
-    "job interview",
-    "awkward"
-   ],
-   [
-    "love bite",
-    "mosquito bite",
-    "awkward"
-   ],
-   [
-    "breakup text",
-    "birthday text",
-    "awkward"
-   ]
-  ],
-  "twists": [
-   "Draw it on a date",
-   "Draw it after midnight",
-   "Draw it wearing nothing",
-   "Draw it on a romance novel cover",
-   "Draw it in the bedroom",
-   "Draw it at a bachelor party",
-   "Draw it flirting",
-   "Draw it the morning after"
-  ]
- }
+  "family": {
+    "words": [
+      [
+        "bicycle",
+        "motorcycle",
+        "transport"
+      ],
+      [
+        "bus",
+        "tram",
+        "transport"
+      ],
+      [
+        "car",
+        "van",
+        "transport"
+      ],
+      [
+        "sailboat",
+        "canoe",
+        "transport"
+      ],
+      [
+        "airplane",
+        "helicopter",
+        "transport"
+      ],
+      [
+        "train",
+        "subway",
+        "transport"
+      ],
+      [
+        "scooter",
+        "skateboard",
+        "transport"
+      ],
+      [
+        "tractor",
+        "bulldozer",
+        "transport"
+      ],
+      [
+        "ambulance",
+        "fire truck",
+        "transport"
+      ],
+      [
+        "cat",
+        "dog",
+        "animals"
+      ],
+      [
+        "horse",
+        "donkey",
+        "animals"
+      ],
+      [
+        "cow",
+        "goat",
+        "animals"
+      ],
+      [
+        "lion",
+        "tiger",
+        "animals"
+      ],
+      [
+        "rabbit",
+        "hamster",
+        "animals"
+      ],
+      [
+        "penguin",
+        "duck",
+        "animals"
+      ],
+      [
+        "shark",
+        "dolphin",
+        "animals"
+      ],
+      [
+        "snake",
+        "eel",
+        "animals"
+      ],
+      [
+        "owl",
+        "parrot",
+        "animals"
+      ],
+      [
+        "frog",
+        "turtle",
+        "animals"
+      ],
+      [
+        "pizza",
+        "pie",
+        "food"
+      ],
+      [
+        "hamburger",
+        "sandwich",
+        "food"
+      ],
+      [
+        "ice cream",
+        "cupcake",
+        "food"
+      ],
+      [
+        "banana",
+        "cucumber",
+        "food"
+      ],
+      [
+        "watermelon",
+        "pumpkin",
+        "food"
+      ],
+      [
+        "spaghetti",
+        "noodle soup",
+        "food"
+      ],
+      [
+        "pancakes",
+        "waffles",
+        "food"
+      ],
+      [
+        "popcorn",
+        "cotton candy",
+        "food"
+      ],
+      [
+        "egg",
+        "potato",
+        "food"
+      ],
+      [
+        "grapes",
+        "cherries",
+        "food"
+      ],
+      [
+        "frying pan",
+        "pot",
+        "kitchen"
+      ],
+      [
+        "fork",
+        "spoon",
+        "kitchen"
+      ],
+      [
+        "kettle",
+        "coffee maker",
+        "kitchen"
+      ],
+      [
+        "toaster",
+        "microwave",
+        "kitchen"
+      ],
+      [
+        "blender",
+        "mixer",
+        "kitchen"
+      ],
+      [
+        "fridge",
+        "oven",
+        "kitchen"
+      ],
+      [
+        "knife",
+        "scissors",
+        "kitchen"
+      ],
+      [
+        "sofa",
+        "armchair",
+        "home"
+      ],
+      [
+        "bed",
+        "hammock",
+        "home"
+      ],
+      [
+        "lamp",
+        "candle",
+        "home"
+      ],
+      [
+        "window",
+        "mirror",
+        "home"
+      ],
+      [
+        "door",
+        "gate",
+        "home"
+      ],
+      [
+        "bathtub",
+        "shower",
+        "home"
+      ],
+      [
+        "toilet",
+        "sink",
+        "home"
+      ],
+      [
+        "stairs",
+        "ladder",
+        "home"
+      ],
+      [
+        "clock",
+        "hourglass",
+        "home"
+      ],
+      [
+        "hat",
+        "helmet",
+        "clothes"
+      ],
+      [
+        "sock",
+        "glove",
+        "clothes"
+      ],
+      [
+        "sneakers",
+        "sandals",
+        "clothes"
+      ],
+      [
+        "dress",
+        "skirt",
+        "clothes"
+      ],
+      [
+        "sunglasses",
+        "swim goggles",
+        "clothes"
+      ],
+      [
+        "scarf",
+        "tie",
+        "clothes"
+      ],
+      [
+        "jacket",
+        "raincoat",
+        "clothes"
+      ],
+      [
+        "pajamas",
+        "tracksuit",
+        "clothes"
+      ],
+      [
+        "football",
+        "rugby",
+        "sports"
+      ],
+      [
+        "tennis",
+        "badminton",
+        "sports"
+      ],
+      [
+        "swimming",
+        "diving",
+        "sports"
+      ],
+      [
+        "skiing",
+        "snowboarding",
+        "sports"
+      ],
+      [
+        "boxing",
+        "wrestling",
+        "sports"
+      ],
+      [
+        "basketball",
+        "volleyball",
+        "sports"
+      ],
+      [
+        "bowling",
+        "golf",
+        "sports"
+      ],
+      [
+        "chess",
+        "checkers",
+        "sports"
+      ],
+      [
+        "guitar",
+        "violin",
+        "music"
+      ],
+      [
+        "drums",
+        "tambourine",
+        "music"
+      ],
+      [
+        "piano",
+        "accordion",
+        "music"
+      ],
+      [
+        "trumpet",
+        "saxophone",
+        "music"
+      ],
+      [
+        "microphone",
+        "megaphone",
+        "music"
+      ],
+      [
+        "headphones",
+        "earmuffs",
+        "music"
+      ],
+      [
+        "doctor",
+        "nurse",
+        "jobs"
+      ],
+      [
+        "firefighter",
+        "police officer",
+        "jobs"
+      ],
+      [
+        "chef",
+        "baker",
+        "jobs"
+      ],
+      [
+        "pilot",
+        "astronaut",
+        "jobs"
+      ],
+      [
+        "lawyer",
+        "judge",
+        "jobs"
+      ],
+      [
+        "hairdresser",
+        "barber",
+        "jobs"
+      ],
+      [
+        "farmer",
+        "gardener",
+        "jobs"
+      ],
+      [
+        "plumber",
+        "electrician",
+        "jobs"
+      ],
+      [
+        "tree",
+        "bush",
+        "nature"
+      ],
+      [
+        "mountain",
+        "volcano",
+        "nature"
+      ],
+      [
+        "river",
+        "waterfall",
+        "nature"
+      ],
+      [
+        "sun",
+        "moon",
+        "nature"
+      ],
+      [
+        "cloud",
+        "fog",
+        "nature"
+      ],
+      [
+        "rainbow",
+        "bridge",
+        "nature"
+      ],
+      [
+        "cactus",
+        "palm tree",
+        "nature"
+      ],
+      [
+        "island",
+        "beach",
+        "nature"
+      ],
+      [
+        "hospital",
+        "pharmacy",
+        "places"
+      ],
+      [
+        "castle",
+        "church",
+        "places"
+      ],
+      [
+        "airport",
+        "train station",
+        "places"
+      ],
+      [
+        "cinema",
+        "theater",
+        "places"
+      ],
+      [
+        "zoo",
+        "farm",
+        "places"
+      ],
+      [
+        "supermarket",
+        "market",
+        "places"
+      ],
+      [
+        "swimming pool",
+        "lake",
+        "places"
+      ],
+      [
+        "tent",
+        "cabin",
+        "places"
+      ],
+      [
+        "hammer",
+        "axe",
+        "tools"
+      ],
+      [
+        "screwdriver",
+        "wrench",
+        "tools"
+      ],
+      [
+        "saw",
+        "drill",
+        "tools"
+      ],
+      [
+        "umbrella",
+        "parasol",
+        "tools"
+      ],
+      [
+        "broom",
+        "mop",
+        "tools"
+      ],
+      [
+        "wheelbarrow",
+        "shopping cart",
+        "tools"
+      ],
+      [
+        "balloon",
+        "soap bubble",
+        "party"
+      ],
+      [
+        "birthday cake",
+        "wedding cake",
+        "party"
+      ],
+      [
+        "gift",
+        "suitcase",
+        "party"
+      ],
+      [
+        "fireworks",
+        "sparkler",
+        "party"
+      ],
+      [
+        "clown",
+        "magician",
+        "party"
+      ],
+      [
+        "confetti",
+        "snow",
+        "party"
+      ]
+    ],
+    "twists": [
+      "Draw it from above",
+      "Only 5 lines",
+      "Draw it with your other hand",
+      "Draw it as a grandpa",
+      "Draw it very, very small",
+      "Draw it huge, off the edges",
+      "One line, never lift your finger",
+      "Draw only its shadow",
+      "Draw it feeling sad",
+      "Draw it in the year 3000",
+      "Draw it upside down",
+      "Use only circles",
+      "Use only one color",
+      "Draw 5 seconds with your eyes closed",
+      "Draw it on fire",
+      "Draw it underwater",
+      "Draw it as a robot",
+      "Draw it from the inside",
+      "Draw it as a cartoon character",
+      "Draw where you would find it",
+      "Draw it in winter",
+      "Draw it at grandma's house",
+      "Draw it as a monster",
+      "Draw it on vacation"
+    ]
+  },
+  "spicy": {
+    "words": [
+      [
+        "handcuffs",
+        "blindfold",
+        "bedroom"
+      ],
+      [
+        "condom",
+        "water balloon",
+        "bedroom"
+      ],
+      [
+        "massage oil",
+        "sunscreen",
+        "bedroom"
+      ],
+      [
+        "whip",
+        "belt",
+        "bedroom"
+      ],
+      [
+        "feather tickler",
+        "feather duster",
+        "bedroom"
+      ],
+      [
+        "vibrator",
+        "electric toothbrush",
+        "bedroom"
+      ],
+      [
+        "lace bra",
+        "bikini top",
+        "lingerie"
+      ],
+      [
+        "thong",
+        "swim briefs",
+        "lingerie"
+      ],
+      [
+        "fishnet stockings",
+        "fishing net",
+        "lingerie"
+      ],
+      [
+        "corset",
+        "bulletproof vest",
+        "lingerie"
+      ],
+      [
+        "garter belt",
+        "suspenders",
+        "lingerie"
+      ],
+      [
+        "silk robe",
+        "bathrobe",
+        "lingerie"
+      ],
+      [
+        "shot glass",
+        "wine glass",
+        "drinking"
+      ],
+      [
+        "cocktail",
+        "milkshake",
+        "drinking"
+      ],
+      [
+        "beer pong",
+        "ping pong",
+        "drinking"
+      ],
+      [
+        "keg",
+        "barrel",
+        "drinking"
+      ],
+      [
+        "champagne bottle",
+        "wine bottle",
+        "drinking"
+      ],
+      [
+        "corkscrew",
+        "bottle opener",
+        "drinking"
+      ],
+      [
+        "aspirin",
+        "mint candy",
+        "hangover"
+      ],
+      [
+        "kebab",
+        "burrito",
+        "hangover"
+      ],
+      [
+        "energy drink",
+        "soda can",
+        "hangover"
+      ],
+      [
+        "ice pack",
+        "hot water bottle",
+        "hangover"
+      ],
+      [
+        "bucket",
+        "trash can",
+        "hangover"
+      ],
+      [
+        "pizza box",
+        "shoe box",
+        "hangover"
+      ],
+      [
+        "disco ball",
+        "crystal ball",
+        "nightclub"
+      ],
+      [
+        "dance pole",
+        "fire pole",
+        "nightclub"
+      ],
+      [
+        "velvet rope",
+        "jump rope",
+        "nightclub"
+      ],
+      [
+        "bouncer",
+        "lifeguard",
+        "nightclub"
+      ],
+      [
+        "dollar bills",
+        "playing cards",
+        "nightclub"
+      ],
+      [
+        "neon sign",
+        "street sign",
+        "nightclub"
+      ],
+      [
+        "limousine",
+        "taxi",
+        "bachelor party"
+      ],
+      [
+        "bridal veil",
+        "lace curtain",
+        "bachelor party"
+      ],
+      [
+        "sash",
+        "seat belt",
+        "bachelor party"
+      ],
+      [
+        "inflatable doll",
+        "life ring",
+        "bachelor party"
+      ],
+      [
+        "engagement ring",
+        "bracelet",
+        "bachelor party"
+      ],
+      [
+        "tiara",
+        "crown",
+        "bachelor party"
+      ],
+      [
+        "rose",
+        "tulip",
+        "dating"
+      ],
+      [
+        "love letter",
+        "parking ticket",
+        "dating"
+      ],
+      [
+        "lipstick",
+        "glue stick",
+        "dating"
+      ],
+      [
+        "perfume",
+        "air freshener",
+        "dating"
+      ],
+      [
+        "chocolate box",
+        "jewelry box",
+        "dating"
+      ],
+      [
+        "teddy bear",
+        "toy panda",
+        "dating"
+      ],
+      [
+        "voodoo doll",
+        "scarecrow",
+        "exes"
+      ],
+      [
+        "ripped photo",
+        "jigsaw puzzle",
+        "exes"
+      ],
+      [
+        "ice cream tub",
+        "paint bucket",
+        "exes"
+      ],
+      [
+        "broken heart",
+        "cracked egg",
+        "exes"
+      ],
+      [
+        "love lock",
+        "bike lock",
+        "exes"
+      ],
+      [
+        "binoculars",
+        "telescope",
+        "exes"
+      ],
+      [
+        "single shoe",
+        "flip flop",
+        "walk of shame"
+      ],
+      [
+        "smudged makeup",
+        "clown makeup",
+        "walk of shame"
+      ],
+      [
+        "his t-shirt",
+        "pajama top",
+        "walk of shame"
+      ],
+      [
+        "phone charger",
+        "extension cord",
+        "walk of shame"
+      ],
+      [
+        "hickey",
+        "mosquito bite",
+        "walk of shame"
+      ],
+      [
+        "sunrise",
+        "streetlight",
+        "walk of shame"
+      ],
+      [
+        "six-pack",
+        "chocolate bar",
+        "body"
+      ],
+      [
+        "booty",
+        "peach",
+        "body"
+      ],
+      [
+        "tattoo",
+        "stamp",
+        "body"
+      ],
+      [
+        "hairy chest",
+        "bearskin rug",
+        "body"
+      ],
+      [
+        "tan lines",
+        "zebra stripes",
+        "body"
+      ],
+      [
+        "belly piercing",
+        "safety pin",
+        "body"
+      ],
+      [
+        "skinny dipping",
+        "snorkeling",
+        "naked fun"
+      ],
+      [
+        "streaker",
+        "marathon runner",
+        "naked fun"
+      ],
+      [
+        "hot tub",
+        "paddling pool",
+        "naked fun"
+      ],
+      [
+        "strip poker",
+        "blackjack",
+        "naked fun"
+      ],
+      [
+        "sauna",
+        "steam room",
+        "naked fun"
+      ],
+      [
+        "life drawing",
+        "portrait",
+        "naked fun"
+      ],
+      [
+        "french maid",
+        "housekeeper",
+        "costumes"
+      ],
+      [
+        "cowboy",
+        "sheriff",
+        "costumes"
+      ],
+      [
+        "devil horns",
+        "viking helmet",
+        "costumes"
+      ],
+      [
+        "angel wings",
+        "fairy wings",
+        "costumes"
+      ],
+      [
+        "bunny ears",
+        "cat ears",
+        "costumes"
+      ],
+      [
+        "leather jacket",
+        "biker vest",
+        "costumes"
+      ]
+    ],
+    "twists": [
+      "Draw it as sexy as you dare",
+      "Draw it after five shots",
+      "Draw it with your eyes closed the whole time",
+      "Draw it as a pickup line",
+      "Draw it as a tattoo",
+      "Draw it as a romance novel cover",
+      "Draw it in a dirty dream",
+      "Draw it wearing lingerie",
+      "Draw it as your ex",
+      "Draw it naked, with censor bars",
+      "Draw it at 3 a.m.",
+      "Draw it as a dating profile pic",
+      "Draw it with a hangover",
+      "Draw it as a really bad idea",
+      "Use only curvy lines",
+      "Draw it as an R-rated movie poster",
+      "Draw it flirting",
+      "Draw it doing the walk of shame",
+      "Draw it blushing",
+      "Draw it right after a breakup",
+      "Draw it as a neon club sign",
+      "Draw it holding a drink"
+    ]
+  }
 }

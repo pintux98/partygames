@@ -81,8 +81,7 @@ class Impostor:
         self.go("draw", now, self.draw_time)
 
     def pool(self, tag):
-        modes = self.ctx.deck.packs[self.ctx.settings.lang]
-        return modes["family"][tag] + (modes["spicy"][tag] if self.ctx.settings.spicy else [])
+        return self.ctx.deck.pool(tag)
 
     def alive(self):
         return [i for i in range(len(self.pids)) if i not in self.out]

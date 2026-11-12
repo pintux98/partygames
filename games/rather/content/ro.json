@@ -1,0 +1,770 @@
+{
+  "family": {
+    "dilemmas": [
+      [
+        "nu mai bei cafea niciodata",
+        "nu mai bei alcool niciodata"
+      ],
+      [
+        "poti zbura",
+        "poti deveni invizibil"
+      ],
+      [
+        "intarzii mereu 10 minute",
+        "ajungi mereu cu 20 de minute mai devreme"
+      ],
+      [
+        "ramai fara telefon o luna",
+        "ramai fara portofel o saptamana"
+      ],
+      [
+        "ai maini in loc de picioare",
+        "ai picioare in loc de maini"
+      ],
+      [
+        "mananci doar pizza un an",
+        "nu mai mananci pizza niciodata"
+      ],
+      [
+        "vorbesti toate limbile",
+        "vorbesti cu animalele"
+      ],
+      [
+        "te bati cu o rata cat un cal",
+        "te bati cu 100 de cai cat o rata"
+      ],
+      [
+        "traiesti fara muzica",
+        "traiesti fara filme"
+      ],
+      [
+        "esti celebru si lefter",
+        "esti necunoscut si bogat"
+      ],
+      [
+        "transpiri mereu foarte tare",
+        "ti-e mereu frig de ingheti"
+      ],
+      [
+        "nu ai internet acasa",
+        "nu ai apa calda acasa"
+      ],
+      [
+        "stii cand o sa mori",
+        "stii cum o sa mori"
+      ],
+      [
+        "stranuti din minut in minut o zi",
+        "ai sughit o saptamana intreaga"
+      ],
+      [
+        "ramai blocat in lift cu seful",
+        "ramai blocat in lift cu un strain care canta"
+      ],
+      [
+        "mananci o lingura de wasabi",
+        "mananci o ceapa intreaga cruda"
+      ],
+      [
+        "porti sosete ude pentru totdeauna",
+        "porti un pulover care te intepa pentru totdeauna"
+      ],
+      [
+        "ai un buton de rewind pentru viata ta",
+        "ai un buton de pauza pentru viata ta"
+      ],
+      [
+        "locuiesti intr-o casa in copac",
+        "locuiesti pe o barca"
+      ],
+      [
+        "nu mai folosesti retelele sociale niciodata",
+        "nu te mai uiti la TV niciodata"
+      ],
+      [
+        "ai un bucatar personal",
+        "ai un sofer personal"
+      ],
+      [
+        "esti cel mai haios din camera",
+        "esti cel mai destept din camera"
+      ],
+      [
+        "iti pierzi toate pozele",
+        "iti pierzi toate contactele"
+      ],
+      [
+        "vorbesti doar in soapta",
+        "vorbesti doar tipand"
+      ],
+      [
+        "ai un dragon de companie",
+        "ai un unicorn de companie"
+      ],
+      [
+        "traiesti 100 de ani in trecut",
+        "traiesti 100 de ani in viitor"
+      ],
+      [
+        "spui mereu ce gandesti",
+        "nu mai vorbesti niciodata in grup"
+      ],
+      [
+        "mananci doar dulce",
+        "mananci doar sarat"
+      ],
+      [
+        "ai forta supraomeneasca",
+        "ai viteza supraomeneasca"
+      ],
+      [
+        "nu mai stai niciodata in trafic",
+        "nu mai stai niciodata la coada"
+      ],
+      [
+        "ai o coada",
+        "ai un al treilea ochi"
+      ],
+      [
+        "renunti la ciocolata pentru totdeauna",
+        "renunti la branza pentru totdeauna"
+      ],
+      [
+        "mergi mereu cu incetinitorul",
+        "vorbesti mereu ca un robot"
+      ],
+      [
+        "esti un supererou necunoscut",
+        "esti un om obisnuit iubit de toti"
+      ],
+      [
+        "gasesti 1000 de euro pe strada",
+        "primesti o saptamana libera surpriza"
+      ],
+      [
+        "adormi la o sedinta",
+        "canti din greseala la o sedinta"
+      ],
+      [
+        "ai un zbor gratis in fiecare luna",
+        "ai o cina gratis in fiecare zi"
+      ],
+      [
+        "pierzi simtul mirosului",
+        "pierzi simtul gustului"
+      ],
+      [
+        "esti rege in Evul Mediu",
+        "esti vedeta pop azi"
+      ],
+      [
+        "ai o masina a timpului care merge doar in trecut",
+        "ai o masina a timpului care merge doar in viitor"
+      ],
+      [
+        "canti tot ce spui",
+        "dansezi oriunde mergi"
+      ],
+      [
+        "nu te mai tunzi niciodata",
+        "ramai chel pe viata"
+      ],
+      [
+        "ai bateria telefonului infinita",
+        "ai internet mobil nelimitat"
+      ],
+      [
+        "esti naufragiat cu cel mai bun prieten",
+        "esti naufragiat cu un milion de euro"
+      ],
+      [
+        "scrii tuturor in rime",
+        "vorbesti ca un pirat"
+      ],
+      [
+        "porti doar o culoare toata viata",
+        "porti alt costum in fiecare zi"
+      ],
+      [
+        "castigi la loto si pierzi prietenii",
+        "ramai fara bani dar iti pastrezi prietenii"
+      ],
+      [
+        "renunti la telefon un an",
+        "renunti la pat un an"
+      ],
+      [
+        "ai memorie fotografica",
+        "poti uita orice vrei"
+      ],
+      [
+        "vezi fantome",
+        "te vad fantomele pe tine"
+      ],
+      [
+        "locuiesti la munte",
+        "locuiesti la mare"
+      ],
+      [
+        "pierzi mereu la jocuri de societate",
+        "castigi mereu dar nu mai joaca nimeni cu tine"
+      ],
+      [
+        "poti opri timpul",
+        "te poti teleporta"
+      ],
+      [
+        "toate sedintele sunt mai scurte",
+        "toate weekendurile sunt mai lungi"
+      ],
+      [
+        "locuiesti gratis intr-o casa bantuita",
+        "platesti chirie intreaga pe o casa plictisitoare"
+      ],
+      [
+        "mananci desertul primul in fiecare zi",
+        "mananci mic dejun la cina in fiecare zi"
+      ],
+      [
+        "ai un clon care face treburile casei",
+        "ai un robot majordom"
+      ],
+      [
+        "ti-e mereu prea cald",
+        "ti-e mereu prea frig"
+      ],
+      [
+        "primesti o casa gratis la capatul lumii",
+        "inchiriezi o garsoniera mica in centru"
+      ],
+      [
+        "ti se implinesc toate visele",
+        "iti amintesti toate visele pe care le-ai avut"
+      ],
+      [
+        "stii toate secretele prietenilor",
+        "prietenii tai stiu toate secretele tale"
+      ],
+      [
+        "nu mai obosesti niciodata",
+        "nu mai flamanzesti niciodata"
+      ],
+      [
+        "citesti gandurile dar nu le poti opri",
+        "esti invizibil dar doar cand nu se uita nimeni"
+      ],
+      [
+        "canti perfect la orice instrument",
+        "gatesti perfect orice mancare"
+      ],
+      [
+        "nu ai sprancene",
+        "nu ai gene"
+      ],
+      [
+        "esti actor celebru",
+        "esti bucatar celebru"
+      ],
+      [
+        "stranuti foarte tare",
+        "razi foarte tare"
+      ],
+      [
+        "te urmareste un urs",
+        "te urmareste un roi de albine"
+      ],
+      [
+        "traiesti fara zahar",
+        "traiesti fara paine"
+      ],
+      [
+        "ai piscina in curte",
+        "ai sala de cinema acasa"
+      ],
+      [
+        "mergi cu spatele peste tot",
+        "mergi de-a busilea peste tot"
+      ],
+      [
+        "ai o tunsoare proasta un an",
+        "ai pantofi proasti un an"
+      ],
+      [
+        "pierzi mereu un ciorap",
+        "pierzi mereu o casca"
+      ],
+      [
+        "nu mai dormi deloc dar esti ok",
+        "dormi 16 ore pe zi si te simti grozav"
+      ],
+      [
+        "esti incuiat peste noapte intr-o biblioteca",
+        "esti incuiat peste noapte intr-un supermarket"
+      ],
+      [
+        "ai cea mai frumoasa priveliste",
+        "ai cea mai buna mancare"
+      ],
+      [
+        "ai mereu loc la geam in avion",
+        "ai mereu upgrade gratis in avion"
+      ],
+      [
+        "ai un prieten robot",
+        "ai un caine care vorbeste"
+      ],
+      [
+        "mergi singur la un concert",
+        "mergi singur la restaurant"
+      ],
+      [
+        "poti repara orice",
+        "poti construi orice"
+      ],
+      [
+        "mananci un melc",
+        "mananci un greiere"
+      ],
+      [
+        "iti pierzi toate bagajele in vacanta",
+        "iti pierzi pasaportul in vacanta"
+      ],
+      [
+        "traiesti intr-un oras care nu doarme niciodata",
+        "traiesti intr-un sat fara semnal"
+      ],
+      [
+        "spui mereu adevarul",
+        "minti mereu"
+      ],
+      [
+        "iti cunosti idolul si te dezamageste",
+        "nu-l cunosti niciodata si pastrezi visul"
+      ],
+      [
+        "tragi un pui de somn lung in fiecare dupa-amiaza",
+        "iei un mic dejun lung in fiecare dimineata"
+      ],
+      [
+        "ramai blocat intr-o melodie fara sfarsit",
+        "ramai blocat intr-un film fara sfarsit"
+      ],
+      [
+        "ai pizza gratis toata viata",
+        "ai cafea gratis toata viata"
+      ],
+      [
+        "poti respira sub apa",
+        "poti supravietui in spatiu"
+      ],
+      [
+        "ai un frigider fara fund",
+        "ai un portofel fara fund"
+      ]
+    ]
+  },
+  "spicy": {
+    "dilemmas": [
+      [
+        "trimiti un mesaj sexy sefului din greseala",
+        "vede mama aplicatia ta de intalniri"
+      ],
+      [
+        "nu mai faci sex niciodata",
+        "nu te mai imbeti niciodata"
+      ],
+      [
+        "ai o aventura de o noapte cu o poveste misto",
+        "ai o relatie plictisitoare dar sigura"
+      ],
+      [
+        "trimiti un nud persoanei gresite",
+        "ii arati familiei istoricul de cautari"
+      ],
+      [
+        "dormi inca o data cu fostul sau fosta",
+        "nu-l mai vezi niciodata pe fost"
+      ],
+      [
+        "ai sex grozav dar nicio gingasie",
+        "ai sex mediocru dar mangaieri incredibile"
+      ],
+      [
+        "faci drumul rusinii dimineata in rochie de bal",
+        "faci drumul rusinii dimineata costumat in mascota"
+      ],
+      [
+        "esti geniu in pat dar prost la restul",
+        "esti mediocru in pat dar bun la tot restul"
+      ],
+      [
+        "ti se scurg pozele nud",
+        "ti se scurg mesajele trimise beat"
+      ],
+      [
+        "esti prins cantand dezbracat la dus",
+        "esti prins dansand dezbracat in bucatarie"
+      ],
+      [
+        "faci sex in public si nu te prinde nimeni",
+        "faci sex la socri si nu te prinde nimeni"
+      ],
+      [
+        "saruti un necunoscut la o petrecere",
+        "saruti fostul celui mai bun prieten"
+      ],
+      [
+        "ai mahmureala trei zile",
+        "stai treaz trei luni"
+      ],
+      [
+        "iesi doar cu oameni de pe aplicatii",
+        "iesi doar cu oameni de la bar"
+      ],
+      [
+        "ai un trio de care te pare rau",
+        "nu faci niciodata un trio"
+      ],
+      [
+        "te trezesti langa un strain fara sa-ti amintesti nimic",
+        "te trezesti singur si iti amintesti fiecare rusine"
+      ],
+      [
+        "esti legat de partener",
+        "il legi tu pe partener"
+      ],
+      [
+        "iti tatuezi numele fostului",
+        "iti tatuezi un cuvant random pe fund"
+      ],
+      [
+        "te prind parintii in pat",
+        "ii prinzi tu pe parinti"
+      ],
+      [
+        "esti cunoscut ca cel mai bun la sarutat",
+        "esti cunoscut ca cel mai bun in pat"
+      ],
+      [
+        "spui alt nume in pat",
+        "gemi alt nume in pat"
+      ],
+      [
+        "ii scrii fostului beat in fiecare weekend",
+        "iti scrie fostul beat in fiecare weekend"
+      ],
+      [
+        "faci o seara de roleplay obraznic",
+        "faci o cina romantica la lumina lumanarilor"
+      ],
+      [
+        "faci baie goala cu colegii",
+        "faci baie goala cu vecinii"
+      ],
+      [
+        "iesi cu cineva care vorbeste doar de fostul",
+        "iesi cu cineva care sta tot timpul pe telefon"
+      ],
+      [
+        "esti singur pe viata dar cu aventuri tari",
+        "esti casatorit pe viata fara nicio scanteie"
+      ],
+      [
+        "esti prins cu o jucarie sexy la controlul din aeroport",
+        "esti prins cu un semn de pasiune la o sedinta de lucru"
+      ],
+      [
+        "ti se citeste istoricul din browser cu voce tare",
+        "iti deruleaza partenerul galeria foto"
+      ],
+      [
+        "bei un shot la fiecare red flag",
+        "bei un shot la fiecare fost"
+      ],
+      [
+        "nu mai ai mahmureala niciodata",
+        "nu mai ai o intalnire proasta niciodata"
+      ],
+      [
+        "mergi la plaja de nudisti cu familia",
+        "mergi la plaja de nudisti cu seful"
+      ],
+      [
+        "visezi sexy la un prieten si spui cu voce tare",
+        "visezi sexy la sef si spui cu voce tare"
+      ],
+      [
+        "saruti prost",
+        "dansezi prost"
+      ],
+      [
+        "ai un secret pervers",
+        "ai un trecut murdar"
+      ],
+      [
+        "trimiti un mesaj riscant pe grupul familiei",
+        "postezi o poza riscanta pe contul public"
+      ],
+      [
+        "dormi cu aceeasi persoana toata viata",
+        "dormi cu o persoana noua in fiecare luna"
+      ],
+      [
+        "ai o aventura cu vecinul",
+        "ai o aventura cu colegul de sala"
+      ],
+      [
+        "poti doar sa soptesti in pat",
+        "poti doar sa tipi in pat"
+      ],
+      [
+        "porti lenjerie sexy zilnic sub haine",
+        "nu porti nimic sub haine zilnic"
+      ],
+      [
+        "ai o aventura de o noapte in liftul unui hotel",
+        "ai o aventura de o noapte pe plaja"
+      ],
+      [
+        "esti refuzat de toti pe aplicatia de intalniri",
+        "faci match cu toti dar te lasa pe seen"
+      ],
+      [
+        "saruti doar cu lumina aprinsa",
+        "faci totul doar pe intuneric"
+      ],
+      [
+        "te combini cu fratele unui prieten",
+        "te combini cu cel mai bun prieten al unui prieten"
+      ],
+      [
+        "te imbeti si iti marturisesti crush-ul",
+        "te imbeti si dai de gol un secret al unui prieten"
+      ],
+      [
+        "mergi acasa cu un necunoscut",
+        "dormi singur la un hotel rece"
+      ],
+      [
+        "esti dezastrul grupului",
+        "esti soferul desemnat al grupului pe viata"
+      ],
+      [
+        "ai un prim sarut stangaci de fiecare data",
+        "ai un la revedere stangaci de fiecare data"
+      ],
+      [
+        "o vezi pe fosta partenerului goala",
+        "te vede partenerul pe fostul tau gol"
+      ],
+      [
+        "ai o inregistrare intima pe care n-o vede nimeni",
+        "ai o inregistrare intima pe care o vede doar fostul"
+      ],
+      [
+        "ii arati partenerului topul tau de pe Spotify",
+        "ii arati partenerului ce cauti pe Google"
+      ],
+      [
+        "raspunzi imediat si pari disperat",
+        "astepti trei zile si pari rece"
+      ],
+      [
+        "ai foarte multi parteneri la activ",
+        "ai foarte putini parteneri la activ"
+      ],
+      [
+        "lasi prietenii sa-ti aleaga poza de pe profil",
+        "lasi prietenii sa raspunda la match-urile tale"
+      ],
+      [
+        "esti expert in aventuri de o noapte",
+        "esti expert in relatii lungi"
+      ],
+      [
+        "ramai blocat in lift cu crush-ul",
+        "ramai blocat in lift cu fostul"
+      ],
+      [
+        "simulezi orgasmul toata viata",
+        "nu mai ai niciodata unul"
+      ],
+      [
+        "mergi la un club de striptease cu seful",
+        "mergi la un club de striptease cu parintii"
+      ],
+      [
+        "dormi cu crush-ul celui mai bun prieten",
+        "lasi cel mai bun prieten sa doarma cu al tau"
+      ],
+      [
+        "saruti toata viata fara limba",
+        "saruti toata viata doar cu limba"
+      ],
+      [
+        "ai sex epic o data pe an",
+        "ai sex mediocru in fiecare zi"
+      ],
+      [
+        "esti incatusat de un strain o zi",
+        "esti incatusat de fostul o ora"
+      ],
+      [
+        "esti cel care a inselat",
+        "esti cel care a fost inselat"
+      ],
+      [
+        "petreci o noapte cu un strain in avion",
+        "petreci o noapte cu un strain in tren"
+      ],
+      [
+        "ai sughit in timpul unui sarut",
+        "te apuca rasul in timpul sexului"
+      ],
+      [
+        "iesi cu cineva sexy dar prost",
+        "iesi cu cineva banal dar genial"
+      ],
+      [
+        "mergi la bar in pijamale",
+        "mergi la servici in hainele de aseara"
+      ],
+      [
+        "vomiti pe partenerul de intalnire",
+        "vomiti pe pantofii partenerului la intrare"
+      ],
+      [
+        "esti betivul cel mai amuzant",
+        "esti betivul cel mai trist"
+      ],
+      [
+        "ai un prieten cu beneficii care se indragosteste",
+        "ai un crush care te vede doar prieten"
+      ],
+      [
+        "esti prins cum iesi pe furis din casa unei aventuri",
+        "esti prins cum intri pe furis in propria casa"
+      ],
+      [
+        "ai o porecla sexy care ramane",
+        "ai un safe word jenant"
+      ],
+      [
+        "faci dus rece dupa fiecare intalnire",
+        "faci baie lunga singur dupa fiecare intalnire"
+      ],
+      [
+        "petreci o noapte cu cineva care te uraste",
+        "petreci o noapte cu cineva care te iubeste prea mult"
+      ],
+      [
+        "bei doar bere la intalniri",
+        "bei doar apa la intalniri"
+      ],
+      [
+        "nu spui niciodata te iubesc",
+        "nu spui niciodata te vreau"
+      ],
+      [
+        "porti o tinuta transparenta la nunta",
+        "porti o fusta super scurta la inmormantare"
+      ],
+      [
+        "iti lasi partenerul sa-ti citeasca mesajele private",
+        "iti lasi partenerul sa-ti vada contul din banca"
+      ],
+      [
+        "esti pozat sarutandu-te in public",
+        "esti pozat beat in public"
+      ],
+      [
+        "faci striptease pentru un strain",
+        "faci striptease pentru prieteni"
+      ],
+      [
+        "nu mai folosesti aplicatii de intalniri niciodata",
+        "nu mai postezi pe retelele sociale niciodata"
+      ],
+      [
+        "te agata seful pe care il urasti",
+        "te agata colegul pe care il placi"
+      ],
+      [
+        "te trezesti cu o urma de pasiune pe gat",
+        "te trezesti cu un tatuaj misterios"
+      ],
+      [
+        "dormi cu cineva care sforaie",
+        "dormi cu cineva care da din picioare"
+      ],
+      [
+        "faci doar sex de impacare",
+        "faci doar sex de dimineata"
+      ],
+      [
+        "trimiti mamei un mesaj vocal sexy",
+        "trimiti sefului un mesaj vocal sexy"
+      ],
+      [
+        "faci sex intr-un cort in ploaie",
+        "faci sex intr-o masina pe o parcare"
+      ],
+      [
+        "esti complet gol intr-un lift plin de colegi",
+        "esti in lenjerie la petrecerea firmei"
+      ],
+      [
+        "te agata tatal unui prieten",
+        "te agata mama unui prieten"
+      ],
+      [
+        "petreci un weekend in pat cu partenerul",
+        "petreci un weekend la bere cu prietenii"
+      ],
+      [
+        "iti pierzi chilotii intr-un club",
+        "iti pierzi telefonul intr-un club"
+      ],
+      [
+        "primesti o bautura in fata",
+        "arunci o bautura in fata cuiva"
+      ],
+      [
+        "te combini cu cineva la o nunta",
+        "te combini cu cineva la o inmormantare"
+      ],
+      [
+        "ii spui partenerului despre trecutul tau",
+        "le spui prietenilor despre prezentul tau"
+      ],
+      [
+        "mergi fara chiloti la prima intalnire",
+        "porti chiloti de bunica la prima intalnire"
+      ],
+      [
+        "saruti pe cineva care miroase a tigari",
+        "saruti pe cineva care miroase a usturoi"
+      ],
+      [
+        "linzi tequila de pe un strain pentru un shot",
+        "linzi tequila de pe sef pentru un shot"
+      ],
+      [
+        "joci adevar sau provocare cu seful",
+        "joci strip poker cu vecinii"
+      ],
+      [
+        "te cearti cine plateste la o intalnire",
+        "te cearti cine plateste hotelul"
+      ],
+      [
+        "nu ai deloc rezistenta in pat",
+        "nu ai deloc rabdare in pat"
+      ],
+      [
+        "te prinde partenerul ca flirtezi",
+        "te prinde mama ca flirtezi"
+      ]
+    ]
+  }
+}

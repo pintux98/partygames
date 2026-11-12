@@ -332,3 +332,28 @@ body:not(.tv) .ranking li::before { min-width: 1.2em; }
   .confetti { display: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+.pl { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2vh; }
+.pl p, .pl h1, .pl h2, .pl button, .pl li { overflow-wrap: anywhere; }
+.pl-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3vh; text-align: center; padding-bottom: 4vh; }
+.pl-item { margin: 0; max-width: 28em; font-size: 2.4em; line-height: 1.15; text-wrap: balance; }
+.pl-item.pl-small { font-size: 1.4em; }
+.pl-label { margin: 0; font-weight: 700; }
+.pl-board { display: flex; flex-direction: column; align-items: center; gap: 2vh; width: 100%; }
+.pl-big { margin: 0; font-family: var(--display); font-size: 5em; line-height: 1; color: var(--pink); text-shadow: .05em .05em 0 var(--blue); }
+.pl-winners { margin: 0; font-size: 1.4em; font-weight: 700; }
+.pl-drink { margin: 0; padding: .3em .9em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); font-size: 1.4em; transform: rotate(-1deg); }
+.pl-phone { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: .8em; }
+.pl-steps { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: .8em; }
+.pl-ask { margin: 0; text-align: center; font-size: 1.3em; }
+.pl-duo { flex: 1; display: flex; flex-direction: column; gap: .9em; }
+.pl-pick { flex: 1; min-height: 4em; padding: .5em; font-size: 1.5em; background: var(--card); color: var(--ink); }
+.pl-pick.pl-a { box-shadow: 5px 5px 0 var(--pink); }
+.pl-pick.pl-b { box-shadow: 5px 5px 0 var(--blue); }
+.pl-reveal { margin: auto 0; display: flex; flex-direction: column; align-items: center; gap: .9em; text-align: center; }
+.pl-gain { margin: 0; font-family: var(--display); font-size: 2.4em; }
+.pl-gain.pl-win { color: var(--pink); text-shadow: .05em .05em 0 var(--blue); }
+.pl-note { margin: 0; font-size: 1.2em; font-weight: 700; }
+body:not(.tv) .pl-item.pl-small { font-size: 1.15em; text-align: center; }
+body:not(.tv) .pl-phone > .pl-label { text-align: center; }
+.pl-gain:not(.pl-win) { font-size: 1.5em; }

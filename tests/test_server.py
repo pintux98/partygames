@@ -210,7 +210,7 @@ class Api(unittest.TestCase):
             self.assertEqual(self.raw("GET", path)[0].status, 404, path)
 
     def test_game_icons_served(self):
-        for g in ("bravo", "impostor", "hotpotato", "doodle"):
+        for g in ("bravo", "impostor", "hotpotato", "doodle", "never", "likely", "rather"):
             r, body = self.raw("GET", "/games/%s/icon.svg" % g)
             self.assertEqual((r.status, r.getheader("Content-Type")), (200, "image/svg+xml"), g)
             self.assertTrue(body.startswith(b"<svg"), g)

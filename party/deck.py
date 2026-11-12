@@ -16,11 +16,12 @@ class Deck:
         self.rng = rng
         self.used = used
 
-    def draw(self, tag: str) -> str:
+    def pool(self, tag: str) -> list:
         modes = self.packs[self.settings.lang]
-        pool = list(modes["family"][tag])
-        if self.settings.spicy:
-            pool += modes["spicy"][tag]
+        return list(self.settings.spicy and modes["spicy"].get(tag) or modes["family"][tag])
+
+    def draw(self, tag: str) -> str:
+        pool = self.pool(tag)
         key = lambda p: p if isinstance(p, str) else tuple(p)
         fresh = [p for p in pool if key(p) not in self.used]
         if not fresh:

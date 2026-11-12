@@ -6,7 +6,7 @@ from party.deck import load_packs
 
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = load_packs(ROOT / "games" / "bravo" / "content")
-MINIMUMS = {("family", "round"): 120, ("family", "final"): 30, ("spicy", "round"): 48, ("spicy", "final"): 12}
+MINIMUMS = {("family", "round"): 120, ("family", "final"): 30, ("spicy", "round"): 80, ("spicy", "final"): 20}
 DIACRITICS = re.compile("[ăâîșțşţĂÂÎȘȚŞŢ]")
 
 
@@ -15,7 +15,7 @@ def prompts(lang):
 
 
 IMPOSTOR = load_packs(ROOT / "games" / "impostor" / "content")
-IMPOSTOR_MINIMUMS = {("family", "words"): 100, ("spicy", "words"): 30, ("family", "twists"): 24, ("spicy", "twists"): 8}
+IMPOSTOR_MINIMUMS = {("family", "words"): 100, ("spicy", "words"): 60, ("family", "twists"): 24, ("spicy", "twists"): 16}
 
 
 class ImpostorContentTests(unittest.TestCase):
@@ -55,9 +55,9 @@ class ImpostorContentTests(unittest.TestCase):
 
     def test_categories_have_six_words(self):
         for lang, modes in IMPOSTOR.items():
-            words = modes["family"]["words"] + modes["spicy"]["words"]
-            for category in {e[2] for e in words}:
-                self.assertGreaterEqual(sum(e[2] == category for e in words), 6, (lang, category))
+            for words in (modes["family"]["words"] + modes["spicy"]["words"], modes["spicy"]["words"]):
+                for category in {e[2] for e in words}:
+                    self.assertGreaterEqual(sum(e[2] == category for e in words), 6, (lang, category))
 
 
 class ContentTests(unittest.TestCase):
@@ -89,7 +89,7 @@ class ContentTests(unittest.TestCase):
 
 
 POTATO = load_packs(ROOT / "games" / "hotpotato" / "content")
-POTATO_MINIMUMS = {("family", "topics"): 50, ("spicy", "topics"): 20, ("family", "dares"): 20, ("spicy", "dares"): 15}
+POTATO_MINIMUMS = {("family", "topics"): 50, ("spicy", "topics"): 50, ("family", "dares"): 30, ("spicy", "dares"): 40}
 
 
 class HotPotatoContentTests(unittest.TestCase):
@@ -106,3 +106,47 @@ class HotPotatoContentTests(unittest.TestCase):
                     self.assertTrue(p.strip(), lang)
                     self.assertLessEqual(len(p), limit, p)
                     self.assertNotIn("{", p)
+
+
+def fold(text):
+    return re.sub(r"[\W_]", "", text.casefold())
+
+
+class NewContentTests(unittest.TestCase):
+    def check(self, game, tag, minimums, limit, prefix=None):
+        packs = load_packs(ROOT / "games" / game / "content")
+        self.assertEqual(set(packs), {"en", "ro"})
+        for lang, modes in packs.items():
+            items = []
+            for mode, minimum in minimums.items():
+                self.assertGreaterEqual(len(modes[mode][tag]), minimum, (game, lang, mode))
+                items += modes[mode][tag]
+            texts = [t for item in items for t in ([item] if isinstance(item, str) else item)]
+            for text in texts:
+                self.assertTrue(text.strip(), (game, lang))
+                self.assertLessEqual(len(text), limit, text)
+                self.assertNotIn("{", text)
+                if prefix:
+                    self.assertTrue(text.startswith(prefix[lang]), text)
+            folded = [fold(t) for t in texts]
+            self.assertEqual(len(folded), len(set(folded)), [t for t in texts if folded.count(fold(t)) > 1])
+
+    def test_never(self):
+        self.check("never", "statements", {"family": 100, "spicy": 100}, 100, {"en": "Never have I ever ", "ro": "Eu niciodata nu "})
+
+    def test_likely(self):
+        self.check("likely", "prompts", {"family": 100, "spicy": 100}, 100, {"en": "Who is most likely to ", "ro": "Cine e cel mai probabil sa "})
+
+    def test_rather(self):
+        self.check("rather", "dilemmas", {"family": 80, "spicy": 80}, 60)
+        for modes in load_packs(ROOT / "games" / "rather" / "content").values():
+            for pair in modes["family"]["dilemmas"] + modes["spicy"]["dilemmas"]:
+                self.assertEqual(len(pair), 2, pair)
+
+    def test_doodle_own_words(self):
+        self.check("doodle", "words", {"family": 150, "spicy": 80}, 24)
+        for lang, modes in load_packs(ROOT / "games" / "doodle" / "content").items():
+            family = " ".join(modes["family"]["words"]).casefold()
+            for word in ("baby", "bebelus", "teacher", "profesor", "school", "scoala"):
+                self.assertNotIn(word, family, (lang, word))
+            self.assertFalse(any(c.isdigit() for w in modes["family"]["words"] + modes["spicy"]["words"] for c in w), lang)
