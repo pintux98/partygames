@@ -5,5 +5,6 @@ from games.impostor.rules import Impostor
 from games.likely.rules import Likely
 from games.never.rules import Never
 from games.rather.rules import Rather
+from games.tomapan.rules import Tomapan
 
-GAMES = {g.meta.id: g for g in (Bravo, Impostor, HotPotato, Doodle, Never, Likely, Rather)}
+GAMES = {g.meta.id: g for g in (Bravo, Impostor, HotPotato, Doodle, Never, Likely, Rather, Tomapan)}

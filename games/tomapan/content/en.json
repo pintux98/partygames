@@ -1,0 +1,59 @@
+{
+ "family": {
+  "categories": [
+   "Country",
+   "City",
+   "Mountain",
+   "River or sea",
+   "Plant",
+   "Animal",
+   "Boy's name",
+   "Girl's name",
+   "Fruit or veggie",
+   "Food",
+   "Job",
+   "Movie",
+   "Singer or band",
+   "Brand",
+   "Sport",
+   "Car brand",
+   "Thing in a kitchen",
+   "Cartoon character",
+   "Something in a bag",
+   "Clothing item",
+   "Musical instrument",
+   "School subject"
+  ]
+ },
+ "spicy": {
+  "categories": [
+   "Place to kiss someone",
+   "Fantasy",
+   "Party drink",
+   "Pickup line",
+   "Reason to get dumped",
+   "Worst date idea",
+   "Thing you hide from mom",
+   "Guilty pleasure",
+   "Sexy movie star",
+   "Cocktail",
+   "Excuse for being late",
+   "Bad idea at 3 am",
+   "Thing in your ex's bag"
+  ]
+ },
+ "extreme": {
+  "categories": [
+   "Sex position",
+   "Erotic toy",
+   "Body part (18+)",
+   "Kinky word",
+   "Thing in the bedroom",
+   "Dirty word",
+   "Place to hook up",
+   "Sexy underwear",
+   "Turn-on",
+   "Adult movie title"
+  ]
+ }
+}

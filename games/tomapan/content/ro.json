@@ -1,0 +1,59 @@
+{
+ "family": {
+  "categories": [
+   "Tara",
+   "Oras",
+   "Munte",
+   "Apa (rau, mare)",
+   "Planta",
+   "Animal",
+   "Nume de baiat",
+   "Nume de fata",
+   "Fruct sau leguma",
+   "Mancare",
+   "Meserie",
+   "Film",
+   "Cantaret sau trupa",
+   "Marca",
+   "Sport",
+   "Marca de masina",
+   "Obiect din bucatarie",
+   "Personaj din desene",
+   "Ceva din geanta",
+   "Haina",
+   "Instrument muzical",
+   "Materie de scoala"
+  ]
+ },
+ "spicy": {
+  "categories": [
+   "Loc unde te-ai pupa",
+   "Fantezie",
+   "Bautura la party",
+   "Replica de agatat",
+   "Motiv de despartire",
+   "Intalnire de cosmar",
+   "Ceva ascuns de mama",
+   "Placere vinovata",
+   "Actor sexy",
+   "Cocktail",
+   "Scuza ca ai intarziat",
+   "Idee proasta noaptea",
+   "Ceva din geanta ex-ului"
+  ]
+ },
+ "extreme": {
+  "categories": [
+   "Pozitie sexuala",
+   "Jucarie erotica",
+   "Parte a corpului (18+)",
+   "Cuvant murdar",
+   "Ceva din dormitor",
+   "Injuratura",
+   "Loc de partida",
+   "Lenjerie sexy",
+   "Ce te excita",
+   "Titlu de film porno"
+  ]
+ }
+}
