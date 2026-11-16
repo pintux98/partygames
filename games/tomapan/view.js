@@ -83,7 +83,7 @@
     const el = h("div", "tp-grid");
     el.style.gridTemplateColumns = "minmax(0, 1.1fr) repeat(" + cols + ", minmax(0, 1fr))";
     el.style.fontSize = Math.max(0.55, Math.min(1, 7 / cols)) + "em";
-    el.append(h("span"), r.players.map((p) => text("tp-pl", p, "b")));
+    el.append(h("span"), ...r.players.map((p) => text("tp-pl", p, "b")));
     game.cats.forEach((c, j) => {
       el.append(text("tp-cat", c, "b"));
       r.cells[j].forEach((x) => {
@@ -93,8 +93,8 @@
         el.append(cell);
       });
     });
-    el.append(text("tp-cat", say(ctx, "total"), "b"), r.gain.map((g) => text("tp-sum", "+" + g, "b")));
-    el.append(text("tp-cat", say(ctx, "all"), "b"), r.total.map((g) => text("tp-sum", String(g), "b")));
+    el.append(text("tp-cat", say(ctx, "total"), "b"), ...r.gain.map((g) => text("tp-sum", "+" + g, "b")));
+    el.append(text("tp-cat", say(ctx, "all"), "b"), ...r.total.map((g) => text("tp-sum", String(g), "b")));
     return el;
   }
 
@@ -135,7 +135,10 @@
       stop.disabled = !inputs.every((i) => i.value.trim());
       send.textContent = say(ctx, "send");
     };
-    inputs.forEach((i) => i.addEventListener("input", update));
+    let saving = null;
+    // answers count only once sent, so save while typing: time can run out before Send
+    const save = () => inputs[0].isConnected && ctx.send({ type: "answer", answers: inputs.map((i) => i.value) });
+    inputs.forEach((i) => i.addEventListener("input", () => { update(); clearTimeout(saving); saving = setTimeout(save, 700); }));
     const push = async () => {
       const ok = await ctx.send({ type: "answer", answers: inputs.map((i) => i.value) });
       if (ok) {

@@ -2,30 +2,30 @@
 
 Party games for a room full of friends. One screen (a TV or a laptop) shows the game, everyone else plays on their phone. No accounts, no app to install: scan the QR code, type a nickname and play.
 
-Seven games so far:
+Nine games so far:
 
-- **Bravo!** (3 to 16 players): everyone answers silly prompts on their phone, answers meet head to head, and the room votes with claps.
+- **Bravo!** (3 to 16 players): everyone answers silly prompts on their phone, answers meet head to head, and everyone else gets one vote.
 - **Impostor** (4 to 16 players): everyone draws the same secret word on their phone, with a new twist each round, except the impostors, who have a different word (or, in the "Impostor knows" variant, only its category). All drawings show on the TV and the room votes someone out, round after round, until the impostors are caught or win.
-- **Hot Potato** (3 to 16 players): the TV shows a topic and a ticking bomb. Whoever holds it says something from the topic out loud and passes it on from their phone. The fuse is secret; whoever holds the bomb when it blows gets a forfeit, everyone else scores.
-- **Doodle** (3 to 16 players): one player picks a word and draws it on their phone while the TV shows the drawing as it grows. Everyone else types guesses; faster correct guesses score more and the drawer scores for every player who gets it. Wrong guesses scroll on the TV.
-- **Never Have I Ever** (3 to 16 players): the TV shows a statement, everyone secretly taps "I have" or "I haven't" and guesses how many in the room have. The TV shows the count without names; the closest guesses score.
-- **Most Likely To** (3 to 16 players): the TV asks who is most likely to do something, everyone secretly votes for a player, and whoever voted with the room scores.
-- **Would You Rather** (3 to 16 players): the TV shows two options, everyone picks a side and guesses which side most people picked. The TV shows who picked what; right guesses score.
+- **Hot Potato** (2 to 16 players): the TV shows a topic and a ticking bomb. Whoever holds it says something from the topic out loud and passes it on from their phone. The fuse is secret; whoever holds the bomb when it blows gets a forfeit, everyone else scores.
+- **Doodle** (2 to 16 players): one player picks a word and draws it on their phone while the TV shows the drawing as it grows. Everyone else types guesses; faster correct guesses score more and the drawer scores for every player who gets it. Optional letter hints appear as time runs out.
+- **Never Have I Ever** (2 to 16 players): the TV shows a statement, everyone secretly taps "I have" or "I haven't", and the TV shows the count without names. No points.
+- **Most Likely To** (2 to 16 players): the TV asks who is most likely to do something, everyone secretly votes for a player, and whoever voted for the top pick scores (the top pick needs at least 2 votes).
+- **Would You Rather** (2 to 16 players): the TV shows two options, everyone picks a side and guesses which side most people picked (with 2 players: what the other one picked).
+- **Tomapan** (2 to 16 players): a letter and a few categories; everyone types one word per category on that letter. The first to fill every box can press STOP (5 s left for the rest). Players veto wrong answers; unique answers score 10, shared ones 5.
+- **Bluff** (3 to 16 players): the TV shows a strange true fact with a blank, everyone writes a believable fake, then everyone hunts for the truth. Points for finding it and for fooling others.
 
-- The first player to join is the VIP and starts the games; the game and its options are picked in the lobby
-- Bravo! options: answer time (45 to 120 s, default 75) and vote time (15 to 45 s, default 20)
-- Impostor options: variant (Secret impostor or Impostor knows), impostors (1 to 3, capped at one per three players), draw time (20 to 60 s, default 30) and vote time (20 to 60 s, default 40)
-- Hot Potato options: rounds (5, 8 or 12, default 8) and fuse (short, normal or long)
-- Doodle options: draw time (60 to 100 s, default 80) and drawings each (1 or 2)
-- Never Have I Ever, Most Likely To and Would You Rather options: rounds (6, 10 or 15, default 10) and answer time (15, 20 or 30 s, default 20)
-- English by default, Romanian can be picked in the lobby; Family and Spicy modes. Spicy is adults only: it uses only the spicy content, and in Spicy the losing side of a round is told to drink
+- The first player to join is the VIP: picks language, mode, game and options in the lobby (on the TV or their phone) and starts the games
+- Screens you need to read (reveals, forfeits, scores) stay up until the VIP presses Next; answer timers still run, and Next there means "hurry up"
+- When a game ends, everyone goes straight back to the lobby, which shows the winner; when the party ends, everyone goes to the home page
+- Family, Spicy and Extreme modes. Spicy and Extreme are adults only and use only their own content; drink lines show only in Spicy and Extreme and can be switched off
+- English by default, Romanian can be picked in the lobby
 - Python standard library only, plain HTML, CSS and JS, no database, no build step
 
 ## How to play
 
 1. On the big screen, open the site and tap **New party**. That device becomes the host screen. A TV browser works, and the TV can be driven with arrow keys and Enter.
 2. Players join with the QR code, the 6-character room code or the share link, and pick a nickname.
-3. The VIP chooses language, mode, game and the game's options, then starts. After a game, Play again returns to the lobby, where another game can be picked.
+3. The VIP chooses language, mode, game and the game's options, then starts. After a game everyone is back in the lobby, where another game can be picked.
 
 Rooms live in memory, so a restart closes any open rooms.
 
@@ -88,13 +88,13 @@ games/<id>/
 - `__init__(ctx)`: `ctx` is a `Context` with `seats`, `settings` (`lang`, `spicy`), `rng`, `deck` and `now`
 - `act(pid, body, now, active)`: a player sent an action; raise `GameError(message, status)` to reject it
 - `tick(now, active)`: called regularly to move timers forward
-- `hurry(now)`: the VIP pressed Next, in any phase
+- `hurry(now)`: the VIP pressed Next, in any phase. Read screens use `HOLD` (from `party.common`) as their time so they wait for Next; report time left with `left(deadline, now)`
 - `host_view(now)` and `player_view(pid, now)`: JSON-serializable state for the host screen and for one phone
 - `scores()`: points per player id
 
 Use `ctx.deck.draw(tag)` to draw a prompt that was not used yet in the room. Use `clean_line(value, limit)` for any text players type.
 
-**Content** is one JSON file per language. Each has a `family` and a `spicy` section, and each section maps a tag to a list of strings:
+**Content** is one JSON file per language. Each has a `family`, a `spicy` and an `extreme` section, and each section maps a tag to a list of strings:
 
 ```json
 {
@@ -103,7 +103,7 @@ Use `ctx.deck.draw(tag)` to draw a prompt that was not used yet in the room. Use
 }
 ```
 
-`draw("round")` takes from `family`, or only from `spicy` when the room has Spicy on (falling back to `family` if that list is empty). Plain letters only, no diacritics.
+`draw("round")` takes from `family`, from `spicy` when the room is on Spicy, or from `extreme` on Extreme (falling back to `spicy`, then `family`, if a list is missing or empty). Plain letters only, no diacritics.
 
 **`view.js`** registers the screens. `host` draws the shared screen, `phone` draws a player's phone; both get the element, the view returned by the game and `ctx`:
 

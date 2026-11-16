@@ -265,7 +265,7 @@ function hostLobby(v) {
           ...modeGroups(s)),
         gameCard(v, s.lang),
         h("div", { class: "opts" }, ...optionGroups(v, s.lang)))),
-    v.last.length ? lastGame(v) : null,
+    v.last.length && v.last[0].points > 0 ? lastGame(v) : null,
     h("header", { class: "lobby-top" }, logo(), muteButton()));
 }
 
@@ -275,7 +275,7 @@ function phoneLobby(v) {
   return h("div", { class: "phone-lobby" },
     logo(),
     ticket(v.code),
-    v.last.length ? lastGame(v) : null,
+    v.last.length && v.last[0].points > 0 ? lastGame(v) : null,
     showOptions && v.vip ? null : stickers(v.players),
     v.vip
       ? h("div", { class: "card vip-card" }, ...(showOptions

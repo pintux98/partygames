@@ -97,7 +97,7 @@ class Tomapan:
         if kind == "answer":
             self.answer(pid, body)
         elif kind == "stop":
-            self.stop(pid, now)
+            self.press_stop(pid, now)
         elif kind == "veto":
             self.veto(pid, body)
         else:
@@ -112,7 +112,7 @@ class Tomapan:
             raise GameError("Bad answers", 400)
         self.answers[pid] = [clean_line(a, WORD_MAX) for a in given]
 
-    def stop(self, pid, now):
+    def press_stop(self, pid, now):
         if self.phase != "write":
             raise GameError("Not right now", 409)
         if not all(self.answers[pid]):
