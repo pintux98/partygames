@@ -5,7 +5,7 @@ from party.deck import load_packs
 
 EMPTY_TIME = 3
 HURRY = 10
-CLAPS = 3
+CLAPS = 1
 CLAP_POINTS = 100
 SWEEP_BONUS = 200
 WALKOVER_POINTS = 100
@@ -21,7 +21,7 @@ def seconds(key, names, values, default):
 
 class Bravo:
     meta = GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25",
-                    blurb={"ro": "Raspunsuri amuzante fata in fata, sala aplauda", "en": "Funny answers go head to head, the room claps"},
+                    blurb={"ro": "Raspunsuri amuzante fata in fata, sala voteaza", "en": "Funny answers go head to head, the room votes"},
                     options=(seconds("answer_time", {"ro": "Timp de raspuns", "en": "Answer time"}, (45, 60, 75, 90, 120), 75),
                              seconds("vote_time", {"ro": "Timp de vot", "en": "Vote time"}, (15, 20, 30, 45), 20)))
     packs = load_packs(Path(__file__).parent / "content")

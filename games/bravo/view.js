@@ -2,7 +2,6 @@
 
 (() => {
   const MAX = 80;
-  const CLAPS = 3;
   const TYPING = ["answer", "final_answer"];
   const WAITING = ["answer", "vote", "final_answer", "final_vote"];
   const S = {
@@ -14,7 +13,7 @@
     write_hint: { ro: "Fiecare primeste doua intrebari.", en: "Everyone gets two prompts." },
     final_write: { ro: "Toti raspund la aceeasi intrebare:", en: "Everyone answers the same prompt:" },
     voted: { ro: "{d} din {n} au votat", en: "{d} of {n} voted" },
-    vote_hint: { ro: "Votati pe telefon, aveti cate 3 aplauze", en: "Vote on your phones, 3 claps each" },
+    vote_hint: { ro: "Votati pe telefon, aveti un vot", en: "Vote on your phones, one vote each" },
     ran_away: { ro: "fugit de raspuns", en: "ran away" },
     walkover: { ro: "FARA ADVERSAR", en: "WALKOVER" },
     nobody: { ro: "Nimeni n-a raspuns. Mai departe!", en: "Nobody answered. Moving on!" },
@@ -28,8 +27,7 @@
     look: { ro: "Uita-te la TV", en: "Look at the TV" },
     on_screen: { ro: "Raspunsul tau e pe ecran", en: "Your answer is on screen" },
     others_vote: { ro: "Ceilalti voteaza acum.", en: "The others are voting now." },
-    pick: { ro: "Atinge ca sa aplauzi!", en: "Tap to clap!" },
-    claps_left: { ro: "Aplauze ramase: {n}", en: "Claps left: {n}" },
+    pick: { ro: "Atinge ca sa votezi!", en: "Tap to vote!" },
     yours: { ro: "al tau", en: "yours" },
   };
 
@@ -55,7 +53,6 @@
       Object.keys(sessionStorage).filter((k) => k.startsWith(prefix)).forEach((k) => sessionStorage.removeItem(k));
     } catch {}
   }
-  let tapped = { key: "", left: CLAPS };
 
   function paint(el, key, build) {
     if (el.brKey === key) return false;
@@ -124,7 +121,7 @@
     box.append(c);
     if (game.voters) {
       const bar = h("i");
-      bar.style.width = Math.min(100, (100 * game.claps[side]) / (game.voters * CLAPS)) + "%";
+      bar.style.width = Math.min(100, (100 * game.claps[side]) / game.voters) + "%";
       box.append(h("div", "br-meter", bar, h("b", "", String(game.claps[side]))));
     }
     if (reveal) box.append(h("div", "br-by", text("", game.authors[side]), h("b", "", "+" + game.points[side])));
@@ -226,39 +223,19 @@
   }
 
   function picker(ctx, game, cls, options) {
-    const key = game.phase + "|" + game.prompt + "|" + JSON.stringify(game.answers);
-    if (tapped.key !== key) tapped = { key, left: CLAPS, mine: {} };
-    tapped.left = Math.min(tapped.left, game.claps_left);
-    const row = h("div", "br-dots", Array.from({ length: CLAPS }, () => h("i")));
-    row.setAttribute("role", "img");
     const list = h("div", cls, options.map(([label, side, k, body, own]) => {
-      const mine = h("span", "br-mine");
-      const b = h("button", "br-pick br-" + "ab"[side % 2], own ? h("small", "", say(ctx, "yours")) : null, text("", label), mine);
-      const mark = () => (mine.textContent = tapped.mine[k] ? "+" + tapped.mine[k] : "");
+      const b = h("button", "br-pick br-" + "ab"[side % 2], own ? h("small", "", say(ctx, "yours")) : null, text("", label));
       b.type = "button";
       b.dataset.k = k;
       b.disabled = own;
-      mark();
       b.addEventListener("click", () => {
-        if (tapped.left <= 0) return;
-        tapped.left -= 1;
-        tapped.mine[k] = (tapped.mine[k] || 0) + 1;
-        mark();
-        b.classList.remove("br-hit");
-        void b.offsetWidth;
+        list.querySelectorAll("button").forEach((x) => (x.disabled = true));
         b.classList.add("br-hit");
-        show();
         ctx.send(body);
       });
       return b;
     }));
-    const show = () => {
-      [...row.children].forEach((dot, j) => dot.classList.toggle("on", j < tapped.left));
-      row.setAttribute("aria-label", say(ctx, "claps_left", { n: tapped.left }));
-      if (!tapped.left) list.querySelectorAll("button").forEach((b) => (b.disabled = true));
-    };
-    show();
-    return [text("br-ask br-small", game.prompt), h("div", "br-row", text("br-step", say(ctx, "pick")), row), list];
+    return [text("br-ask br-small", game.prompt), h("div", "br-row", text("br-step", say(ctx, "pick"))), list];
   }
 
   function phoneBody(ctx, game) {

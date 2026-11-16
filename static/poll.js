@@ -97,7 +97,7 @@ const PollKit = (() => {
         if (game.phase === "ask" && !game.mine) return [head(say, game), h("div", "pl-phone", parts.item(kit, game, false), parts.ask(kit, game, ctx))];
         if (game.phase === "ask") return h("div", "im-msg", text("h1", "", say("locked")), text("p", "", say("look")));
         const mine = parts.mine(kit, game);
-        return h("div", "pl-reveal", text("p", "pl-gain" + (game.gain ? " pl-win" : ""), game.gain ? "+" + game.gain : say("nothing")),
+        return h("div", "pl-reveal", parts.points === false ? null : text("p", "pl-gain" + (game.gain ? " pl-win" : ""), game.gain ? "+" + game.gain : say("nothing")),
           mine.map((m) => text("p", "pl-note" + (m.drink ? " pl-drink" : ""), m.text)), text("p", "pl-label", say("look")));
       });
       clock(el, game, say);
