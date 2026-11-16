@@ -18,7 +18,8 @@ class Deck:
 
     def pool(self, tag: str) -> list:
         modes = self.packs[self.settings.lang]
-        return list(self.settings.spicy and modes["spicy"].get(tag) or modes["family"][tag])
+        get = lambda mode: modes.get(mode, {}).get(tag)
+        return list((self.settings.extreme and get("extreme")) or (self.settings.spicy and get("spicy")) or modes["family"][tag])
 
     def draw(self, tag: str) -> str:
         pool = self.pool(tag)

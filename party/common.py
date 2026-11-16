@@ -13,6 +13,13 @@ class GameError(Exception):
         self.status = status
 
 
+HOLD = float("inf")
+
+
+def left(deadline: float, now: float) -> float | None:
+    return None if deadline == HOLD else max(0, deadline - now)
+
+
 def clean_line(value, limit: int) -> str:
     if not isinstance(value, str):
         raise GameError("Bad text", 400)
@@ -25,6 +32,7 @@ def clean_line(value, limit: int) -> str:
 class Settings:
     lang: str = "en"
     spicy: bool = False
+    extreme: bool = False
     options: dict = field(default_factory=dict)
 
 

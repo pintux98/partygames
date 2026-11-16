@@ -14,7 +14,7 @@ SCREEN_TTL = 120
 MAX_SCREEN_REQUESTS = 3
 NAME_MAX = 20
 LANGS = ("ro", "en")
-CONTROLLER_ACTIONS = ("settings", "start", "next", "end", "again")
+CONTROLLER_ACTIONS = ("settings", "start", "next", "end")
 
 
 @dataclass
@@ -114,17 +114,9 @@ class Room:
         elif kind == "end":
             if self.phase == "playing":
                 getattr(self.game, "stop", lambda _: None)(now)
-                self.phase = "results"
-                self.last_scores = self.game.scores()
+                self.finish(now)
             else:
                 self.phase = "closed"
-        elif kind == "again":
-            self.need("results")
-            self.players = {pid: p for pid, p in self.players.items() if p.here(now)}
-            for player in self.players.values():
-                player.waiting = False
-            self.game = None
-            self.phase = "lobby"
         elif kind in ("allow_screen", "deny_screen"):
             if pid != self.vip:
                 raise GameError("Only the VIP can do that", 403)
@@ -150,10 +142,13 @@ class Room:
         lang = body.get("lang", self.settings.lang)
         game_id = body.get("game", self.game_id)
         spicy = body.get("spicy", self.settings.spicy)
+        extreme = body.get("extreme", self.settings.extreme)
         if lang not in LANGS:
             raise GameError("Unknown language", 400)
         if not isinstance(spicy, bool):
             raise GameError("Bad spicy setting", 400)
+        if not isinstance(extreme, bool):
+            raise GameError("Bad extreme setting", 400)
         if not isinstance(game_id, str) or game_id not in self.games:
             raise GameError("Unknown game", 400)
         options = self.defaults(game_id) if game_id != self.game_id else dict(self.settings.options)
@@ -169,6 +164,7 @@ class Room:
             options[key] = value
         self.settings.lang = lang
         self.settings.spicy = spicy
+        self.settings.extreme = extreme
         self.game_id = game_id
         self.settings.options = options
 
@@ -189,6 +185,15 @@ class Room:
         self.phase = "playing"
         self.events.append(("started", self.game_id, getattr(self.game, "label", "")))
 
+    def finish(self, now: float) -> None:
+        self.last_scores = self.game.scores()
+        if self.game.finished:
+            self.events.append(("finished", self.game_id, getattr(self.game, "label", "")))
+        self.players = {pid: p for pid, p in self.players.items() if p.here(now)}
+        for player in self.players.values():
+            player.waiting = False
+        self.phase = "lobby"
+
     def tick(self, now: float) -> None:
         if self.phase == "closed":
             return
@@ -196,9 +201,7 @@ class Room:
         if self.phase == "playing":
             self.game.tick(now, active)
             if self.game.finished:
-                self.phase = "results"
-                self.last_scores = self.game.scores()
-                self.events.append(("finished", self.game_id, getattr(self.game, "label", "")))
+                self.finish(now)
         if self.vip not in active:
             fallback = self.vip if self.vip in self.players else None
             self.vip = next((pid for pid in self.players if pid in active), fallback)
@@ -223,9 +226,7 @@ class Room:
             game = self.game.host_view(now)
         elif self.game and role == "player" and self.seated(pid):
             game = self.game.player_view(pid, now)
-        scores = []
-        if self.phase == "results":
-            scores = sorted(({"name": s.name, "points": self.last_scores.get(s.pid, 0)} for s in self.seats), key=lambda row: -row["points"])
+        last = sorted(({"name": s.name, "points": self.last_scores.get(s.pid, 0)} for s in self.seats), key=lambda row: -row["points"])
         return {
             "code": self.code,
             "phase": self.phase,
@@ -237,10 +238,10 @@ class Room:
             "games": [{"id": gid, "names": g.meta.names, "blurb": g.meta.blurb, "min": g.meta.min_players, "max": g.meta.max_players, "minutes": g.meta.minutes} for gid, g in self.games.items()],
             "options": [{"key": o.key, "names": o.names, "value": self.settings.options.get(o.key, o.default),
                          "choices": [{"value": v, "names": n} for v, n in o.choices]} for o in self.games[self.game_id].meta.options],
-            "settings": {"lang": self.settings.lang, "spicy": self.settings.spicy},
+            "settings": {"lang": self.settings.lang, "spicy": self.settings.spicy, "extreme": self.settings.extreme},
             "players": [{"name": p.name, "vip": p.id == self.vip, "away": not p.here(now), "waiting": p.waiting} for p in self.players.values()],
             "screen_requests": [r[2] for r in self.screen_requests.values()] if pid == self.vip else [],
-            "scores": scores,
+            "last": last,
             "game": game,
         }
 
