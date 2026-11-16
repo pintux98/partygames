@@ -1,3 +1,4 @@
+from games.bluff.rules import Bluff
 from games.bravo.rules import Bravo
 from games.doodle.rules import Doodle
 from games.hotpotato.rules import HotPotato
@@ -7,4 +8,4 @@ from games.never.rules import Never
 from games.rather.rules import Rather
 from games.tomapan.rules import Tomapan
 
-GAMES = {g.meta.id: g for g in (Bravo, Impostor, HotPotato, Doodle, Never, Likely, Rather, Tomapan)}
+GAMES = {g.meta.id: g for g in (Bravo, Impostor, HotPotato, Doodle, Never, Likely, Rather, Tomapan, Bluff)}

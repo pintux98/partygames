@@ -1,0 +1,46 @@
+.bl { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 2vh; }
+.bl-center { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3vh; }
+.bl p, .bl li, .bl button, .bl span, .bl small { overflow-wrap: anywhere; }
+.bl-head { display: flex; align-items: center; justify-content: space-between; gap: 1em; }
+.bl-badge { flex: none; padding: .3em .8em; background: var(--ink); color: var(--paper); font-weight: 700; text-transform: uppercase; letter-spacing: .06em; transform: rotate(2deg); }
+.bl-clock { flex: none; min-width: 2.2em; text-align: right; font-family: var(--display); font-size: 2.2em; line-height: 1; color: var(--pink); text-shadow: .06em .06em 0 var(--blue); }
+.bl-clock.bl-low { color: var(--ink); text-shadow: .06em .06em 0 var(--pink); animation: bl-pulse 1s ease-in-out infinite; }
+.bl-note { padding: .3em .9em; background: var(--pink); color: #fff; border: 3px solid var(--ink); box-shadow: 4px 4px 0 var(--ink); font-family: var(--display); text-align: center; }
+@keyframes bl-pulse { 50% { transform: scale(1.15); } }
+@media (prefers-reduced-motion: reduce) { .bl-clock.bl-low { animation: none; } }
+body:not(.tv) .bl { gap: .8em; }
+body:not(.tv) .bl-badge { font-size: .8em; }
+body:not(.tv) .bl-clock { font-size: 1.8em; }
+body:not(.tv) .bl-note { font-size: .8em; }
+
+.bl-foot { text-align: center; font-weight: 700; font-size: 1.2em; }
+.bl-fact { max-width: 34em; margin: 0 auto; font-size: 2.2em; font-weight: 700; line-height: 1.25; text-align: center; text-wrap: balance; }
+.bl-fact.bl-small { font-size: 1.5em; }
+.bl-blank { display: inline-block; min-width: 4em; padding: 0 .3em; border-bottom: 4px solid var(--pink); color: var(--pink); }
+.bl-blank.bl-true { min-width: 0; background: var(--pink); color: #fff; border: 3px solid var(--ink); }
+.bl-names { justify-content: center; }
+.bl-names .sticker { background: var(--card); color: var(--ink); }
+.bl-names .sticker.bl-ok { background: var(--pink); color: #fff; }
+
+.bl-opts { flex: 1 1 auto; min-height: 0; overflow: hidden; list-style: none; margin: 0; padding: 0 .6vw .8vh 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(14em, 1fr)); align-content: center; gap: 1.6vh 1.6vw; }
+.bl-opt { position: relative; display: flex; flex-direction: column; justify-content: center; gap: .3em; padding: .5em .8em; background: var(--card); border: 3px solid var(--ink); box-shadow: .6vh .6vh 0 var(--blue); text-align: center; }
+.bl-opt:nth-child(even) { box-shadow: .6vh .6vh 0 var(--pink); }
+.bl-opt.bl-truth { background: var(--ink); color: var(--paper); }
+.bl-text { font-size: 1.3em; font-weight: 700; line-height: 1.15; }
+.bl-by { font-weight: 700; color: var(--pink); }
+.bl-picked { opacity: .8; }
+.bl-stamp { align-self: center; padding: .1em .6em; background: var(--pink); color: #fff; border: 3px solid var(--paper); font-family: var(--display); font-weight: 400; transform: rotate(-3deg); }
+.bl .ranking { width: 100%; max-width: 44em; margin: 0 auto; }
+.bl-gain { margin-left: auto; padding: 0 .6em; font-style: normal; font-weight: 700; color: var(--pink); }
+
+.bl-phone { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: .8em; }
+.bl-write { display: flex; gap: .6em; }
+.bl-write input { flex: 1; min-width: 0; padding: .55em .7em; font: inherit; font-size: 1.15em; color: var(--ink); background: var(--card); border: 3px solid var(--ink); border-radius: 0; box-shadow: 4px 4px 0 var(--blue); }
+.bl-write button { padding: .6em .9em; font-size: 1.05em; }
+.bl-list { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: .8em; padding: .2em .5em .6em .2em; }
+.bl-pick { flex: none; min-height: 3.2em; padding: .4em .7em; background: var(--card); color: var(--ink); font-size: 1.05em; line-height: 1.2; box-shadow: 5px 5px 0 var(--blue); }
+.bl-pick.bl-on { background: var(--pink); color: #fff; }
+.bl-msg { margin: auto; display: flex; flex-direction: column; align-items: center; gap: .6em; text-align: center; }
+.bl-msg h1 { font-size: 2.2em; color: var(--pink); text-shadow: .07em .07em 0 var(--blue); transform: rotate(-2deg); }
+.bl-msg p { font-weight: 700; }
+.bl-total { font-family: var(--display); font-size: 1.4em; }

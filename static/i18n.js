@@ -101,6 +101,8 @@ const I18N = {
       "Unknown option": "Optiune necunoscuta",
       "At most 16 players": "Cel mult 16 jucatori",
       "Type a guess": "Scrie ce crezi ca e",
+      "Too close to the truth": "Prea aproape de adevar, scrie alta minciuna",
+      "Already voted": "Ai votat deja",
     },
   },
   en: {
