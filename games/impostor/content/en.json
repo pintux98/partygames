@@ -521,7 +521,7 @@
       "Draw it from above",
       "Only 5 lines",
       "Draw it with your other hand",
-      "Draw it as a grandpa",
+      "Draw it like your grandpa would",
       "Draw it very, very small",
       "Draw it huge, off the edges",
       "One line, never lift your finger",
@@ -537,7 +537,7 @@
       "Draw it as a robot",
       "Draw it from the inside",
       "Draw it as a cartoon character",
-      "Draw where you would find it",
+      "Draw the place where you'd find it",
       "Draw it in winter",
       "Draw it at grandma's house",
       "Draw it as a monster",
@@ -546,11 +546,6 @@
   },
   "spicy": {
     "words": [
-      [
-        "handcuffs",
-        "blindfold",
-        "bedroom"
-      ],
       [
         "condom",
         "water balloon",
@@ -562,19 +557,54 @@
         "bedroom"
       ],
       [
+        "vibrator",
+        "electric toothbrush",
+        "bedroom"
+      ],
+      [
+        "lube",
+        "hand cream",
+        "bedroom"
+      ],
+      [
+        "pregnancy test",
+        "thermometer",
+        "bedroom"
+      ],
+      [
+        "mirror on the ceiling",
+        "ceiling fan",
+        "bedroom"
+      ],
+      [
+        "handcuffs",
+        "blindfold",
+        "kinky"
+      ],
+      [
         "whip",
         "belt",
-        "bedroom"
+        "kinky"
+      ],
+      [
+        "spanking paddle",
+        "cutting board",
+        "kinky"
+      ],
+      [
+        "ball gag",
+        "mouthguard",
+        "kinky"
+      ],
+      [
+        "latex suit",
+        "wetsuit",
+        "kinky"
       ],
       [
         "feather tickler",
         "feather duster",
-        "bedroom"
-      ],
-      [
-        "vibrator",
-        "electric toothbrush",
-        "bedroom"
+        "kinky"
       ],
       [
         "lace bra",
@@ -602,18 +632,13 @@
         "lingerie"
       ],
       [
-        "silk robe",
-        "bathrobe",
+        "nipple tassels",
+        "curtain tassels",
         "lingerie"
       ],
       [
         "shot glass",
         "wine glass",
-        "drinking"
-      ],
-      [
-        "cocktail",
-        "milkshake",
         "drinking"
       ],
       [
@@ -632,73 +657,63 @@
         "drinking"
       ],
       [
-        "corkscrew",
-        "bottle opener",
+        "beer bong",
+        "funnel",
         "drinking"
       ],
       [
-        "aspirin",
-        "mint candy",
-        "hangover"
-      ],
-      [
-        "kebab",
-        "burrito",
-        "hangover"
-      ],
-      [
-        "energy drink",
-        "soda can",
-        "hangover"
-      ],
-      [
-        "ice pack",
-        "hot water bottle",
-        "hangover"
-      ],
-      [
-        "bucket",
-        "trash can",
-        "hangover"
-      ],
-      [
-        "pizza box",
-        "shoe box",
-        "hangover"
+        "tequila",
+        "vodka",
+        "drinking"
       ],
       [
         "disco ball",
         "crystal ball",
-        "nightclub"
+        "strip club"
       ],
       [
-        "dance pole",
+        "stripper pole",
         "fire pole",
-        "nightclub"
+        "strip club"
       ],
       [
         "velvet rope",
         "jump rope",
-        "nightclub"
+        "strip club"
       ],
       [
         "bouncer",
         "lifeguard",
-        "nightclub"
+        "strip club"
       ],
       [
         "dollar bills",
         "playing cards",
-        "nightclub"
+        "strip club"
       ],
       [
-        "neon sign",
-        "street sign",
-        "nightclub"
+        "lap dance",
+        "musical chairs",
+        "strip club"
       ],
       [
         "limousine",
         "taxi",
+        "bachelor party"
+      ],
+      [
+        "male stripper",
+        "bodybuilder",
+        "bachelor party"
+      ],
+      [
+        "inflatable doll",
+        "life ring",
+        "bachelor party"
+      ],
+      [
+        "penis straw",
+        "bendy straw",
         "bachelor party"
       ],
       [
@@ -712,49 +727,34 @@
         "bachelor party"
       ],
       [
-        "inflatable doll",
-        "life ring",
-        "bachelor party"
+        "swipe right",
+        "thumbs up",
+        "hookups"
       ],
       [
-        "engagement ring",
-        "bracelet",
-        "bachelor party"
+        "booty call",
+        "phone call",
+        "hookups"
       ],
       [
-        "tiara",
-        "crown",
-        "bachelor party"
+        "one-night stand",
+        "nightstand",
+        "hookups"
       ],
       [
-        "rose",
-        "tulip",
-        "dating"
+        "lipstick on the collar",
+        "ketchup stain",
+        "hookups"
       ],
       [
-        "love letter",
-        "parking ticket",
-        "dating"
+        "eggplant emoji",
+        "zucchini",
+        "hookups"
       ],
       [
-        "lipstick",
-        "glue stick",
-        "dating"
-      ],
-      [
-        "perfume",
-        "air freshener",
-        "dating"
-      ],
-      [
-        "chocolate box",
-        "jewelry box",
-        "dating"
-      ],
-      [
-        "teddy bear",
-        "toy panda",
-        "dating"
+        "nude selfie",
+        "mirror selfie",
+        "hookups"
       ],
       [
         "voodoo doll",
@@ -767,13 +767,13 @@
         "exes"
       ],
       [
-        "ice cream tub",
-        "paint bucket",
+        "broken heart",
+        "cracked egg",
         "exes"
       ],
       [
-        "broken heart",
-        "cracked egg",
+        "box of the ex's stuff",
+        "moving box",
         "exes"
       ],
       [
@@ -782,8 +782,8 @@
         "exes"
       ],
       [
-        "binoculars",
-        "telescope",
+        "blocked number",
+        "missed call",
         "exes"
       ],
       [
@@ -802,18 +802,18 @@
         "walk of shame"
       ],
       [
-        "phone charger",
-        "extension cord",
-        "walk of shame"
-      ],
-      [
         "hickey",
         "mosquito bite",
         "walk of shame"
       ],
       [
-        "sunrise",
-        "streetlight",
+        "sex hair",
+        "bird's nest",
+        "walk of shame"
+      ],
+      [
+        "ripped tights",
+        "ripped jeans",
         "walk of shame"
       ],
       [
@@ -827,8 +827,8 @@
         "body"
       ],
       [
-        "tattoo",
-        "stamp",
+        "cleavage",
+        "butt crack",
         "body"
       ],
       [
@@ -842,8 +842,8 @@
         "body"
       ],
       [
+        "nipple piercing",
         "belly piercing",
-        "safety pin",
         "body"
       ],
       [
@@ -867,69 +867,314 @@
         "naked fun"
       ],
       [
-        "sauna",
-        "steam room",
+        "nude beach",
+        "beach umbrella",
         "naked fun"
       ],
       [
-        "life drawing",
-        "portrait",
+        "naked yoga",
+        "hot yoga",
         "naked fun"
       ],
       [
         "french maid",
         "housekeeper",
-        "costumes"
+        "sexy costumes"
       ],
       [
-        "cowboy",
-        "sheriff",
-        "costumes"
+        "sexy nurse",
+        "surgeon",
+        "sexy costumes"
       ],
       [
         "devil horns",
         "viking helmet",
-        "costumes"
-      ],
-      [
-        "angel wings",
-        "fairy wings",
-        "costumes"
+        "sexy costumes"
       ],
       [
         "bunny ears",
         "cat ears",
-        "costumes"
+        "sexy costumes"
       ],
       [
-        "leather jacket",
-        "biker vest",
-        "costumes"
+        "sexy cop",
+        "traffic warden",
+        "sexy costumes"
+      ],
+      [
+        "leather harness",
+        "backpack straps",
+        "sexy costumes"
       ]
     ],
     "twists": [
       "Draw it as sexy as you dare",
       "Draw it after five shots",
       "Draw it with your eyes closed the whole time",
-      "Draw it as a pickup line",
-      "Draw it as a tattoo",
-      "Draw it as a romance novel cover",
-      "Draw it in a dirty dream",
+      "Draw it as a cheesy pickup line",
+      "Draw it as a tramp stamp",
+      "Draw it as an OnlyFans thumbnail",
+      "Draw it in your dirtiest dream",
       "Draw it wearing lingerie",
       "Draw it as your ex",
       "Draw it naked, with censor bars",
-      "Draw it at 3 a.m.",
-      "Draw it as a dating profile pic",
-      "Draw it with a hangover",
-      "Draw it as a really bad idea",
+      "Draw it sending a 3 a.m. booty call",
+      "Draw it as a Tinder profile pic",
+      "Draw it with a brutal hangover",
+      "Draw it as a drunk decision",
       "Use only curvy lines",
       "Draw it as an R-rated movie poster",
-      "Draw it flirting",
+      "Draw it giving a lap dance",
       "Draw it doing the walk of shame",
-      "Draw it blushing",
-      "Draw it right after a breakup",
-      "Draw it as a neon club sign",
-      "Draw it holding a drink"
+      "Draw it in the middle of a hookup",
+      "Draw it right after a messy breakup",
+      "Draw it as a strip club sign",
+      "Draw it doing a body shot",
+      "Draw it in handcuffs",
+      "Draw it covered in hickeys"
+    ]
+  },
+  "extreme": {
+    "words": [
+      [
+        "dildo",
+        "flashlight",
+        "sex toys"
+      ],
+      [
+        "fleshlight",
+        "thermos",
+        "sex toys"
+      ],
+      [
+        "butt plug",
+        "doorstop",
+        "sex toys"
+      ],
+      [
+        "cock ring",
+        "napkin ring",
+        "sex toys"
+      ],
+      [
+        "anal beads",
+        "string of lights",
+        "sex toys"
+      ],
+      [
+        "strap-on",
+        "tool belt",
+        "sex toys"
+      ],
+      [
+        "wand vibrator",
+        "massage gun",
+        "sex toys"
+      ],
+      [
+        "doggy style",
+        "pushing a car",
+        "positions"
+      ],
+      [
+        "missionary",
+        "push-ups",
+        "positions"
+      ],
+      [
+        "sixty-nine",
+        "yin yang",
+        "positions"
+      ],
+      [
+        "reverse cowgirl",
+        "piggyback ride",
+        "positions"
+      ],
+      [
+        "spooning",
+        "sleeping bag",
+        "positions"
+      ],
+      [
+        "wheelbarrow position",
+        "wheelbarrow race",
+        "positions"
+      ],
+      [
+        "penis",
+        "hot dog",
+        "body parts"
+      ],
+      [
+        "boobs",
+        "coconuts",
+        "body parts"
+      ],
+      [
+        "vagina",
+        "taco",
+        "body parts"
+      ],
+      [
+        "balls",
+        "kiwis",
+        "body parts"
+      ],
+      [
+        "nipples",
+        "bullseye",
+        "body parts"
+      ],
+      [
+        "bare ass",
+        "burger bun",
+        "body parts"
+      ],
+      [
+        "morning wood",
+        "tent pole",
+        "body parts"
+      ],
+      [
+        "bondage rope",
+        "climbing rope",
+        "kinks"
+      ],
+      [
+        "nipple clamps",
+        "clothespins",
+        "kinks"
+      ],
+      [
+        "gimp mask",
+        "ski mask",
+        "kinks"
+      ],
+      [
+        "spreader bar",
+        "barbell",
+        "kinks"
+      ],
+      [
+        "sex swing",
+        "tire swing",
+        "kinks"
+      ],
+      [
+        "hot wax",
+        "glue gun",
+        "kinks"
+      ],
+      [
+        "blowjob",
+        "sword swallower",
+        "oral and foreplay"
+      ],
+      [
+        "going down on her",
+        "bobbing for apples",
+        "oral and foreplay"
+      ],
+      [
+        "handjob",
+        "churning butter",
+        "oral and foreplay"
+      ],
+      [
+        "motorboating",
+        "speedboat",
+        "oral and foreplay"
+      ],
+      [
+        "fingering",
+        "finger painting",
+        "oral and foreplay"
+      ],
+      [
+        "dick pic",
+        "selfie stick",
+        "oral and foreplay"
+      ],
+      [
+        "pearl necklace",
+        "bead bracelet",
+        "oral and foreplay"
+      ],
+      [
+        "threesome",
+        "group hug",
+        "group sex"
+      ],
+      [
+        "orgy",
+        "rugby scrum",
+        "group sex"
+      ],
+      [
+        "swingers party",
+        "pool party",
+        "group sex"
+      ],
+      [
+        "glory hole",
+        "peephole",
+        "group sex"
+      ],
+      [
+        "sex tape",
+        "cassette tape",
+        "group sex"
+      ],
+      [
+        "foursome",
+        "double date",
+        "group sex"
+      ],
+      [
+        "orgasm face",
+        "sneeze face",
+        "in the sheets"
+      ],
+      [
+        "wet spot",
+        "coffee stain",
+        "in the sheets"
+      ],
+      [
+        "used condom",
+        "deflated balloon",
+        "in the sheets"
+      ],
+      [
+        "squirting",
+        "water pistol",
+        "in the sheets"
+      ],
+      [
+        "safe word",
+        "wifi password",
+        "in the sheets"
+      ],
+      [
+        "squeaky bed",
+        "trampoline",
+        "in the sheets"
+      ]
+    ],
+    "twists": [
+      "Draw it shaped like a penis",
+      "Draw it moaning",
+      "Draw it as a sex position",
+      "Draw it tied up in bondage",
+      "Draw it having a threesome",
+      "Draw it as a porn thumbnail",
+      "Draw it mid-orgasm",
+      "Use only boobs and butts",
+      "Draw it as a sex toy",
+      "Draw it doing it doggy style",
+      "Draw it with someone sitting on your lap",
+      "Draw it as a dick pic"
     ]
   }
 }
