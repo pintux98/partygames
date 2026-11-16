@@ -2,8 +2,7 @@
 
 window.G = { games: {}, register(id, view) { this.games[id] = view; } };
 
-const POLL_MS = 1000;
-const CONFETTI = 24;
+const POLL_MS = 1000, PLAY_POLL_MS = 300;
 const DIRS = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };
 let $app, $toast, timer, toastTimer, topEl, gameEl;
 let session = load("partygames");
@@ -60,7 +59,7 @@ async function poll() {
     if (e.status === 404) return closed();
     if (e.status === 429) toast(errText(e));
   }
-  if (session && !document.hidden) timer = setTimeout(poll, POLL_MS);
+  if (session && !document.hidden) timer = setTimeout(poll, view && view.phase === "playing" ? PLAY_POLL_MS : POLL_MS);
 }
 
 async function send(body) {
@@ -109,7 +108,7 @@ function render(v) {
   const host = v.role === "host";
   document.body.classList.toggle("tv", host || v.role === "screen_pending");
   if (host && lastCount >= 0 && v.players.length > lastCount) Sound.play("join");
-  if (host && v.phase === "results" && lastPhase && lastPhase !== "results") Sound.play("fanfare");
+  if (host && lastPhase === "playing" && v.phase === "lobby") Sound.play("fanfare");
   const samePhase = lastPhase === v.phase;
   lastCount = v.players.length;
   lastPhase = v.phase;
@@ -172,7 +171,6 @@ const homeButton = () => button(t("home"), () => homeScreen(), { class: "ghost",
 function screen(v) {
   if (v.role === "screen_pending") return message("pending_title", "pending_text", ticket(v.code));
   if (v.phase === "lobby") return v.role === "host" ? hostLobby(v) : phoneLobby(v);
-  if (v.phase === "results") return results(v);
   return message("waiting_title", "waiting_text");
 }
 
@@ -219,6 +217,12 @@ function muteButton() {
 function choice(k, label, on, body) {
   return button(label, () => send({ type: "settings", ...body }), { class: "pill", "aria-pressed": String(on), "data-k": k });
 }
+const modeGroups = (s) => [
+  group(t("language"), choice("lang-ro", "RO", s.lang === "ro", { lang: "ro" }), choice("lang-en", "EN", s.lang === "en", { lang: "en" })),
+  group(t("mode"), choice("family", t("family"), !s.spicy, { spicy: false, extreme: false }),
+    choice("spicy", t("spicy"), s.spicy && !s.extreme, { spicy: true, extreme: false }),
+    choice("extreme", t("extreme"), s.extreme, { spicy: true, extreme: true })),
+];
 const group = (label, ...buttons) => h("div", { class: "group", role: "group", "aria-label": label }, h("span", { class: "label" }, label), ...buttons);
 
 function gameCard(v, lang) {
@@ -258,10 +262,10 @@ function hostLobby(v) {
       stickers(v.players),
       h("div", { class: "settings" },
         h("div", { class: "opts" },
-          group(t("language"), choice("lang-ro", "RO", s.lang === "ro", { lang: "ro" }), choice("lang-en", "EN", s.lang === "en", { lang: "en" })),
-          group(t("mode"), choice("family", t("family"), !s.spicy, { spicy: false }), choice("spicy", t("spicy"), s.spicy, { spicy: true }))),
+          ...modeGroups(s)),
         gameCard(v, s.lang),
         h("div", { class: "opts" }, ...optionGroups(v, s.lang)))),
+    v.last.length ? lastGame(v) : null,
     h("header", { class: "lobby-top" }, logo(), muteButton()));
 }
 
@@ -271,11 +275,12 @@ function phoneLobby(v) {
   return h("div", { class: "phone-lobby" },
     logo(),
     ticket(v.code),
+    v.last.length ? lastGame(v) : null,
     showOptions && v.vip ? null : stickers(v.players),
     v.vip
       ? h("div", { class: "card vip-card" }, ...(showOptions
           ? [h("div", { class: "settings" }, ...optionGroups(v, v.settings.lang)), toggleOptions(v)]
-          : [h("h2", {}, t("vip_you")), gameCard(v, v.settings.lang), v.options.length ? toggleOptions(v) : null, startBlock(v),
+          : [h("h2", {}, t("vip_you")), gameCard(v, v.settings.lang), h("div", { class: "settings" }, ...modeGroups(v.settings)), v.options.length ? toggleOptions(v) : null, startBlock(v),
              button(t("end"), () => send({ type: "end" }), { class: "ghost", "data-k": "end" })]))
       : h("div", { class: "wait-box" }, gameCard(v, v.settings.lang), h("p", { class: "wait" }, t("wait_vip"))),
     shareBox(v.code));
@@ -305,14 +310,6 @@ function allowDialog(v) {
         button(t("deny"), () => send({ type: "deny_screen", handle }), { class: "ghost", "data-k": "deny" }))));
 }
 
-function confetti() {
-  return h("div", { class: "confetti", "aria-hidden": "true" }, Array.from({ length: CONFETTI }, (_, i) => {
-    const piece = h("i");
-    piece.style.setProperty("--i", i);
-    return piece;
-  }));
-}
-
 function gameRecap(v) {
   const view = G.games[v.game_id];
   if (!view || !view.results || !v.game) return null;
@@ -321,22 +318,16 @@ function gameRecap(v) {
   return el;
 }
 
-function results(v) {
-  const top = v.scores.length ? v.scores[0].points : 0;
-  const winners = top > 0 ? v.scores.filter((s) => s.points === top).map((s) => s.name) : [];
-  return h("div", { class: "results" },
-    winners.length ? confetti() : null,
-    h("h1", {}, t("results")),
+function lastGame(v) {
+  const top = v.last[0].points;
+  const winners = top > 0 ? v.last.filter((s) => s.points === top).map((s) => s.name) : [];
+  return h("div", { class: "last" },
     winners.length ? h("div", { class: "card winner" },
       h("span", { class: "label" }, t("winner")),
       h("strong", {}, winners.join(" & ")),
       h("span", { class: "points" }, t("points", { n: top }))) : null,
-    gameRecap(v),
-    h("ol", { class: "ranking" }, v.scores.map((s) => h("li", {}, h("span", {}, s.name), h("b", {}, s.points)))),
-    v.controller ? h("div", { class: "actions" },
-      button(t("again"), () => send({ type: "again" }), { "data-k": "again", "data-auto": true }),
-      button(t("end"), () => send({ type: "end" }), { class: "ghost", "data-k": "end" }),
-      v.role === "host" ? button(t("new_party"), () => newParty(true), { class: "alt", "data-k": "new" }) : null) : null);
+    h("ol", { class: "ranking" }, v.last.map((s) => h("li", {}, h("span", {}, s.name), h("b", {}, s.points)))),
+    gameRecap(v));
 }
 
 function stop() {
@@ -346,14 +337,9 @@ function stop() {
 }
 
 function closed() {
-  stop();
-  history.replaceState(null, "", "/");
   const tv = document.body.classList.contains("tv");
-  reset();
-  document.body.classList.toggle("tv", tv);
-  show(message("closed_title", "closed_text",
-    button(t("new_party"), () => newParty(false), { "data-k": "new", "data-auto": true }), homeButton()));
-  refocus(null);
+  stop();
+  tv ? tvScreen() : homeScreen();
 }
 
 function moved() {

@@ -194,7 +194,8 @@
       const png = board.png();
       if (!png) return msg.replaceChildren(text("im-small", say(ctx, "too_big")));
       sent = true;
-      if (!(await ctx.send({ type: "draw", png }))) sent = false;
+      if (await ctx.send({ type: "draw", png })) ctx.sound("lock");
+      else sent = false;
     };
     const msg = h("div", "im-warn");
     el.imSubmit = submit;
@@ -204,7 +205,7 @@
 
   function voter(ctx, game) {
     const list = h("div", "im-targets", game.targets.map((t) => {
-      const b = button(t.name, () => ctx.send({ type: "vote", target: t.seat }), "im-target", "target-" + t.seat);
+      const b = button(t.name, () => ctx.send({ type: "vote", target: t.seat }).then((ok) => ok && ctx.sound("lock")), "im-target", "target-" + t.seat);
       b.setAttribute("aria-pressed", String(game.voted === t.seat));
       return b;
     }));
@@ -213,7 +214,7 @@
 
   function guesser(ctx, game) {
     return [h("h2", "im-ask", say(ctx, "guess")), h("div", "im-targets", game.options.map((w, i) =>
-      button(w, () => ctx.send({ type: "guess", word: w }), "im-target", "guess-" + i)))];
+      button(w, () => ctx.send({ type: "guess", word: w }).then((ok) => ok && ctx.sound("lock")), "im-target", "guess-" + i)))];
   }
 
   function phoneBody(ctx, game, el) {

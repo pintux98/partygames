@@ -272,6 +272,11 @@ body.tv .results { max-width: 44em; margin: auto; gap: 2.2vh; }
 .winner .label { font-weight: 700; text-transform: uppercase; letter-spacing: .15em; font-size: .8em; }
 .winner strong { font-family: var(--display); font-weight: 400; font-size: 2em; color: var(--pink); text-shadow: .06em .06em 0 var(--ink); overflow-wrap: anywhere; }
 .points { font-weight: 700; }
+.lobby > .last { grid-row: 4; grid-column: 1 / -1; display: flex; align-items: flex-start; gap: 2vw; min-height: 0; overflow: hidden; font-size: .8em; }
+.lobby > .last .winner { flex: none; }
+.lobby > .last .ranking { flex: 1; }
+.lobby > .last .recap { flex: 1; }
+.phone-lobby > .last { display: flex; flex-direction: column; align-items: center; gap: .6em; }
 .ranking { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: .5em; counter-reset: rank; }
 body.tv .ranking { display: grid; grid-template-rows: repeat(8, auto); grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); column-gap: 1.5em; row-gap: .5vh; }
 .ranking li { counter-increment: rank; display: flex; align-items: center; gap: .7em; padding: .35em .8em; background: var(--card); border: 3px solid var(--ink); font-weight: 700; text-align: left; }

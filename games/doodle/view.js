@@ -222,6 +222,8 @@
     const key = JSON.stringify({ phase: game.phase, turn: game.turn, drawing: game.drawing, got: game.got, choices: game.choices, word: game.phase === "reveal" ? game.word : null });
     paint(el, key, () => [game.phase === "draw" || game.choices ? head(ctx, game) : null,
       h("div", "im-phone" + (game.phase === "draw" && game.drawing ? " im-drawing" : ""), phoneBody(ctx, game, el))]);
+    if (game.got && !el.ddGot) ctx.sound("join");
+    el.ddGot = game.got;
     clock(el, game, ctx);
     art(el, ctx, game);
     const list = el.querySelector(".dd-tried");

@@ -110,6 +110,9 @@
     paint(el, JSON.stringify({ ...game, elapsed: null, left: null }), () => hostBody(ctx, game));
     if (el.hpMoment !== moment && game.phase === "boom") ctx.sound("boom");
     el.hpMoment = moment;
+    const holder = game.phase === "live" ? game.holder : null;
+    if (holder != null && el.hpHolder != null && holder !== el.hpHolder) ctx.sound("pass");
+    el.hpHolder = holder;
     fuse(el, game, ctx);
   }
 
@@ -136,8 +139,12 @@
   function phone(el, game, ctx) {
     const hot = game.phase === "live" && game.holding;
     paint(el, JSON.stringify({ ...game, elapsed: null, left: null, passes: null }), () => h("div", "hp-phone" + (hot ? " hp-mine" : ""), phoneBody(ctx, game)));
+    if (hot && !el.hpHot) ctx.sound("tick");
     if (hot && !el.hpHot && navigator.vibrate && !calm()) navigator.vibrate(150);
-    if (game.phase === "boom" && el.hpMoment !== game.round && game.victim === game.me && navigator.vibrate) navigator.vibrate([300, 80, 300]);
+    if (game.phase === "boom" && el.hpMoment !== game.round && game.victim === game.me) {
+      ctx.sound("boom");
+      if (navigator.vibrate) navigator.vibrate([300, 80, 300]);
+    }
     if (game.phase === "boom") el.hpMoment = game.round;
     el.hpHot = hot;
   }

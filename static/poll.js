@@ -89,7 +89,8 @@ const PollKit = (() => {
       el.plSeen = { moment, done, secs };
     }
 
-    function phone(el, game, ctx) {
+    function phone(el, game, ctx0) {
+      const ctx = { ...ctx0, send: async (b) => { const ok = await ctx0.send(b); if (ok) ctx0.sound("lock"); return ok; } };
       const say = sayer(ctx);
       kit.say = say;
       const key = JSON.stringify({ phase: game.phase, round: game.round, mine: game.mine, gain: game.gain });

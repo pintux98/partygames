@@ -212,7 +212,10 @@
       e.preventDefault();
       if (!area.value.trim() || sendBtn.disabled) return;
       sendBtn.disabled = true;
-      if (await ctx.send({ type: "answer", i: prompt.i, text: area.value })) draft(ctx, prompt.i, "");
+      if (await ctx.send({ type: "answer", i: prompt.i, text: area.value })) {
+        draft(ctx, prompt.i, "");
+        ctx.sound("lock");
+      }
       else update();
     });
     update();
@@ -231,7 +234,7 @@
       b.addEventListener("click", () => {
         list.querySelectorAll("button").forEach((x) => (x.disabled = true));
         b.classList.add("br-hit");
-        ctx.send(body);
+        ctx.send(body).then((ok) => ok && ctx.sound("lock"));
       });
       return b;
     }));
