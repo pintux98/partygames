@@ -22,19 +22,21 @@ def same(guess, word):
 
 
 class Doodle:
-    meta = GameMeta("doodle", {"ro": "Doodle", "en": "Doodle"}, 3, 16, "10-20",
+    meta = GameMeta("doodle", {"ro": "Doodle", "en": "Doodle"}, 2, 16, "10-20",
                     blurb={"ro": "Unul deseneaza, ceilalti ghicesc. Cine ghiceste mai repede ia mai multe puncte.",
                            "en": "One draws, everyone else guesses. Faster guesses score more."},
                     options=(seconds("draw_time", {"ro": "Timp de desen", "en": "Draw time"}, (60, 80, 100), 80),
                              GameOption("laps", {"ro": "Desene de fiecare", "en": "Drawings each"},
-                                        tuple((n, {"ro": str(n), "en": str(n)}) for n in (1, 2)), 1)),
+                                        tuple((n, {"ro": str(n), "en": str(n)}) for n in (1, 2, 3)), 1),
+                             GameOption("hints", {"ro": "Indicii", "en": "Hints"},
+                                        ((True, {"ro": "Pornit", "en": "On"}), (False, {"ro": "Oprit", "en": "Off"})), True)),
                     upload_max=Impostor.meta.upload_max)
     packs = load_packs(Path(__file__).parent / "content")
 
     def __init__(self, ctx: Context):
         self.ctx = ctx
         options = {o.key: o.default for o in self.meta.options} | ctx.settings.options
-        self.draw_time = options["draw_time"]
+        self.draw_time, self.hints = options["draw_time"], options["hints"]
         self.pids = [s.pid for s in ctx.seats]
         self.names = [s.name for s in ctx.seats]
         self.order = [i for _ in range(options["laps"]) for i in ctx.rng.sample(range(len(self.pids)), len(self.pids))]
@@ -74,6 +76,8 @@ class Doodle:
 
     def start_drawing(self, word, now):
         self.word = word
+        slots = [i for i, c in enumerate(word) if re.match(r"\w", c)]
+        self.reveal = self.ctx.rng.sample(slots, min(2, len(slots) - 1)) if self.hints and slots else []
         self.words.append(word)
         self.go("draw", now, self.draw_time)
 
@@ -141,8 +145,9 @@ class Doodle:
     def file_name(self):
         return "s%s-%d-%d.png" % (self.tag, self.turn, self.version)
 
-    def hint(self):
-        return re.sub(r"\w", "_", self.word)
+    def hint(self, now):
+        shown = self.reveal[:(now >= self.started + self.draw_time / 2) + (now >= self.started + self.draw_time * 3 / 4)]
+        return "".join(c if i in shown else re.sub(r"\w", "_", c) for i, c in enumerate(self.word))
 
     def common(self, now):
         view = {"phase": self.phase, "turn": self.turn + 1, "turns": len(self.order), "drawer": self.names[self.drawer],
@@ -151,7 +156,7 @@ class Doodle:
         if self.png and self.phase in ("draw", "reveal"):
             view["file"] = self.file_name()
         if self.phase == "draw":
-            view["hint"] = self.hint()
+            view["hint"] = self.hint(now)
         if self.phase == "reveal":
             view |= {"word": self.word, "gains": [{"name": self.names[i], "points": p} for i, p in self.guessed.items()]}
         return view

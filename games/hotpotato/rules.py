@@ -11,11 +11,13 @@ FUSES = {"short": (10, 20), "normal": (15, 35), "long": (25, 50)}
 
 
 class HotPotato:
-    meta = GameMeta("hotpotato", {"ro": "Cartoful fierbinte", "en": "Hot Potato"}, 3, 16, "5-10",
+    meta = GameMeta("hotpotato", {"ro": "Cartoful fierbinte", "en": "Hot Potato"}, 2, 16, "5-10",
                     blurb={"ro": "Spune un cuvant, da bomba mai departe. Nu o tine cand explodeaza.",
                            "en": "Say a word, pass the bomb. Don't be holding it when it blows."},
                     options=(GameOption("rounds", {"ro": "Runde", "en": "Rounds"},
-                                        tuple((n, {"ro": str(n), "en": str(n)}) for n in (5, 8, 12)), 8),
+                                        tuple((n, {"ro": str(n), "en": str(n)}) for n in (5, 8, 12, 15)), 8),
+                             GameOption("dares", {"ro": "Provocari", "en": "Dares"},
+                                        ((True, {"ro": "Pornit", "en": "On"}), (False, {"ro": "Oprit", "en": "Off"})), True),
                              GameOption("fuse", {"ro": "Fitil", "en": "Fuse"},
                                         (("short", {"ro": "Scurt", "en": "Short"}),
                                          ("normal", {"ro": "Normal", "en": "Normal"}),
@@ -25,7 +27,7 @@ class HotPotato:
     def __init__(self, ctx: Context):
         self.ctx = ctx
         options = {o.key: o.default for o in self.meta.options} | ctx.settings.options
-        self.rounds, self.fuse = options["rounds"], FUSES[options["fuse"]]
+        self.rounds, self.fuse, self.dares = options["rounds"], FUSES[options["fuse"]], options["dares"]
         self.pids = [s.pid for s in ctx.seats]
         self.names = [s.name for s in ctx.seats]
         self.points = dict.fromkeys(self.pids, 0)
@@ -65,7 +67,7 @@ class HotPotato:
             for i, pid in enumerate(self.pids):
                 if i != self.victim:
                     self.points[pid] += SURVIVE
-            self.dare = self.ctx.deck.draw("dares")
+            self.dare = self.ctx.deck.draw("dares") if self.dares else None
             self.go("boom", now, HOLD)
         elif self.phase == "boom":
             if self.round >= self.rounds:

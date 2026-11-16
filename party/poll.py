@@ -5,7 +5,12 @@ POINTS = 100
 
 
 def rounds_option(default=10):
-    return GameOption("rounds", {"ro": "Runde", "en": "Rounds"}, tuple((n, {"ro": str(n), "en": str(n)}) for n in (6, 10, 15)), default)
+    return GameOption("rounds", {"ro": "Runde", "en": "Rounds"}, tuple((n, {"ro": str(n), "en": str(n)}) for n in (6, 10, 15, 20)), default)
+
+
+def drinks_option():
+    return GameOption("drinks", {"ro": "Bauturi", "en": "Drinks"},
+                      ((True, {"ro": "Pornit", "en": "On"}), (False, {"ro": "Oprit", "en": "Off"})), True)
 
 
 def time_option(default=20):
@@ -19,7 +24,7 @@ class Poll:
     def __init__(self, ctx: Context):
         self.ctx = ctx
         options = {o.key: o.default for o in self.meta.options} | ctx.settings.options
-        self.rounds, self.answer_time = options["rounds"], options["answer_time"]
+        self.rounds, self.answer_time, self.drinks = options["rounds"], options["answer_time"], options["drinks"]
         self.pids = [s.pid for s in ctx.seats]
         self.names = [s.name for s in ctx.seats]
         self.points = dict.fromkeys(self.pids, 0)
@@ -81,7 +86,7 @@ class Poll:
             self.deadline = now
 
     def common(self, now):
-        view = {"phase": self.phase, "round": self.round, "rounds": self.rounds, "item": self.item, "spicy": self.ctx.settings.spicy,
+        view = {"phase": self.phase, "round": self.round, "rounds": self.rounds, "item": self.item, "drinks": self.ctx.settings.spicy and self.drinks,
                 "left": None if self.finished else left(self.deadline, now), "hurry": self.hurried}
         if self.phase == "reveal":
             view["result"] = self.result

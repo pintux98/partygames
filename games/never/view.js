@@ -23,12 +23,12 @@ PollKit.register("never", {
   board(k, game) {
     const r = game.result;
     return k.h("div", "pl-board", k.text("p", "pl-big", k.say("count", { n: r.count, m: r.answered })), k.text("p", "pl-label", k.say("have_it")),
-      game.spicy && r.count ? k.text("p", "pl-drink", k.say("drink_all")) : null);
+      game.drinks && r.count ? k.text("p", "pl-drink", k.say("drink_all")) : null);
   },
   mine(k, game) {
     if (!game.mine) return [];
     const out = [];
-    if (game.spicy && game.mine.have) out.push({ text: k.say("you_have"), drink: true });
+    if (game.drinks && game.mine.have) out.push({ text: k.say("you_have"), drink: true });
     return out;
   },
 });

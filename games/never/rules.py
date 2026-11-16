@@ -2,14 +2,14 @@ from pathlib import Path
 
 from party.common import GameError, GameMeta
 from party.deck import load_packs
-from party.poll import Poll, rounds_option, time_option
+from party.poll import Poll, drinks_option, rounds_option, time_option
 
 
 class Never(Poll):
-    meta = GameMeta("never", {"ro": "Eu niciodata", "en": "Never Have I Ever"}, 3, 16, "10-20",
+    meta = GameMeta("never", {"ro": "Eu niciodata", "en": "Never Have I Ever"}, 2, 16, "10-20",
                     blurb={"ro": "Raspunzi in secret daca ai facut-o. Vezi cati din camera au facut-o.",
                            "en": "Answer in secret if you have. See how many in the room have."},
-                    options=(rounds_option(), time_option()))
+                    options=(rounds_option(), time_option(), drinks_option()))
     packs = load_packs(Path(__file__).parent / "content")
     tag = "statements"
 

@@ -81,7 +81,7 @@
       h("ul", "stickers hp-chips", game.players.map((p) => text("li", "sticker" + (p.seat === game.holder ? " hp-hot" : p.away ? " hp-away" : ""), p.name)))];
   }
 
-  const dare = (ctx, s) => h("div", "hp-dare", text("p", "hp-label", say(ctx, "forfeit")), text("p", "", s));
+  const dare = (ctx, s) => !s ? null : h("div", "hp-dare", text("p", "hp-label", say(ctx, "forfeit")), text("p", "", s));
 
   function fuse(el, game, ctx) {
     const loop = el.hpLoop;

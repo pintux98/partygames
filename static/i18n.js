@@ -93,6 +93,7 @@ const I18N = {
       "Unknown game": "Joc necunoscut",
       "Unknown language": "Limba necunoscuta",
       "Need at least 3 players": "Trebuie cel putin 3 jucatori",
+      "Need at least 2 players": "Trebuie cel putin 2 jucatori",
       "Need at least 4 players": "Trebuie cel putin 4 jucatori",
       "Bad drawing": "Desenul nu a putut fi trimis",
       "Bad vote": "Vot invalid",

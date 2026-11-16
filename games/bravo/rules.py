@@ -23,13 +23,15 @@ class Bravo:
     meta = GameMeta("bravo", {"ro": "Bravo!", "en": "Bravo!"}, 3, 16, "15-25",
                     blurb={"ro": "Raspunsuri amuzante fata in fata, sala voteaza", "en": "Funny answers go head to head, the room votes"},
                     options=(seconds("answer_time", {"ro": "Timp de raspuns", "en": "Answer time"}, (45, 60, 75, 90, 120), 75),
-                             seconds("vote_time", {"ro": "Timp de vot", "en": "Vote time"}, (15, 20, 30, 45), 20)))
+                             seconds("vote_time", {"ro": "Timp de vot", "en": "Vote time"}, (15, 20, 30, 45), 20),
+                             GameOption("rounds", {"ro": "Runde inainte de finala", "en": "Rounds before the final"},
+                                        tuple((n, {"ro": str(n), "en": str(n)}) for n in (1, 2)), 2)))
     packs = load_packs(Path(__file__).parent / "content")
 
     def __init__(self, ctx: Context):
         self.ctx = ctx
         options = {o.key: o.default for o in self.meta.options} | ctx.settings.options
-        self.answer_time, self.vote_time = options["answer_time"], options["vote_time"]
+        self.answer_time, self.vote_time, self.rounds = options["answer_time"], options["vote_time"], options["rounds"]
         self.names = {s.pid: s.name for s in ctx.seats}
         self.points = dict.fromkeys(self.names, 0)
         self.finished = False
@@ -85,7 +87,7 @@ class Bravo:
         elif self.phase == "vote":
             self.reveal(now)
         elif self.phase == "scores":
-            if self.round == 1:
+            if self.round < self.rounds:
                 self.start_round(now)
             else:
                 self.start_final(now)
@@ -114,14 +116,17 @@ class Bravo:
         if all(given):
             self.voters = set(active) & set(self.names) - set(prompt["authors"])
             return self.go("vote", now, self.vote_time)
-        self.award([WALKOVER_POINTS * self.round * g for g in given], now, HOLD if self.walkover else EMPTY_TIME)
+        self.award([WALKOVER_POINTS * self.mult() * g for g in given], now, HOLD if self.walkover else EMPTY_TIME)
 
     def reveal(self, now):
-        gained = [n * CLAP_POINTS * self.round for n in self.claps]
+        gained = [n * CLAP_POINTS * self.mult() for n in self.claps]
         if sum(self.claps) and 0 in self.claps:
             self.sweep = 1 - self.claps.index(0)
-            gained[self.sweep] += SWEEP_BONUS * self.round
+            gained[self.sweep] += SWEEP_BONUS * self.mult()
         self.award(gained, now, HOLD)
+
+    def mult(self):
+        return 2 if self.rounds == 2 and self.round == 2 else 1
 
     def award(self, gained, now, seconds):
         self.gained = gained

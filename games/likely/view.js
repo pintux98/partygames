@@ -24,11 +24,11 @@ PollKit.register("likely", {
     if (!r.votes.length) return k.text("p", "pl-label", k.say("nobody"));
     return k.h("div", "pl-board", k.h("ol", "pl-bars", r.votes.map((v) => k.h("li", v.top ? "pl-top" : "", k.text("span", "", v.name),
       k.text("b", "", k.say(v.votes === 1 ? "vote1" : "votes", { n: v.votes }))))),
-      game.spicy ? k.text("p", "pl-drink", k.say("winner_drinks", { names: r.top.join(" & ") })) : null);
+      game.drinks ? k.text("p", "pl-drink", k.say("winner_drinks", { names: r.top.join(" & ") })) : null);
   },
   mine(k, game) {
     const out = game.mine ? [{ text: k.say("you_voted", { name: game.names[game.mine.target] }) }] : [];
-    if (game.result.top.includes(game.names[game.me])) out.push({ text: k.say("you_top") + (game.spicy ? " " + k.say("drink") : ""), drink: game.spicy });
+    if (game.result.top.includes(game.names[game.me])) out.push({ text: k.say("you_top") + (game.drinks ? " " + k.say("drink") : ""), drink: game.drinks });
     return out;
   },
   results(k, el, game) {

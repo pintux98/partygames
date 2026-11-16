@@ -5,6 +5,7 @@ PollKit.register("rather", {
   or: { ro: "SAU", en: "OR" },
   pick: { ro: "Tu ce alegi?", en: "What would you pick?" },
   guess: { ro: "Ce alege majoritatea?", en: "What will most people pick?" },
+  guess_duo: { ro: "Ce alege {name}?", en: "What will {name} pick?" },
   tie: { ro: "Egalitate!", en: "It's a tie!" },
   tie_drink: { ro: "Egalitate! Toata lumea bea!", en: "Tie! Everyone drinks!" },
   minority: { ro: "{names}: bea!", en: "{names}: drink!" },
@@ -19,7 +20,7 @@ PollKit.register("rather", {
     const box = k.h("div", "pl-steps");
     const lock = (on) => box.querySelectorAll("button").forEach((b) => (b.disabled = on));
     const two = (onPick, k1) => k.h("div", "pl-duo", [0, 1].map((s) => k.button(game.item[s], () => onPick(s), "pl-pick pl-" + "ab"[s], k1 + s)));
-    const guess = (pick) => box.replaceChildren(k.text("h2", "pl-ask", k.say("guess")), two(async (g) => {
+    const guess = (pick) => box.replaceChildren(k.text("h2", "pl-ask", game.names.length === 2 ? k.say("guess_duo", { name: game.names[1 - game.me] }) : k.say("guess")), two(async (g) => {
       lock(true);
       if (!(await ctx.send({ type: "answer", pick, guess: g }))) lock(false);
     }, "guess-"));
@@ -32,15 +33,15 @@ PollKit.register("rather", {
       k.text("p", "pl-opt-text", game.item[s]), k.text("p", "pl-count", String(r.sides[s].length)),
       k.h("ul", "stickers", r.sides[s].map((n) => k.text("li", "sticker", n))))));
     let line = null;
-    if (r.majority === null && r.sides[0].length) line = k.text("p", game.spicy ? "pl-drink" : "pl-label", k.say(game.spicy ? "tie_drink" : "tie"));
-    else if (r.majority !== null && game.spicy && r.sides[1 - r.majority].length) line = k.text("p", "pl-drink", k.say("minority", { names: r.sides[1 - r.majority].join(", ") }));
+    if (r.majority === null && r.sides[0].length) line = k.text("p", game.drinks ? "pl-drink" : "pl-label", k.say(game.drinks ? "tie_drink" : "tie"));
+    else if (r.majority !== null && game.drinks && r.sides[1 - r.majority].length) line = k.text("p", "pl-drink", k.say("minority", { names: r.sides[1 - r.majority].join(", ") }));
     return k.h("div", "pl-board", sides, line);
   },
   mine(k, game) {
     if (!game.mine) return [];
     const out = [{ text: k.say("you_picked", { o: game.item[game.mine.pick] }) }];
     const r = game.result;
-    if (game.spicy && (r.majority === null || game.mine.pick !== r.majority)) out.push({ text: k.say("drink"), drink: true });
+    if (game.drinks && (r.majority === null || game.mine.pick !== r.majority)) out.push({ text: k.say("drink"), drink: true });
     return out;
   },
 });

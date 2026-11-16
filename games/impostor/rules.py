@@ -11,7 +11,6 @@ DRAW_SIZE = 256
 DRAW_MAX = 32000
 GUESS_TIME = 15
 HURRY = 10
-MAX_ROUNDS = 8
 GUESS_OPTIONS = 6
 WIN_CREW = 100
 WIN_IMPOSTOR = 300
@@ -44,7 +43,9 @@ class Impostor:
                              GameOption("impostors", {"ro": "Impostori", "en": "Impostors"},
                                         tuple((n, {"ro": str(n), "en": str(n)}) for n in (1, 2, 3)), 1),
                              seconds("draw_time", {"ro": "Timp de desen", "en": "Draw time"}, (20, 30, 45, 60), 30),
-                             seconds("vote_time", {"ro": "Timp de vot", "en": "Vote time"}, (20, 30, 40, 60), 40)),
+                             seconds("vote_time", {"ro": "Timp de vot", "en": "Vote time"}, (20, 30, 40, 60), 40),
+                             GameOption("max_rounds", {"ro": "Runde maxime", "en": "Max rounds"},
+                                        tuple((n, {"ro": str(n), "en": str(n)}) for n in (4, 6, 8)), 8)),
                     upload_max=48000)
     packs = load_packs(Path(__file__).parent / "content")
 
@@ -52,6 +53,7 @@ class Impostor:
         self.ctx = ctx
         options = {o.key: o.default for o in self.meta.options} | ctx.settings.options
         self.label, self.draw_time, self.vote_time = options["mode"], options["draw_time"], options["vote_time"]
+        self.max_rounds = options["max_rounds"]
         self.pids = [s.pid for s in ctx.seats]
         self.names = [s.name for s in ctx.seats]
         count = min(options["impostors"], max(1, (len(self.pids) - 1) // 3))
@@ -151,7 +153,7 @@ class Impostor:
         crew = [i for i in self.alive() if i not in self.impostors]
         if not impostors:
             self.end("crew", now)
-        elif len(impostors) >= len(crew) or self.round >= MAX_ROUNDS:
+        elif len(impostors) >= len(crew) or self.round >= self.max_rounds:
             self.end("impostors", now)
         else:
             self.next_round(now)
@@ -211,7 +213,7 @@ class Impostor:
         return None
 
     def common(self, now):
-        return {"phase": self.phase, "round": self.round, "max_rounds": MAX_ROUNDS, "twist": self.twist,
+        return {"phase": self.phase, "round": self.round, "max_rounds": self.max_rounds, "twist": self.twist,
                 "left": None if self.finished else left(self.deadline, now), "hurry": self.hurried}
 
     def over(self):
