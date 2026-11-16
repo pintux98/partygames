@@ -1,12 +1,9 @@
 from pathlib import Path
 
-from party.common import Context, GameError, GameMeta, GameOption, clean_line
+from party.common import HOLD, Context, GameError, GameMeta, GameOption, clean_line, left
 from party.deck import load_packs
 
-REVEAL_TIME = 6
 EMPTY_TIME = 3
-SCORES_TIME = 8
-FINAL_REVEAL_TIME = 10
 HURRY = 10
 CLAPS = 3
 CLAP_POINTS = 100
@@ -102,14 +99,14 @@ class Bravo:
             self.gained = [n * FINAL_CLAP_POINTS for n in self.claps]
             for pid, gain in zip(self.order, self.gained):
                 self.points[pid] += gain
-            self.go("final_reveal", now, FINAL_REVEAL_TIME)
+            self.go("final_reveal", now, HOLD)
         else:
             self.finished = True
 
     def showdown(self, now, active):
         self.idx += 1
         if self.idx == len(self.prompts):
-            return self.go("scores", now, SCORES_TIME)
+            return self.go("scores", now, HOLD)
         prompt = self.prompts[self.idx]
         self.claps, self.spent, self.voters, self.sweep = [0, 0], {}, set(), None
         given = [a is not None for a in prompt["answers"]]
@@ -117,14 +114,14 @@ class Bravo:
         if all(given):
             self.voters = set(active) & set(self.names) - set(prompt["authors"])
             return self.go("vote", now, self.vote_time)
-        self.award([WALKOVER_POINTS * self.round * g for g in given], now, REVEAL_TIME if self.walkover else EMPTY_TIME)
+        self.award([WALKOVER_POINTS * self.round * g for g in given], now, HOLD if self.walkover else EMPTY_TIME)
 
     def reveal(self, now):
         gained = [n * CLAP_POINTS * self.round for n in self.claps]
         if sum(self.claps) and 0 in self.claps:
             self.sweep = 1 - self.claps.index(0)
             gained[self.sweep] += SWEEP_BONUS * self.round
-        self.award(gained, now, REVEAL_TIME)
+        self.award(gained, now, HOLD)
 
     def award(self, gained, now, seconds):
         self.gained = gained
@@ -186,7 +183,7 @@ class Bravo:
             self.deadline = now
 
     def common(self, now):
-        return {"phase": self.phase, "round": self.round, "left": None if self.finished else max(0, self.deadline - now), "hurry": self.hurried}
+        return {"phase": self.phase, "round": self.round, "left": None if self.finished else left(self.deadline, now), "hurry": self.hurried}
 
     def final_answers(self):
         answers = dict(zip(self.prompts[0]["authors"], self.prompts[0]["answers"]))

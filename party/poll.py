@@ -1,6 +1,5 @@
-from party.common import Context, GameError, GameOption
+from party.common import HOLD, Context, GameError, GameOption, left
 
-REVEAL_TIME = 9
 HURRY = 5
 POINTS = 100
 
@@ -57,7 +56,7 @@ class Poll:
         self.result, self.gains = self.score()
         for i, gain in self.gains.items():
             self.points[self.pids[i]] += gain
-        self.go("reveal", now, REVEAL_TIME)
+        self.go("reveal", now, HOLD)
 
     def act(self, pid, body, now, active):
         self.tick(now, active)
@@ -83,7 +82,7 @@ class Poll:
 
     def common(self, now):
         view = {"phase": self.phase, "round": self.round, "rounds": self.rounds, "item": self.item, "spicy": self.ctx.settings.spicy,
-                "left": None if self.finished else max(0, self.deadline - now), "hurry": self.hurried}
+                "left": None if self.finished else left(self.deadline, now), "hurry": self.hurried}
         if self.phase == "reveal":
             view["result"] = self.result
         return view

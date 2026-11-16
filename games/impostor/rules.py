@@ -4,14 +4,12 @@ import re
 import struct
 from pathlib import Path
 
-from party.common import Context, GameError, GameMeta, GameOption
+from party.common import HOLD, Context, GameError, GameMeta, GameOption, left
 from party.deck import load_packs
 
 DRAW_SIZE = 256
 DRAW_MAX = 32000
-REVEAL_TIME = 5
 GUESS_TIME = 15
-OVER_TIME = 8
 HURRY = 10
 MAX_ROUNDS = 8
 GUESS_OPTIONS = 6
@@ -128,7 +126,7 @@ class Impostor:
                 if target in self.impostors and voter not in self.impostors:
                     self.points[self.pids[voter]] += CORRECT_VOTE
         self.result = {"out": out, "impostor": out in self.impostors}
-        self.go("reveal", now, REVEAL_TIME)
+        self.go("reveal", now, HOLD)
 
     def tally(self):
         counts = [0] * len(self.pids)
@@ -165,12 +163,12 @@ class Impostor:
                 self.points[pid] += WIN_CREW
             elif winner == "impostors" and i in self.impostors:
                 self.points[pid] += WIN_IMPOSTOR
-        self.go("over", now, OVER_TIME)
+        self.go("over", now, HOLD)
 
     def stop(self, now):
         if self.phase != "over":
             self.winner = None
-            self.go("over", now, OVER_TIME)
+            self.go("over", now, HOLD)
 
     def act(self, pid, body, now, active):
         self.tick(now, active)
@@ -214,7 +212,7 @@ class Impostor:
 
     def common(self, now):
         return {"phase": self.phase, "round": self.round, "max_rounds": MAX_ROUNDS, "twist": self.twist,
-                "left": None if self.finished else max(0, self.deadline - now), "hurry": self.hurried}
+                "left": None if self.finished else left(self.deadline, now), "hurry": self.hurried}
 
     def over(self):
         return {"winner": self.winner, "word": self.word, "decoy": self.decoy if self.label == "secret" else None,

@@ -3,11 +3,10 @@ import unicodedata
 from pathlib import Path
 
 from games.impostor.rules import Impostor, picture, seconds
-from party.common import Context, GameError, GameMeta, GameOption, clean_line
+from party.common import HOLD, Context, GameError, GameMeta, GameOption, clean_line, left
 from party.deck import load_packs
 
 PICK_TIME = 12
-REVEAL_TIME = 6
 HURRY = 10
 CHOICES = 3
 GUESS_MAX = 300
@@ -84,7 +83,7 @@ class Doodle:
             if self.phase in ("pick", "draw") and self.drawer not in self.here and self.here:
                 self.next_turn(now)
             elif self.phase == "draw" and self.here - {self.drawer} and self.here - {self.drawer} <= set(self.guessed):
-                self.go("reveal", now, REVEAL_TIME)
+                self.go("reveal", now, HOLD)
             elif now >= self.deadline:
                 self.advance(now)
             else:
@@ -94,7 +93,7 @@ class Doodle:
         if self.phase == "pick":
             self.start_drawing(self.choices[0], now)
         elif self.phase == "draw":
-            self.go("reveal", now, REVEAL_TIME)
+            self.go("reveal", now, HOLD)
         else:
             self.next_turn(now)
 
@@ -147,7 +146,7 @@ class Doodle:
 
     def common(self, now):
         view = {"phase": self.phase, "turn": self.turn + 1, "turns": len(self.order), "drawer": self.names[self.drawer],
-                "left": None if self.finished else max(0, self.deadline - now), "hurry": self.hurried,
+                "left": None if self.finished else left(self.deadline, now), "hurry": self.hurried,
                 "feed": self.feed, "guessed": [self.names[i] for i in self.guessed]}
         if self.png and self.phase in ("draw", "reveal"):
             view["file"] = self.file_name()

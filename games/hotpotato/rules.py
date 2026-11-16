@@ -1,11 +1,9 @@
 from pathlib import Path
 
-from party.common import Context, GameError, GameMeta, GameOption
+from party.common import HOLD, Context, GameError, GameMeta, GameOption, left
 from party.deck import load_packs
 
 READY_TIME = 4
-BOOM_TIME = 15
-OVER_TIME = 4
 HURRY = 3
 GRACE = 3
 SURVIVE = 100
@@ -68,10 +66,10 @@ class HotPotato:
                 if i != self.victim:
                     self.points[pid] += SURVIVE
             self.dare = self.ctx.deck.draw("dares")
-            self.go("boom", now, BOOM_TIME)
+            self.go("boom", now, HOLD)
         elif self.phase == "boom":
             if self.round >= self.rounds:
-                self.go("over", now, OVER_TIME)
+                self.go("over", now, HOLD)
             else:
                 self.next_round(self.victim, now)
         else:
@@ -80,7 +78,7 @@ class HotPotato:
     def stop(self, now):
         if self.phase != "over":
             self.stopped = True
-            self.go("over", now, OVER_TIME)
+            self.go("over", now, HOLD)
 
     def act(self, pid, body, now, active):
         self.tick(now, active)
@@ -106,7 +104,7 @@ class HotPotato:
         self.deadline = min(self.deadline, now + HURRY) if self.phase == "live" else now
 
     def left(self, now):
-        return None if self.finished or self.phase == "live" else max(0, self.deadline - now)
+        return None if self.finished or self.phase == "live" else left(self.deadline, now)
 
     def common(self, now):
         view = {"phase": self.phase, "round": self.round, "rounds": self.rounds, "topic": self.topic, "left": self.left(now),
